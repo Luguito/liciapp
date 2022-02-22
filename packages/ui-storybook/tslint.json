@@ -1,0 +1,12 @@
+{
+    "rules": {
+        "eofline": true,
+        "semicolon": true,
+        "whitespace": true,
+        "quotemark": [true, "single"],
+        "no-empty": [
+            true,
+            "allow-empty-functions"
+        ]
+    }
+}

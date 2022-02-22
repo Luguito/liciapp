@@ -1,0 +1,8 @@
+{
+    "verbose": true,
+    "exec": "ts-node --project tsconfig.server.json ",
+    "ignore": ["node_modules", ".next"],
+    "watch": [
+    ],
+    "ext": "js json ts"
+}

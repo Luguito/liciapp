@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic Should be valid snapshot 1`] = `
+<styled.div>
+  <styled.div>
+    0
+  </styled.div>
+  <styled.div>
+    0
+  </styled.div>
+</styled.div>
+`;

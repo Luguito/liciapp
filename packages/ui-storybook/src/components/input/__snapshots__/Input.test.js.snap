@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Text Snapshot 1`] = `
+<styled.div>
+  <styled.div>
+    <styled.input
+      autoComplete="off"
+      disabled={false}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onKeyUp={[Function]}
+      textAlign="left"
+      type="text"
+      value=""
+      withPrefix={false}
+    />
+    <styled.label
+      showed={false}
+    >
+      <styled.span />
+    </styled.label>
+  </styled.div>
+  <styled.div />
+</styled.div>
+`;
