@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ProjectContainer, HeaderContainer, Title, Button, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
+import { ProjectContainer, HeaderContainer, Title, button, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
 import { ProjectListProps } from './projectList';
 import {  } from '@common'
 import AddIcon from '@mui/icons-material/Add';

@@ -6,7 +6,7 @@ import {
     FontLiciWeightRegular,
     FontLiciWeightMedium,
     FontLiciWeightBold,
-} from '../../../../ui-foundation/dist/web/fonts';
+} from '@common';
 
 
 import {
@@ -17,7 +17,7 @@ import {
     ColorLiciFontSecondary,
     ColorLiciFontSuccess,
     ColorLiciFontOverDark,
-} from '../../../../ui-foundation/dist/web/colors';
+} from '@common';
 import {
     SizeLiciFontXxxLarge,
     SizeLiciFontXxLarge,
@@ -28,7 +28,7 @@ import {
     SizeLiciFontXSmall,
     SizeLiciFontXxSmall,
     SizeLiciFontXxxSmall,
-} from '../../../../ui-foundation/dist/web/sizes';
+} from '@common';
 
 const ParagraphColors = {
     primary: ColorLiciFontPrimary,

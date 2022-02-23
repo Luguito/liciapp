@@ -1,8 +1,9 @@
-import { Header2, Tabs as tabs } from '@common';
+import { Header2 } from '@common';
 import { ColorLiciPrimaryActive } from '@common'
 import { FontLiciWeightRegular, FontLiciWeightMedium } from '@common'
 import { SizeLiciFontXxSmall } from '@common'
-import { PrimaryButton, Caption as caption } from '@common'
+import { Caption as caption } from '@common'
+import { Button } from '@mui/material';
 import styled from 'styled-components';
 import Tab, {tabClasses} from '@mui/material/Tab';  
 import Tabs from '@mui/material/Tabs';  
@@ -15,7 +16,7 @@ export const HeaderContainer= styled.div`
     justify-content: space-between;
     align-items: center;
 ` 
-export const Button = styled(PrimaryButton)`
+export const button = styled(Button)`
     && {
         font-weight: ${FontLiciWeightMedium};
         font-size: ${SizeLiciFontXxSmall};
