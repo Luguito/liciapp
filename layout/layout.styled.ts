@@ -12,6 +12,7 @@ export const PageContainer = styled.section`
     flex-grow: 1;
     background-color: ${ColorLiciGrayLighten3};
     padding:50px;    
+    overflow-y:scroll;
 `;
 
 export const CleanContent = styled.div`

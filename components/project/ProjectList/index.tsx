@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { ProjectContainer, HeaderContainer, Title, button, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
+import { ProjectContainer, HeaderContainer, Title, CustomButton, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
 import { ProjectListProps } from './projectList';
 import {  } from '@common'
 import AddIcon from '@mui/icons-material/Add';
@@ -61,13 +61,13 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
         <ProjectContainer>
             <HeaderContainer>
                 <Title>Proyectos</Title>
-                <Button
+                <CustomButton
                     size='Medium'
                     onClick={handleNewProject}
                 >
                     <AddIcon style={{color: ColorLiciWhite, fontSize: 'large'}}/>
                     NUEVO PROYECTO
-                </Button>
+                </CustomButton>
             </HeaderContainer>
 
             <Box sx={{ width: '100%' }}>

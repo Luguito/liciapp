@@ -16,7 +16,7 @@ export const HeaderContainer= styled.div`
     justify-content: space-between;
     align-items: center;
 ` 
-export const button = styled(Button)`
+export const CustomButton = styled(Button)`
     && {
         font-weight: ${FontLiciWeightMedium};
         font-size: ${SizeLiciFontXxSmall};

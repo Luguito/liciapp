@@ -26,6 +26,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
+import { navigateTo } from '../../../../utils/helpers';
 
 interface project {
         projectId:string;
@@ -46,8 +47,9 @@ export const List: FC<ListProps> = (props) => {
         console.log('delete project')
     }
 
-    const handleEdit = () => {
-        console.log('edit project')
+    const handleEdit = (id) => {
+        console.log(id);
+        navigateTo(`/proyecto/edit/${id}`)
     }
 
     return (
@@ -83,7 +85,7 @@ export const List: FC<ListProps> = (props) => {
                             </LeftActions>
                             <RightActions>
                                 <DeleteForeverIcon onClick={handleDelete} style={{color: ColorLiciGrayLighten1, marginRight: '20px'}} />
-                                <EditIcon onClick={handleEdit} style={{color: ColorLiciGrayLighten1}} />
+                                <EditIcon onClick={() => handleEdit(project.projectId) } style={{color: ColorLiciGrayLighten1}} />
                             </RightActions>
                         </ActionsCard>
                     </ProyectCard>
