@@ -1,0 +1,1 @@
+{"version":3,"file":"Icon.prop-types.js","sourceRoot":"","sources":["../../../../src/components/styled-icon/types/Icon.prop-types.ts"],"names":[],"mappings":"AAAA,OAAO,SAAS,MAAM,YAAY,CAAC;AAEnC,MAAM,CAAC,MAAM,UAAU,GAAG;IACtB,QAAQ,EAAE,EAAE;CACf,CAAC;AAEF,MAAM,CAAC,MAAM,aAAa,GAAG;IACzB,yCAAyC;IACzC,QAAQ,EAAE,SAAS,CAAC,MAAM;CAC7B,CAAC"}

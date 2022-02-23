@@ -1,0 +1,24 @@
+/**
+ * ADDI - UI-Foundation
+ * Do not edit directly
+ * Generated on Tue, 22 Feb 2022 03:16:55 GMT
+ */
+
+:root {
+  --layout-lici-grid-mobile-gap: 16px;
+  --layout-lici-grid-mobile-gutter: 16px;
+  --layout-lici-grid-tablet-gap: 32px;
+  --layout-lici-grid-tablet-gutter: 16px;
+  --layout-lici-grid-desktop-gap: 44px;
+  --layout-lici-grid-desktop-gutter: 24px;
+  --layout-lici-screen-mobile-small-min: 320px;
+  --layout-lici-screen-mobile-small-max: 359px;
+  --layout-lici-screen-mobile-medium-min: 360px;
+  --layout-lici-screen-mobile-medium-max: 389px;
+  --layout-lici-screen-mobile-large-min: 390px;
+  --layout-lici-screen-mobile-large-max: 767px;
+  --layout-lici-screen-tablet-min: 768px;
+  --layout-lici-screen-tablet-max: 1023px;
+  --layout-lici-screen-desktop-min: 1024px;
+  --layout-lici-screen-desktop-max: 1921px;
+}

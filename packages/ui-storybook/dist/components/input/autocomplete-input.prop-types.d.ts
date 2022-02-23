@@ -1,0 +1,36 @@
+import PropTypes from 'prop-types';
+export declare const AutocompleteInputPropTypes: {
+    onChange: PropTypes.Requireable<(...args: any[]) => any>;
+    onBlur: PropTypes.Requireable<(...args: any[]) => any>;
+    disabled: PropTypes.Requireable<boolean>;
+    defaultValue: PropTypes.Requireable<string>;
+    maxLength: PropTypes.Requireable<number>;
+    minLength: PropTypes.Requireable<number>;
+    error: PropTypes.Requireable<boolean>;
+    errorMessage: PropTypes.Requireable<string>;
+    placeholder: PropTypes.Requireable<string>;
+    label: PropTypes.Requireable<string>;
+    prefix: PropTypes.Requireable<string>;
+    iconPrefix: PropTypes.Requireable<object>;
+    withMask: PropTypes.Requireable<string>;
+    textAlign: PropTypes.Requireable<string>;
+    width: PropTypes.Requireable<string>;
+    name: PropTypes.Requireable<string>;
+    inputRef: PropTypes.Requireable<any>;
+    options: PropTypes.Requireable<any[]>;
+    invalidOption: PropTypes.Requireable<string>;
+    arrowIcon: PropTypes.Requireable<boolean>;
+    suggestionsBoxHeight: PropTypes.Requireable<string>;
+    getAutocompleteValue: PropTypes.Requireable<boolean>;
+};
+export declare const AutocompleteInputDefaultPropValues: {
+    defaultValue: string;
+    label: string;
+    placeholder: string;
+    disabled: boolean;
+    invalidOption: string;
+    suggestionsBoxHeight: string;
+    maxLength: number;
+    name: string;
+    textAlign: string;
+};

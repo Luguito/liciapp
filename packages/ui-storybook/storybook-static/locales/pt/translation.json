@@ -1,0 +1,22 @@
+{
+    "IDV-DASHBOARD-TITLE": "Créditos para confirmação de identidade",
+    "IDV-DASHBOARD-LAST-UPDATE": "Última atualização",
+    "IDV-DASHBOARD-PROVIDER": "Fornecedor",
+    "IDV-DASHBOARD-CELLPHONE": "Celular",
+    "IDV-DASHBOARD-PERSONAL-ID": "Id pessoal",
+    "IDV-DASHBOARD-HOUR": "Hora",
+    "IDV-DASHBOARD-REFRESH": "Atualizar",
+    "IDV-DASHBOARD-STOP": "Pare",
+    "IDV-DASHBOARD-CONFIRM": "Confirme",
+    "IDV-DASHBOARD-APPROVE": "Aprovar",
+    "IDV-DASHBOARD-DISCARD": "Descartar",
+    "IDV-DASHBOARD-RISK": "Risco",
+    "IDV-DASHBOARD-REJECT": "Recusar",
+    "IDV-DASHBOARD-CANCEL": "Cancelar",
+    "IDV-DASHBOARD-LASTNAME": "Sobrenome",
+    "IDV-DASHBOARD-DATE": "Encontro",
+    "IDV-DASHBOARD-ACTIVE": "Ativo",
+    "IDV-DASHBOARD-INACTIVE": "Inativo",
+    "IDV-DASHBOARD-PENDING": "Pendente",
+    "IDV-DASHBOARD-VALIDATE": "Validar"
+}

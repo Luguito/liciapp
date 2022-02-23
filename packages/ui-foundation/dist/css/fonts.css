@@ -1,0 +1,40 @@
+/**
+ * ADDI - UI-Foundation
+ * Do not edit directly
+ * Generated on Tue, 22 Feb 2022 03:16:55 GMT
+ */
+
+:root {
+  --font-lici-family-primary-name: Mallory;
+  --font-lici-family-primary-url-regular: https://s3.amazonaws.com/statics.addi.com/fonts/mallory/Mallory_Book.ttf;
+  --font-lici-family-primary-url-italic: https://s3.amazonaws.com/statics.addi.com/fonts/mallory/Mallory_Book_Italic.ttf;
+  --font-lici-family-primary-url-bold: https://s3.amazonaws.com/statics.addi.com/fonts/mallory/Mallory_Bold.ttf;
+  --font-lici-family-primary-url-bold-italic: https://s3.amazonaws.com/statics.addi.com/fonts/mallory/Mallory_Bold_Italic.ttf;
+  --font-lici-family-secondary-name: Inter;
+  --font-lici-family-secondary-url-regular: https://s3.amazonaws.com/statics.addi.com/fonts/inter/Inter-Regular.ttf;
+  --font-lici-family-secondary-url-italic: https://s3.amazonaws.com/statics.addi.com/fonts/inter/Inter-Italic.woff2;
+  --font-lici-family-secondary-url-bold: https://s3.amazonaws.com/statics.addi.com/fonts/inter/Inter-Bold.ttf;
+  --font-lici-family-secondary-url-bold-italic: https://s3.amazonaws.com/statics.addi.com/fonts/inter/Inter-BoldItalic.woff2;
+  --font-lici-family-default-name: Roboto;
+  --font-lici-family-default-url-regular: https://fonts.googleapis.com/css2?family=Roboto&display=swap;
+  --font-lici-family-default-url-italic: https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap;
+  --font-lici-family-default-url-bold: https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap;
+  --font-lici-family-default-url-bold-italic: https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,700&display=swap;
+  --font-lici-family-icons-name: addi-icon;
+  --font-lici-family-icons-url-regular: https://s3.amazonaws.com/statics.addi.com/fonts/Icons/AddiIcon.ttf;
+  --font-lici-weight-thin: 100;
+  --font-lici-weight-extra-light: 200;
+  --font-lici-weight-light: 300;
+  --font-lici-weight-regular: 400;
+  --font-lici-weight-medium: 500;
+  --font-lici-weight-semi-bold: 600;
+  --font-lici-weight-bold: 700;
+  --font-lici-weight-extra-bold: 800;
+  --font-lici-weight-black: 900;
+  --font-lici-format-web-open-font-format: woff;
+  --font-lici-format-web-open-font-format2: woff2;
+  --font-lici-format-true-type: truetype;
+  --font-lici-format-open-type: opentype;
+  --font-lici-format-embedded-open-type: embedded-opentype;
+  --font-lici-format-svg: svg;
+}

@@ -1,0 +1,16 @@
+import { TextStylesProps, FontProps, ParagraphProps } from './Typpographies.types';
+export declare const PrimaryFont: import("styled-components").FlattenInterpolation<import("styled-components").ThemedStyledProps<FontProps, any>>;
+export declare const SecondaryFont: import("styled-components").FlattenInterpolation<import("styled-components").ThemedStyledProps<FontProps, any>>;
+export declare const Header1: import("styled-components").StyledComponent<"h1", any, FontProps, never>;
+export declare const Header2: import("styled-components").StyledComponent<"h2", any, FontProps, never>;
+export declare const Header3: import("styled-components").StyledComponent<"h3", any, FontProps, never>;
+export declare const Title: import("styled-components").StyledComponent<"h4", any, FontProps, never>;
+export declare const Subtitle: import("styled-components").StyledComponent<"h5", any, TextStylesProps, never>;
+export declare const Paragraph: import("styled-components").StyledComponent<"p", any, ParagraphProps, never>;
+export declare const Caption: import("styled-components").StyledComponent<"span", any, TextStylesProps, never>;
+export declare const Pretitle: import("styled-components").StyledComponent<"span", any, FontProps, never>;
+export declare const Label: import("styled-components").StyledComponent<"label", any, TextStylesProps, never>;
+export declare const ButtonTextLarge: import("styled-components").FlattenInterpolation<import("styled-components").ThemedStyledProps<TextStylesProps, any>>;
+export declare const ButtonTextMedium: import("styled-components").FlattenInterpolation<import("styled-components").ThemedStyledProps<TextStylesProps, any>>;
+export declare const ButtonTextSmall: import("styled-components").FlattenInterpolation<import("styled-components").ThemedStyledProps<TextStylesProps, any>>;
+export declare const Link: import("styled-components").StyledComponent<"a", any, TextStylesProps, never>;

@@ -1,0 +1,18 @@
+/**
+ * ADDI - UI-Foundation
+ * Do not edit directly
+ * Generated on Tue, 22 Feb 2022 03:16:55 GMT
+ */
+
+:root {
+  --asset-lici-icon-png-small-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-icon.png";
+  --asset-lici-icon-png-medium-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-icon.png";
+  --asset-lici-icon-png-large-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-icon.png";
+  --asset-lici-icon-svg-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-icon.svg";
+  --asset-lici-icon-lineal-svg-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-icon-lineal.svg";
+  --asset-lici-logo-png-small-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-logo.png";
+  --asset-lici-logo-png-medium-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-logo.png";
+  --asset-lici-logo-png-large-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-new-logo.png";
+  --asset-lici-logo-svg-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-logo.svg";
+  --asset-lici-logo-filled-svg-url: "https://s3.amazonaws.com/statics.addi.com/assets/addi-logo-filled.svg";
+}
