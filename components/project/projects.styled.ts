@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorLiciBackgroundWhite, } from '@addi-ui/foundation/dist/web/colors'
+import { ColorLiciBackgroundWhite, } from '@common'
 
 
 export const ProjectContent = styled.div`

@@ -9,8 +9,7 @@
     "baseUrl": ".",
     "paths": {
       "@store/*": ["store/*"],
-      "@addi-ui/foundation/*": ["packages/ui-foundation/*"],
-      "@lici-ui/components": ["packages/ui-storybook/dist"],
+      "@common": ["components/common/"]
     },
     "allowJs": true,
     "skipLibCheck": true,

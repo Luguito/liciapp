@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ColorLiciGrayLighten3 } from '@addi-ui/foundation/dist/web/colors';
-import { ColorLiciBackgroundWhite, } from '@addi-ui/foundation/dist/web/colors'
+import { ColorLiciGrayLighten3 } from '@common';
+import { ColorLiciBackgroundWhite, } from '@common'
 
 export const MainPageContainer = styled.div`
   display: flex;

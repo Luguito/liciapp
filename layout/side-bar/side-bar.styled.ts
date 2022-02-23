@@ -7,9 +7,9 @@ import {
   ColorLiciGrayLighten2,
   ColorLiciCompFiveBase,
   ColorLiciFontPrimary
-} from '@addi-ui/foundation/dist/web/colors';
+} from '@common';
 
-import { FontLiciFamilyDefaultName, FontLiciWeightRegular, FontLiciWeightSemiBold } from '@addi-ui/foundation/dist/web/fonts';
+import { FontLiciFamilyDefaultName, FontLiciWeightRegular, FontLiciWeightSemiBold } from '@common';
 
 export const SideBarContainer = styled.div`
   background-color: ${ColorLiciBackgroundWhite};

@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {
   ColorLiciPrimaryActive,
   ColorLiciGrayDarken1
-} from '@addi-ui/foundation/dist/web/colors';
+} from '@common';
 
 import { SideBarProps } from './side-bar';
 import {

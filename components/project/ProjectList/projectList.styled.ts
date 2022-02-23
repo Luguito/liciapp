@@ -1,8 +1,8 @@
-import { Header2, Tabs as tabs } from '@lici-ui/components';
-import { ColorLiciPrimaryActive } from '@addi-ui/foundation/dist/web/colors'
-import { FontLiciWeightRegular, FontLiciWeightMedium } from '@addi-ui/foundation/dist/web/fonts'
-import { SizeLiciFontXxSmall } from '@addi-ui/foundation/dist/web/sizes'
-import { PrimaryButton, Caption as caption } from '@lici-ui/components'
+import { Header2, Tabs as tabs } from '@common';
+import { ColorLiciPrimaryActive } from '@common'
+import { FontLiciWeightRegular, FontLiciWeightMedium } from '@common'
+import { SizeLiciFontXxSmall } from '@common'
+import { PrimaryButton, Caption as caption } from '@common'
 import styled from 'styled-components';
 import Tab, {tabClasses} from '@mui/material/Tab';  
 import Tabs from '@mui/material/Tabs';  

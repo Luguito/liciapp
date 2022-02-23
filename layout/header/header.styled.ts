@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import {
   ColorLiciPrimaryActive,
   ColorLiciWhite
-} from '@addi-ui/foundation/dist/web/colors';
-import { SizeLiciFontBase } from '@addi-ui/foundation/dist/web/sizes';
+} from '@common';
+import { SizeLiciFontBase } from '@common';
 
 export const Nav = styled.nav`
   display: flex;

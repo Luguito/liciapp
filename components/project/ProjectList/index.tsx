@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import { ProjectContainer, HeaderContainer, Title, Button, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
 import { ProjectListProps } from './projectList';
-import {  } from '@lici-ui/components'
+import {  } from '@common'
 import AddIcon from '@mui/icons-material/Add';
 import {
     ColorLiciWhite
-} from '@addi-ui/foundation/dist/web/colors';
+} from '@common';
 import Box from '@mui/material/Box';
 import { TabPanel } from './tabPanel'
 import { List } from './List'

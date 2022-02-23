@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Title as title, Subtitle as subtitle, Caption as caption, Paragraph as paragraph} from '@lici-ui/components';
+import { Title as title, Subtitle as subtitle, Caption as caption, Paragraph as paragraph} from '@common';
 import { 
     ColorLiciPrimaryActive, 
     ColorLiciWhite, 
@@ -7,18 +7,18 @@ import {
     ColorLiciGrayDarken1,
     ColorLiciGrayBase,
     ColorLiciCompFourAccentLighten2
-} from '@addi-ui/foundation/dist/web/colors'
+} from '@common'
 import BadgeUnstyled from '@mui/base/BadgeUnstyled';
 
 import { 
     FontLiciWeightLight,
     FontLiciWeightMedium,
     FontLiciWeightRegular
-} from '@addi-ui/foundation/dist/web/fonts'
+} from '@common'
 
 import { 
     SizeLiciFontSmall
-} from '@addi-ui/foundation/dist/web/sizes'
+} from '@common'
 
 export const ListContainer = styled.div`
     display: flex;

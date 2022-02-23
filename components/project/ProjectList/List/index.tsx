@@ -20,7 +20,7 @@ import {
     ColorLiciWhite, 
     ColorLiciGrayLighten1,
     ColorLiciGrayBase
-} from '@addi-ui/foundation/dist/web/colors'
+} from '@common'
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
