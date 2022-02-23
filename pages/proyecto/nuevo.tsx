@@ -1,9 +1,9 @@
 import React from 'react';
-import { Project } from '../../components/project'
+import { CreateProyect } from '../../components/project/ProyectCreate'
 
 const NewProjectsPage = () => {
     return (
-        <h1>dfgdfgf</h1>
+        <CreateProyect></CreateProyect>
     )
 };
 
