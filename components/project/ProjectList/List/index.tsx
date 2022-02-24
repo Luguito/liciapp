@@ -52,12 +52,16 @@ export const List: FC<ListProps> = (props) => {
         navigateTo(`/proyecto/edit/${id}`)
     }
 
+    const handleDetail = id => {
+        navigateTo(`/proyecto/details/${id}`)
+    }
+
     return (
         <ListContainer>
             { projects.map((project, index) => {
                 return ( 
                     <ProyectCard key={index}>
-                        <HeaderCard>
+                        <HeaderCard onClick={() => handleDetail(project.projectId)}>
                             <Subtitle>PROYECTO</Subtitle>
                             <StyledBadge badgeContent={project.totalApplications}>
                                 <NotificationsIcon style={{color: ColorLiciGrayLighten1}}/>
