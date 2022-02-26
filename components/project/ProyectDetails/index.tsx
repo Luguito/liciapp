@@ -1,5 +1,5 @@
-import React from 'react'
-import { HeaderContainer, Title, ComparateButton, StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content } from './details.styled';
+import React, { useState } from 'react'
+import { HeaderContainer, Title, ComparateButton, ProyectRedirect,StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table } from './details.styled';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -16,13 +16,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 export const DetailsProyect = () => {
+    const [tab, setTab] = useState('1')
     const steps = ['Apertura', 'Recepcion', 'Asignacion'];
 
     const goToEdit = id => {
         navigateTo(`/proyecto/edit/${id}`)
     }
     return (
-        <>
+        <ContainerComponent>
             <HeaderContainer>
                 <Title>Aplicación</Title>
                 <ComparateButton startIcon={<VisibilityIcon />}>
@@ -32,7 +33,10 @@ export const DetailsProyect = () => {
             <StatusApp>
                 <span>Abierta</span>
             </StatusApp>
-            <span>Proyecto <EditIcon onClick={goToEdit} style={{ fontSize: '0.9rem' }} /></span>
+            <ProyectRedirect>
+                Proyecto 
+                <EditIcon onClick={goToEdit} style={{ fontSize: '1.1rem', marginLeft: 5, cursor: 'pointer'}} />
+            </ProyectRedirect>
             <DescriptionTitle>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Labore debitis ipsum adipisci libero quibusdam nam incidunt ab deleniti autem nostrum expedita laborum, optio reprehenderit deserunt accusantium magnam in porro rem.
@@ -64,10 +68,10 @@ export const DetailsProyect = () => {
                 saepe sed, facilis debitis, repellendus suscipit, reprehenderit odio nam quae.
                 Rerum, enim. Obcaecati fugiat impedit totam.
             </Content>
-            <Stepper nonLinear>
+            <Stepper alternativeLabel style={{ marginTop: '4em' }}>
                 {steps.map((label, index) => (
                     <Step key={label}>
-                        <StepButton color="inherit">
+                        <StepButton>
                             {label}
                         </StepButton>
                     </Step>
@@ -82,16 +86,16 @@ export const DetailsProyect = () => {
                     <p>Documentos</p>
                 </div>
             </ShowDetailsDocument>
-            <TabContext value="1">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabContext value={tab} >
+                <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
                     <TabList>
-                        <Tab label="Aplicaciones" value="1" style={{ marginRight: 20 }} />
-                        <Tab label="Preguntas y Respuestas" value="2" />
+                        <Tab onClick={() => setTab('1')} label="Aplicaciones" value="1" style={{ marginRight: 20 }} />
+                        <Tab onClick={() => setTab('2')} label="Preguntas y Respuestas" value="2" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                    <table style={{ width: '100%' }}>
-                        <tr style={{ textAlign: 'left' }}>
+                    <Table style={{ width: '100%' }}>
+                        <tr>
                             <th>Proponente</th>
                             <th>Fecha de aplicación</th>
                             <th>Valor Total</th>
@@ -106,13 +110,13 @@ export const DetailsProyect = () => {
                             <td>20 enero 2022</td>
                             <td>2000</td>
                         </tr>
-                    </table>
+                    </Table>
                 </TabPanel>
                 <TabPanel value="2">
-
+                    In Progress
                 </TabPanel>
             </TabContext>
-        </>
+        </ContainerComponent>
     )
 }
 

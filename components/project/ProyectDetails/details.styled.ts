@@ -1,6 +1,10 @@
 import styled from 'styled-components'
-import { FontLiciFamilyDefaultName, ColorLiciFontError, ColorLiciPrimaryActive, ColorLiciGrayDarken1 } from '@common';
+import { FontLiciFamilyDefaultName, ColorLiciFontError, ColorLiciPrimaryActive, ColorLiciGrayDarken1, ColorLiciGrayLighten3 } from '@common';
 import { Button } from '@material-ui/core';
+
+export const ContainerComponent = styled.div`
+    font-family: ${FontLiciFamilyDefaultName};
+`
 
 export const HeaderContainer = styled.header`
     display: flex; 
@@ -33,9 +37,14 @@ export const StatusApp = styled.div`
     justify-content: flex-end;
     & > span {
         background-color: ${ColorLiciPrimaryActive};
-        padding: 0.5em;
+        padding: 5px 3em;
         color: #FFF;
+        border-radius: 7px;
     }   
+`
+
+export const ProyectRedirect = styled.span`
+    color: ${ColorLiciGrayDarken1};
 `
 
 export const ContainerDates = styled.div`
@@ -64,6 +73,7 @@ export const SubTitle = styled.p`
 `
 export const Content = styled.p`
     font-family: ${FontLiciFamilyDefaultName};
+    color: ${ColorLiciGrayDarken1};
 `
 
 export const ShowDetailsDocument = styled.div`
@@ -71,4 +81,21 @@ export const ShowDetailsDocument = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-top: 2em;
+    color: ${ColorLiciPrimaryActive};
+`
+export const Table = styled.table`
+    border-collapse: collapse;
+    th {
+        color: ${ColorLiciGrayDarken1};
+        font-weight: 300;
+    }
+    th, td {
+        border-bottom: 1px solid ${ColorLiciGrayLighten3};
+        text-align: left;
+        padding: 1em;
+    }
+    tr > td:first-child {
+        color: ${ColorLiciPrimaryActive};
+        font-weight: 600;
+    }
 `

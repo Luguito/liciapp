@@ -17,13 +17,17 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddIcon from '@mui/icons-material/Add';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
+import { string } from 'yup';
 
 /** COMPONENT */
 export const EditProyect = () => {
-    const [value, setValue] = useState([])
+    const [value, setValue] = useState([]);
+    const [documents, setDocument] = useState([]);
+
+    const [item, setItem] = useState(0);
+
     const router = useRouter();
     const { id } = router.query;
-
     const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
 
     const handleChange = (newValue) => {
@@ -36,7 +40,19 @@ export const EditProyect = () => {
         input.type = 'file';
 
         input.click();
+
+        input.addEventListener('change', (e) => {
+            setDocument([...documents, ...e.target['files']])
+            console.log(documents)
+        });
+
     }
+
+    const testItems = (e) => {
+        setItem(e);
+        console.log(item)
+    }
+
     return (
         <>
             <HeaderContainer>
@@ -86,13 +102,13 @@ export const EditProyect = () => {
                 />
             </ContainerInputs>
             <TextField fullWidth placeholder='Documentos' onClick={triggerInputFile} style={{ marginTop: 20 }}></TextField>
-            {dummyOptions.map((item, index) => {
+            {documents.map((item, index) => {
                 return (
-                    <ListDocuments>
+                    <ListDocuments key={index}>
                         <ElementList>
                             <DocumentName>
                                 <PlagiarismIcon></PlagiarismIcon>
-                                Document
+                                {item.name}
                             </DocumentName>
                             <IconsList>
                                 <DeleteIcon />
@@ -114,7 +130,7 @@ export const EditProyect = () => {
                 <p>Valor total</p>
             </HeaderItems>
             <TreeView sx={{ height: 264, flexGrow: 1, overflowY: 'auto', marginLeft: 1 }} >
-                <TreeItem nodeId="1" label={
+                <TreeItem nodeId="1" onClick={() => testItems(item)} label={
                     <Item>
                         <p>Premilinares</p>
                         <p>m2</p>
