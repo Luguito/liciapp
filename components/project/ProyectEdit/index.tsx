@@ -18,7 +18,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import { string } from 'yup';
-
+import { TestContainer } from '../../common/utils/items';
 /** COMPONENT */
 export const EditProyect = () => {
     const [value, setValue] = useState([]);
@@ -130,28 +130,7 @@ export const EditProyect = () => {
                 <p>Valor total</p>
             </HeaderItems>
             <TreeView sx={{ height: 264, flexGrow: 1, overflowY: 'auto', marginLeft: 1 }} >
-                <TreeItem nodeId="1" onClick={() => testItems(item)} label={
-                    <Item>
-                        <p>Premilinares</p>
-                        <p>m2</p>
-                        <p>200</p>
-                        <p>10</p>
-                        <p>2000</p>
-                    </Item>
-                } collapseIcon={<OpenWithIcon />} expandIcon={<OpenWithIcon />}>
-                    <TreeItem nodeId="2" label="Item 1" />
-                </TreeItem>
-                <TreeItem nodeId="2" label={
-                    <Item>
-                        <p>Movimiento de tierra</p>
-                        <p>m2</p>
-                        <p>200</p>
-                        <p>10</p>
-                        <p>2000</p>
-                    </Item>
-                } collapseIcon={<OpenWithIcon />} expandIcon={<OpenWithIcon />}>
-                    <TreeItem nodeId="3" label="Hello" />
-                </TreeItem>
+                <TestContainer></TestContainer>
             </TreeView>
             <NewActionButton startIcon={<AddIcon />}>Nueva Linea</NewActionButton>
             <NewActionButton startIcon={<AddIcon />}>Nuevo Item</NewActionButton>
