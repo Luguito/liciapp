@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FontLiciFamilyDefaultName, ColorLiciFontError, ColorLiciPrimaryActive, ColorLiciGrayDarken1 } from '@common';
+import { FontLiciFamilyDefaultName, ColorLiciFontError, ColorLiciPrimaryActive, ColorLiciGrayDarken1, ColorLiciGrayLighten1, ColorLiciGrayLighten5, ColorLiciGrayLighten4, ColorLiciGrayLighten3 } from '@common';
 import { Button } from '@mui/material'
 
 export const HeaderContainer = styled.header`
@@ -76,7 +76,6 @@ export const HeaderItems = styled.div`
 `;
 
 export const NewActionButton = styled(Button)`
-    margin-top: 10px;
     && {
         font-family: ${FontLiciFamilyDefaultName};
         background-color: ${ColorLiciPrimaryActive};
@@ -85,12 +84,24 @@ export const NewActionButton = styled(Button)`
         border-radius: 20px;
         padding:0.8em;
         margin-right:20px;
+        margin-top: 2em;
      }
 `
-export const Item = styled.div`
-    display: grid;
+
+export const ContainerItems = styled.ul`
     font-family: ${FontLiciFamilyDefaultName};
-    grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
-    border-bottom: 1px solid ${ColorLiciGrayDarken1};
+    list-style: none;
+    padding: 0 0.7em 0 0.7em;
+`
+export const Items = styled.li`
+    display: flex;
+    align-items: center;
+    padding: 0.8em;
+    border-bottom: 0.9px solid ${ColorLiciGrayLighten3};
+    gap: 1em;
+    cursor: pointer;
     color: ${ColorLiciPrimaryActive};
+    &:hover {
+        background-color: ${ColorLiciGrayLighten4};
+    }
 `

@@ -7,7 +7,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
 /** STYLED COMPONENTS */
-import { HeaderContainer, Title, DeleteButton, DatePickerContainer, ContainerInputs, ListDocuments, IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton, Item } from './edit.styled';
+import { HeaderContainer, Title, DeleteButton, ContainerItems, DatePickerContainer, ContainerInputs, ListDocuments, IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton, Item } from './edit.styled';
 
 /** ICONS  */
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,8 +17,8 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddIcon from '@mui/icons-material/Add';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
-import { string } from 'yup';
 import { TestContainer } from '../../common/utils/items';
+
 /** COMPONENT */
 export const EditProyect = () => {
     const [value, setValue] = useState([]);
@@ -129,11 +129,9 @@ export const EditProyect = () => {
                 <p>Valor unitario</p>
                 <p>Valor total</p>
             </HeaderItems>
-            <TreeView sx={{ height: 264, flexGrow: 1, overflowY: 'auto', marginLeft: 1 }} >
+            <ContainerItems>
                 <TestContainer></TestContainer>
-            </TreeView>
-            <NewActionButton startIcon={<AddIcon />}>Nueva Linea</NewActionButton>
-            <NewActionButton startIcon={<AddIcon />}>Nuevo Item</NewActionButton>
+            </ContainerItems>
         </>
     );
 }

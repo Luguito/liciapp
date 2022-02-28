@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
-import { Item } from '../../project/ProyectEdit/edit.styled';
+import { ContainerItems, Items, NewActionButton} from '../../project/ProyectEdit/edit.styled';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
+import AddIcon from '@mui/icons-material/Add';
 
 export const TestContainer = () => {
     const [itemIndex, setIndex] = useState('');
     const [indexParent, setParent] = useState([]);
     const [name, setName] = useState([
         {
-            name: 'francisco',
+            name: 'Francisco',
             id: '0',
             child: [],
         },
@@ -49,63 +50,37 @@ export const TestContainer = () => {
     return (
         <div>
             <TestItem items={name} fn={setIndex}></TestItem>
-            <button onClick={() => showIndex()}>New line</button>
+            <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
         </div>
     );
 };
 
-// export const TestItem = ({ items, fn }) => {
-//     return items.map((item, index) => (
-//         <ul>
-//             {item.child && item.child.length > 0 ? (
-//                 <div>
-//                     <Item key={index} name={item?.name} fn={fn} id={item.id}></Item>
-//                     <TestItem items={item?.child} fn={fn}></TestItem>
-//                 </div>
-//             ) : (
-//                 <Item key={index} name={item?.name} fn={fn} id={item.id}></Item>
-//             )}
-//         </ul>
-//     ));
-// };
-
-// export const Item = ({ name, fn, id }) => {
-//     return <li onClick={() => fn(id)}>{name}</li>;
-// };
+export const Item = ({ name, fn, id }) => {
+    return <Items onClick={() => fn(id)}><OpenWithIcon></OpenWithIcon>{name}</Items>;
+};
 
 export default TestContainer;
 
 
 export const TestItem = ({ items, fn }) => {
-    useEffect(()=> {
+    useEffect(() => {
         console.log(items)
-    },[])
+    }, [])
     return items.map((item, index) => (
         <>
             {
                 item.child && item.child.length > 0 ? (
                     <>
-                        <TreeItem nodeId={index} label={() => <TreeItems name={item.name} fn={fn} id={item.id}></TreeItems>} />
-                        <TestItem items={item.child} fn={fn}></TestItem>
+                        <Item name={item.name} fn={fn} id={item.id}></Item>
+                        <ContainerItems>
+                            <TestItem items={item.child} fn={fn}></TestItem>
+                        </ContainerItems>
                     </>
                 ) : (
-                    <TreeItem nodeId={index} label="Test" onClick={() => fn(item.id)}/>
+                    <Item name={item.name} fn={fn} id={item.id}></Item>
                 )
             }
 
         </>
     ));
-}
-
-export const TreeItems = ({ name, fn, id }) => {
-    useEffect(() => {
-        console.log(name)
-    }, [])
-    return <Item onClick={() => fn(id)}>
-        <p>Premilinares</p>
-        <p>m2</p>
-        <p>200</p>
-        <p>10</p>
-        <p>2000</p>
-    </Item>
 }

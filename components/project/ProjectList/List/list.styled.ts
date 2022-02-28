@@ -6,7 +6,8 @@ import {
     ColorLiciGrayLighten2,
     ColorLiciGrayDarken1,
     ColorLiciGrayBase,
-    ColorLiciCompFourAccentLighten2
+    ColorLiciCompFourAccentLighten2,
+    FontLiciFamilyDefaultName
 } from '@common'
 import BadgeUnstyled from '@mui/base/BadgeUnstyled';
 
@@ -25,7 +26,8 @@ export const ListContainer = styled.div`
     margin: 0;
     padding: 0;
     width:100%;
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    font-family: ${FontLiciFamilyDefaultName};
 `
 export const ProyectCard = styled.div`
     background: ${ColorLiciWhite};

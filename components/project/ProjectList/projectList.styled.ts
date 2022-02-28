@@ -1,27 +1,32 @@
 import { Header2 } from '@common';
-import { ColorLiciPrimaryActive } from '@common'
+import { ColorLiciPrimaryActive, FontLiciFamilyDefaultName } from '@common'
 import { FontLiciWeightRegular, FontLiciWeightMedium } from '@common'
 import { SizeLiciFontXxSmall } from '@common'
 import { Caption as caption } from '@common'
 import { Button } from '@mui/material';
 import styled from 'styled-components';
-import Tab, {tabClasses} from '@mui/material/Tab';  
-import Tabs from '@mui/material/Tabs';  
+import Tab, { tabClasses } from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 export const ProjectContainer = styled.div`
-    
+    font-family: ${FontLiciFamilyDefaultName};
 `
-export const HeaderContainer= styled.div`
+export const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-` 
+`
 export const CustomButton = styled(Button)`
-    && {
-        font-weight: ${FontLiciWeightMedium};
-        font-size: ${SizeLiciFontXxSmall};
-        padding: 0 16px;
-    }
+&& {
+    font-family: ${FontLiciFamilyDefaultName};
+    background-color: ${ColorLiciPrimaryActive};
+    color:white;
+    font-weight:600;
+    border-radius: 20px;
+    padding:0.8em;
+    margin-right:20px;
+    margin-top: 2em;
+ }
 `
 export const Title = styled(Header2)`
     margin:0;
@@ -80,4 +85,4 @@ export const Caption = styled(caption)`
     }
 `
 
-  
+
