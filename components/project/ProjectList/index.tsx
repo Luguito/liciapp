@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { ProjectContainer, HeaderContainer, Title, CustomButton, NewTab, NewTabs, TabsRow, Caption} from './projectList.styled';
+import { ProjectContainer, HeaderContainer, Title, CustomButton, NewTab, NewTabs, TabsRow, Caption } from './projectList.styled';
 import { ProjectListProps } from './projectList';
-import {  } from '@common'
+import { } from '@common'
 import AddIcon from '@mui/icons-material/Add';
 import {
     ColorLiciWhite
@@ -11,30 +11,38 @@ import Box from '@mui/material/Box';
 import { TabPanel } from './tabPanel'
 import { List } from './List'
 import { navigateTo } from '../../../utils/helpers';
-
+import { listAdapter } from '../adapters/list.adapter';
 
 
 export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
-    
-    const [value, setValue] = React.useState(0);  
 
-    const fakeData: any= [
+    const [value, setValue] = React.useState(0);
+
+    useEffect(() => {
+        (async function () {
+            let organizationId = JSON.parse(localStorage.getItem('user'))['organization-id'];
+            let res = await listAdapter(`/evaluator/api/v1/project/${organizationId}`);
+            console.log(res)
+        })()
+    }, [])
+
+    const fakeData: any = [
         {
-            projectId:'123457987',
+            projectId: '123457987',
             description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA AIRE ACONDICIONADO DEL COMEDOR…',
             startDate: '2021-12-30',
             endDate: '2022-01-20',
             totalApplications: 1,
         },
         {
-            projectId:'123457987',
+            projectId: '123457987',
             description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA…',
             startDate: '2021-12-10',
             endDate: '2022-03-01',
             totalApplications: 3,
         },
         {
-            projectId:'123457987',
+            projectId: '123457987',
             description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA…',
             startDate: '2021-12-10',
             endDate: '2022-03-01',
@@ -65,7 +73,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                     size='Medium'
                     onClick={handleNewProject}
                 >
-                    <AddIcon style={{color: ColorLiciWhite, fontSize: 'large'}}/>
+                    <AddIcon style={{ color: ColorLiciWhite, fontSize: 'large' }} />
                     NUEVO PROYECTO
                 </CustomButton>
             </HeaderContainer>
@@ -88,7 +96,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                     <List projects={fakeData} />
                 </TabPanel>
             </Box>
-            
+
         </ProjectContainer>
     );
 };

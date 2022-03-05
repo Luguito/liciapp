@@ -18,10 +18,12 @@ const Login = (props: LoginProps) => {
     const [ alertVisible, setAlertVisible ] = useState(false);
     const MySwal = withReactContent(Swal)
     const onSubmit = async (payload) => {
-        const response = await loginAdapter('/evaluator/api/login', payload);
-        const accessToken = response?.body?.accessToken;
+        const response = await loginAdapter('/company/api/login', payload);
+
+        const accessToken = response?.body['access-token'];
         if (accessToken) {
-            setToken(accessToken);
+            setToken('token', accessToken);
+            setToken('user', JSON.stringify(response?.body['license-token']))
             navigateTo('/');
         } else {
             await MySwal.fire({

@@ -21,8 +21,17 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 
+import { createAdapter } from '../adapters/create.adapter'
+
 export const CreateProyect: FC<any> = ({ title }) => {
-    const [value, setValue] = useState([]);
+    const [project, setProject] = useState({
+        name: '',
+        details: "",
+        'project-start': "",
+        'project-end': "",
+        'legal-documents': [],
+        'document-proposals': []
+    });
     const [documents, setDocument] = useState([]);
     const [tab, setTab] = useState('1')
 
@@ -33,7 +42,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
         console.log(newValue)
     }
 
-    const triggerInputFile = () => {
+    const triggerInputFile = (name: string) => {
         let input = document.createElement('input');
 
         input.type = 'file';
@@ -41,12 +50,22 @@ export const CreateProyect: FC<any> = ({ title }) => {
         input.click();
 
         input.addEventListener('change', (e) => {
-            setDocument([...documents, ...e.target['files']])
-            console.log(documents)
+            name === 'document-proposals' && setDocument([...documents, ...e.target['files']])
+            project[name] = [...e.target['files']];
         });
-
     }
 
+    const saveValues = (value, name) => {
+        project[name] = value;
+        console.log(project)
+    }
+
+    const submitForm = async () => {
+        console.log(project)
+        let organizationId = JSON.parse(localStorage.getItem('user'))['organization-id'];
+        let res = await createAdapter(`/evaluator/api/v1/project/${organizationId}/create`, project);
+        console.log(res)
+    }
     // const { register, handleSubmit, errors, setValue, control } = useForm({
     //     // resolver: yupResolver(schema)
     // })
@@ -74,34 +93,35 @@ export const CreateProyect: FC<any> = ({ title }) => {
             <TabContext value={tab}>
                 <TabPanel value="1">
                     <form>
-                        <TextField fullWidth placeholder='Nombre del proyecto' size="small"></TextField>
+                        <TextField fullWidth placeholder='Nombre del proyecto' size="small" onChange={({ target }) => saveValues(target.value, 'name')}></TextField>
 
                         <TextArea
                             aria-label="empty textarea"
                             placeholder="Descripción"
                             style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
                             minRows={9}
+                            onChange={({ target }) => saveValues(target.value, 'details')}
                         />
                         <DatePickerContainer>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDatePicker
                                     label="Fecha de Inicio"
                                     inputFormat="MM/dd/yyyy"
-                                    value={value}
-                                    onChange={handleChange}
+                                    value={project['project-start']}
+                                    onChange={(value) => saveValues(value, 'project-start')}
                                     renderInput={(params) => <TextField {...params} style={{ width: '50%' }} />}
                                 ></DesktopDatePicker>
                                 <DesktopDatePicker
                                     label="Fecha de cierre"
                                     inputFormat="MM/dd/yyyy"
-                                    value={value}
-                                    onChange={handleChange}
+                                    value={project['project-end']}
+                                    onChange={(value) => saveValues(value, 'project-end')}
                                     renderInput={(params) => <TextField {...params} style={{ width: '50%' }} />}
                                 ></DesktopDatePicker>
                             </LocalizationProvider>
                         </DatePickerContainer>
                         <ContainerInputs>
-                            <TextField onClick={triggerInputFile} style={{ marginTop: 20, width: '50%' }} placeholder="Ficha técnica"></TextField>
+                            <TextField onClick={() => triggerInputFile('legal-documents')} style={{ marginTop: 20, width: '50%' }} placeholder="Ficha técnica"></TextField>
                             <Autocomplete
                                 multiple
                                 id="size-small-outlined-multi"
@@ -113,7 +133,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                                 )}
                             />
                         </ContainerInputs>
-                        <TextField fullWidth placeholder='Documentos' onClick={triggerInputFile} style={{ marginTop: 20 }}></TextField>
+                        <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('document-proposals')} style={{ marginTop: 20 }}></TextField>
                         {documents.map((item, index) => {
                             return (
                                 <ListDocuments key={index}>
@@ -140,6 +160,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                     <ContainerItems>
                         <TestContainer></TestContainer>
                     </ContainerItems>
+                    <NextButton onClick={() => submitForm()}>Guardar proyecto</NextButton>
                 </TabPanel>
             </TabContext>
         </ContainerComponent>

@@ -9,12 +9,12 @@ export function navigateTo(url: string, asUrl?: string): Promise<boolean> {
 
 const TOKEN_KEY = 'TOKEN'
 
-export const getToken = () => {
+export const getToken = (key) => {
   return localStorage.getItem(TOKEN_KEY)
 }
 
-export const setToken = (token) => {
-  return localStorage.setItem(TOKEN_KEY, token)
+export const setToken = (key, token) => {
+  return localStorage.setItem(key, token)
 }
 
 export const removeToken = () => {
@@ -23,7 +23,7 @@ export const removeToken = () => {
 
 export const initAxiosInterceptors = () => {
   Axios.interceptors.request.use((config) => {
-    const token = getToken();
+    const token = getToken('token');
     if (token) {
       config.headers.Authorization = `${token}`;
     }
