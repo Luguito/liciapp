@@ -7,7 +7,7 @@ export function navigateTo(url: string, asUrl?: string): Promise<boolean> {
   }
 }
 
-const TOKEN_KEY = 'TOKEN'
+const TOKEN_KEY = 'token'
 
 export const getToken = () => {
   return localStorage.getItem(TOKEN_KEY)

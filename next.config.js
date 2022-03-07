@@ -23,7 +23,8 @@ module.exports = withBundleAnalyzer(
     publicRuntimeConfig: {
       UI_BACKEND_URI: process.env.UI_BACKEND_URI,
       LOGIN_URL: process.env.LOGIN_URL,
-      PROJECT_URI: process.env.PROJECT_URI
+      PROJECT_URI: process.env.PROJECT_URI,
+      GUEST_URI: process.env.GUEST_URI
     },
     images: {
       domains: ['s3.amazonaws.com'],

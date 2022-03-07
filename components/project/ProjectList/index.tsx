@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { TabPanel } from './tabPanel'
 import { List } from './List'
 import { navigateTo } from '../../../utils/helpers';
-import { listAdapter } from '../adapters/list.adapter';
+import { listAdapter, listGuestAdapter} from '../adapters/list.adapter';
 
 
 export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
@@ -20,8 +20,8 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
 
     useEffect(() => {
         (async function () {
-            let organizationId = JSON.parse(localStorage.getItem('user'))['organization-id'];
-            let res = await listAdapter(`/evaluator/api/v1/project/${organizationId}`);
+            let res = await listAdapter();
+            const guest = await listGuestAdapter()
             console.log(res)
         })()
     }, [])
