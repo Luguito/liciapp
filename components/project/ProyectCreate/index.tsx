@@ -80,7 +80,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
     const submitForm = async () => {
         organizations.map(org => {
-            project['organizations'].push(org['organization-id'].id);
+            !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
         })
         console.log(project)
         let res = await createAdapter(project);
