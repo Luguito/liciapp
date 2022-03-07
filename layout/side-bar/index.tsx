@@ -22,8 +22,37 @@ import {
   Divider
 } from './side-bar.styled';
 
+interface Route {
+  label:string,
+  path: string,
+  iconName: string
+}
+
 const SideBar: FC<SideBarProps> = () => {
   const router = useRouter();
+  
+
+  const routess = {
+    'BE:ADMIN':[
+      {
+        label:'Proyectos',
+        path: 'proyecto',
+        iconName: 'ballot'
+      },
+      {
+        label:'Usuarios',
+        path: 'usuario',
+        iconName: 'group'
+      },
+      {
+        label:'Hojas de vida ',
+        path: 'hojas-de-vida',
+        iconName: 'ballot'
+      },
+    ],
+    'BE:LICI': [],
+    'BE:COMPANY': []
+  }
   const routes = {
     home: '/',
     users: '/usuario',
@@ -37,6 +66,17 @@ const SideBar: FC<SideBarProps> = () => {
       }
       router.push('/login')
   }
+  const iconsAllowed = {Ballot}
+
+  const dinamicIcon = (route: Route) => {
+    const Component = iconsAllowed[route.iconName];
+    return (<Component style={{'color': router.pathname === route.path ? ColorLiciPrimaryActive: ColorLiciGrayDarken1}}/>)
+  }
+  const components = {
+    ballot: Ballot,
+    group: Group,
+
+  }
 
   return (
     <SideBarContainer>
@@ -45,8 +85,8 @@ const SideBar: FC<SideBarProps> = () => {
         <UserName> Usuarios SAS</UserName>
         <CompanyName>Empresa</CompanyName>
       </UserInfo>
-      <NavList>
-        <Link href={routes.projects}>
+      { false &&<NavList>
+         <Link href={routes.projects}>
           <NavItemWrapper isActive={ router.pathname === routes.projects}>
             <NavItemText >
               <Ballot style={{'color': router.pathname === routes.projects ? ColorLiciPrimaryActive: ColorLiciGrayDarken1}}></Ballot>
@@ -62,6 +102,34 @@ const SideBar: FC<SideBarProps> = () => {
             </NavItemText>
           </NavItemWrapper>
         </Link>
+        <Divider/>
+        <Link href={'/'}>
+          <NavItemWrapper onClick={logout}>
+            <NavItemText >
+              <LogoutIcon style={{'color': ColorLiciGrayDarken1}}/>
+              <span>Logout</span>
+            </NavItemText>
+          </NavItemWrapper>
+        </Link>
+        
+      </NavList>}
+      <NavList>
+        {
+          routess['BE:ADMIN'].map((route, index) => {
+            const Icon = components[route.iconName];
+            
+            return (
+              <Link href={route.path} key={index}>
+                <NavItemWrapper isActive={ router.pathname === route.path}>
+                  <NavItemText >
+                    <Icon style={{'color': router.pathname === route.path ? ColorLiciPrimaryActive: ColorLiciGrayDarken1}}/>
+                    <span>{route.label}</span>
+                  </NavItemText>
+                </NavItemWrapper>
+              </Link>
+            )
+          })  
+        }
         <Divider/>
         <Link href={'/'}>
           <NavItemWrapper onClick={logout}>
