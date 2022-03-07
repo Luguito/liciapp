@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import App, { AppProps, AppContext } from 'next/app';
+import React, { useState, useEffect} from 'react';
+import App, { AppProps, AppContext,  } from 'next/app';
+import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import createStore, { LiciAppStore } from '../store';
@@ -11,13 +12,22 @@ import Router from 'next/router';
 import { APP_ACTIONS } from '../store/actions/app.actions';
 import Layout from '../layout';
 import '../styles/global.css';
+import type { ReactElement, ReactNode } from 'react'
+import type { NextPage } from 'next'
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
 
 
 
 function MyApp({ Component, pageProps, store }: AppProps & { store: LiciAppStore; user: any }) {
   
-  return (
-    // @ts-ignore This is a conflict with withRedux lib
+  return(
     <Provider store={store}>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -25,10 +35,7 @@ function MyApp({ Component, pageProps, store }: AppProps & { store: LiciAppStore
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"/>
         <link rel='icon' type='image/png' href='favicon.png' />
       </Head>
-
-      <Layout userName={''}>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </Provider>
   );
 }

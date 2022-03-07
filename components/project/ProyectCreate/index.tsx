@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Autocomplete, Box, Button, Tab, Tabs, TextareaAutosize, TextField } from '@mui/material'
 import { schema } from './create.schema';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -32,6 +32,23 @@ export const CreateProyect: FC<any> = ({ title }) => {
         'legal-documents': [],
         'document-proposals': []
     });
+
+    const { register, handleSubmit, errors, setValue, control } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    useEffect(() => {
+        register({ name: 'name' });
+        register({ name: 'details' });
+        register({ name: 'project-start' });
+        register({ name: 'project-end' });
+        register({ name: 'legal-documents' });
+        register({ name: 'document-proposals' });
+
+    },[])
+
+    
+
     const [documents, setDocument] = useState([]);
     const [tab, setTab] = useState('1')
 
@@ -66,9 +83,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
         let res = await createAdapter(`/evaluator/api/v1/project/${organizationId}/create`, project);
         console.log(res)
     }
-    // const { register, handleSubmit, errors, setValue, control } = useForm({
-    //     // resolver: yupResolver(schema)
-    // })
+    
 
     const onSubmit = data => console.log(data);
 

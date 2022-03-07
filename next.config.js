@@ -22,6 +22,8 @@ module.exports = withBundleAnalyzer(
     // Any variable not listed here won't be available on the browser.
     publicRuntimeConfig: {
       UI_BACKEND_URI: process.env.UI_BACKEND_URI,
+      LOGIN_URL: process.env.LOGIN_URL,
+      PROJECT_URI: process.env.PROJECT_URI
     },
     images: {
       domains: ['s3.amazonaws.com'],

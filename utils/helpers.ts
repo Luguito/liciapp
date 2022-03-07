@@ -9,7 +9,7 @@ export function navigateTo(url: string, asUrl?: string): Promise<boolean> {
 
 const TOKEN_KEY = 'TOKEN'
 
-export const getToken = (key) => {
+export const getToken = () => {
   return localStorage.getItem(TOKEN_KEY)
 }
 
@@ -23,7 +23,7 @@ export const removeToken = () => {
 
 export const initAxiosInterceptors = () => {
   Axios.interceptors.request.use((config) => {
-    const token = getToken('token');
+    const token = getToken();
     if (token) {
       config.headers.Authorization = `${token}`;
     }

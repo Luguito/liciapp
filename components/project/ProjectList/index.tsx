@@ -70,7 +70,6 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
             <HeaderContainer>
                 <Title>Proyectos</Title>
                 <CustomButton
-                    size='Medium'
                     onClick={handleNewProject}
                 >
                     <AddIcon style={{ color: ColorLiciWhite, fontSize: 'large' }} />

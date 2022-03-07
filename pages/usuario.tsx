@@ -1,4 +1,5 @@
 import React from 'react';
+import withAuth from '../utils/withAuth'
 
 const UsuarioPage = () => {
     return (
@@ -8,4 +9,4 @@ const UsuarioPage = () => {
 
 
 
-export default UsuarioPage;
+export default withAuth(UsuarioPage);

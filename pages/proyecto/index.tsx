@@ -1,12 +1,16 @@
 import React from 'react';
 import { Project } from '../../components/project'
+import Layout from '../../layout'
+import withAuth from '../../utils/withAuth'
 
 const ProjectsPage = () => {
     return (
-        <Project title=''/>
+        <Layout userName={''}>
+            <Project title=''/>
+        </Layout>
     )
 };
 
 
 
-export default ProjectsPage;
+export default withAuth(ProjectsPage);

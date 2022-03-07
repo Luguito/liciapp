@@ -1,10 +1,14 @@
 import React from 'react';
+import Layout from '../layout'
+import withAuth from '../utils/withAuth'
 
-import { LiciPage } from '../lici';
-import withAuth from "../utils/withAuth";
 
-const indexPage: LiciPage<{}, {}, {}> = (props) => {
-  return <h1>Dashboard</h1>;
+const indexPage = (props) => {
+  return (
+    <Layout userName=''>
+      <h1>Dashboard</h1>;
+    </Layout>
+  )
 };
 
 indexPage.getInitialProps = async (context) => {
@@ -14,4 +18,5 @@ indexPage.getInitialProps = async (context) => {
     }
 };
 
-export default indexPage;
+
+export default withAuth(indexPage);
