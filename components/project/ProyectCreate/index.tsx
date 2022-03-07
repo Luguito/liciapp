@@ -21,16 +21,21 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 
-import { createAdapter } from '../adapters/create.adapter'
+import { createAdapter } from '../adapters/create.adapter';
+import { listGuestAdapter } from '../adapters/list.adapter';
+
 
 export const CreateProyect: FC<any> = ({ title }) => {
+    const [guest, setGuest] = useState([]);
+    const [organizations, setOrganizations] = useState([]);
     const [project, setProject] = useState({
         name: '',
         details: "",
+        organizations: [],
         'project-start': "",
         'project-end': "",
-        'legal-documents': [],
-        'document-proposals': []
+        'project-documents': [],
+        "technical-sheet": [],
     });
 
     const { register, handleSubmit, errors, setValue, control } = useForm({
@@ -38,6 +43,10 @@ export const CreateProyect: FC<any> = ({ title }) => {
     })
 
     useEffect(() => {
+        (async function () {
+            let guest = await listGuestAdapter();
+            setGuest(guest.body);
+        })()
         register({ name: 'name' });
         register({ name: 'details' });
         register({ name: 'project-start' });
@@ -45,19 +54,12 @@ export const CreateProyect: FC<any> = ({ title }) => {
         register({ name: 'legal-documents' });
         register({ name: 'document-proposals' });
 
-    },[])
+    }, [])
 
-    
+
 
     const [documents, setDocument] = useState([]);
     const [tab, setTab] = useState('1')
-
-
-    const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
-
-    const handleChange = (newValue) => {
-        console.log(newValue)
-    }
 
     const triggerInputFile = (name: string) => {
         let input = document.createElement('input');
@@ -67,23 +69,27 @@ export const CreateProyect: FC<any> = ({ title }) => {
         input.click();
 
         input.addEventListener('change', (e) => {
-            name === 'document-proposals' && setDocument([...documents, ...e.target['files']])
+            setDocument([...documents, ...e.target['files']])
             project[name] = [...e.target['files']];
         });
     }
 
     const saveValues = (value, name) => {
         project[name] = value;
-        console.log(project)
     }
 
     const submitForm = async () => {
+        organizations.map(org => {
+            project['organizations'].push(org['organization-id'].id);
+        })
         console.log(project)
-        let organizationId = JSON.parse(localStorage.getItem('user'))['organization-id'];
-        let res = await createAdapter(`/evaluator/api/v1/project/${organizationId}/create`, project);
+        let res = await createAdapter(project);
         console.log(res)
     }
-    
+
+    const getTecnicalSheet = (value) => {
+        project['technical-sheet'] = value
+    }
 
     const onSubmit = data => console.log(data);
 
@@ -136,19 +142,19 @@ export const CreateProyect: FC<any> = ({ title }) => {
                             </LocalizationProvider>
                         </DatePickerContainer>
                         <ContainerInputs>
-                            <TextField onClick={() => triggerInputFile('legal-documents')} style={{ marginTop: 20, width: '50%' }} placeholder="Ficha técnica"></TextField>
                             <Autocomplete
                                 multiple
                                 id="size-small-outlined-multi"
                                 style={{ width: '50%', marginTop: 20 }}
-                                options={dummyOptions}
-                                getOptionLabel={(option) => option}
+                                options={guest}
+                                getOptionLabel={(option) => option['full'].name}
+                                onChange={(event, value) => setOrganizations(value)}
                                 renderInput={(params) => (
                                     <TextField {...params} placeholder="Invitados" />
                                 )}
                             />
                         </ContainerInputs>
-                        <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('document-proposals')} style={{ marginTop: 20 }}></TextField>
+                        <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('project-documents')} style={{ marginTop: 20 }}></TextField>
                         {documents.map((item, index) => {
                             return (
                                 <ListDocuments key={index}>
@@ -173,7 +179,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                 </TabPanel>
                 <TabPanel value="2">
                     <ContainerItems>
-                        <TestContainer></TestContainer>
+                        <TestContainer fn={getTecnicalSheet}></TestContainer>
                     </ContainerItems>
                     <NextButton onClick={() => submitForm()}>Guardar proyecto</NextButton>
                 </TabPanel>

@@ -15,40 +15,15 @@ import { listAdapter, listGuestAdapter} from '../adapters/list.adapter';
 
 
 export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
-
     const [value, setValue] = React.useState(0);
+    const [list, setList] = React.useState([]);
 
     useEffect(() => {
         (async function () {
             let res = await listAdapter();
-            const guest = await listGuestAdapter()
-            console.log(res)
+            setList([...res.body])
         })()
     }, [])
-
-    const fakeData: any = [
-        {
-            projectId: '123457987',
-            description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA AIRE ACONDICIONADO DEL COMEDOR…',
-            startDate: '2021-12-30',
-            endDate: '2022-01-20',
-            totalApplications: 1,
-        },
-        {
-            projectId: '123457987',
-            description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA…',
-            startDate: '2021-12-10',
-            endDate: '2022-03-01',
-            totalApplications: 3,
-        },
-        {
-            projectId: '123457987',
-            description: 'ESPECIFICACIONES PARA EL REDISEÑO, SUMINISTRO E INSTALACIÓN DEL SISTEMA…',
-            startDate: '2021-12-10',
-            endDate: '2022-03-01',
-            totalApplications: 3,
-        },
-    ];
 
     function a11yProps(index) {
         return {
@@ -89,10 +64,10 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                 </TabsRow>
 
                 <TabPanel value={value} index={0}>
-                    <List projects={fakeData} />
+                    <List projects={list} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <List projects={fakeData} />
+                    <List projects={list} />
                 </TabPanel>
             </Box>
 

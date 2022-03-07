@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import TreeView from '@mui/lab/TreeView';
-import TreeItem, { TreeItemProps, treeItemClasses } from '@mui/lab/TreeItem';
 import { ContainerItems, Items, NewActionButton } from '../../project/ProyectEdit/edit.styled';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import AddIcon from '@mui/icons-material/Add';
-import { Autocomplete, TextareaAutosize, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField } from './utils.styled';
-export const TestContainer = () => {
+
+export const TestContainer = ({ fn }) => {
     const [itemIndex, setIndex] = useState('');
 
     const [name, setName] = useState([
@@ -52,6 +51,7 @@ export const TestContainer = () => {
         console.log(newObject)
 
         setName([...name]);
+        fn(name)
     }
 
     const getElement = (id, findChild: boolean) => {
@@ -87,7 +87,7 @@ export const Item = ({ name, fn, id, setValue }) => {
                 options={dummyOptions}
                 getOptionLabel={(option) => option}
                 renderInput={(params) => (
-                    <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)}/>
+                    <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)} />
                 )}
             />
             <ContainerCustomField>

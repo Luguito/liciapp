@@ -40,7 +40,7 @@ interface ListProps {
     projects: project[]
 }
 
-export const List: FC<ListProps> = (props) => {
+export const List: FC<any> = (props) => {
     const { projects } = props;
     console.log(props)
     const handleDelete = () => {
@@ -61,8 +61,8 @@ export const List: FC<ListProps> = (props) => {
             { projects.map((project, index) => {
                 return ( 
                     <ProyectCard key={index}>
-                        <HeaderCard onClick={() => handleDetail(project.projectId)}>
-                            <Subtitle>PROYECTO</Subtitle>
+                        <HeaderCard onClick={() => handleDetail(project['project-id'].id)}>
+                            <Subtitle>{project['full'].name}</Subtitle>
                             <StyledBadge badgeContent={project.totalApplications}>
                                 <NotificationsIcon style={{color: ColorLiciGrayLighten1}}/>
                             </StyledBadge>
@@ -70,16 +70,16 @@ export const List: FC<ListProps> = (props) => {
                         </HeaderCard>
                         <BodyCard>
                             <Description>
-                                {project.description}
+                                {project['details'].description}
                             </Description>
                             <Schedule>
                                 <Paragraph>
                                     <Caption>Fecha de apertura</Caption>
-                                    {project.startDate}
+                                    {project['project-start'].date}
                                 </Paragraph>
                                 <Paragraph>
                                     <Caption>Fecha de cierre</Caption>
-                                    {project.endDate}
+                                    {project['project-end'].end}
                                 </Paragraph>
                             </Schedule>
                         </BodyCard>
