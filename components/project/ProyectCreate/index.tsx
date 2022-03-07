@@ -23,6 +23,7 @@ import TabList from '@mui/lab/TabList';
 
 import { createAdapter } from '../adapters/create.adapter';
 import { listGuestAdapter } from '../adapters/list.adapter';
+import { navigateTo } from 'utils/helpers';
 
 
 export const CreateProyect: FC<any> = ({ title }) => {
@@ -31,11 +32,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
     const [project, setProject] = useState({
         name: '',
         details: "",
-        organizations: [],
         'project-start': "",
         'project-end': "",
         'project-documents': [],
         "technical-sheet": [],
+        organizations: [],
     });
 
     const { register, handleSubmit, errors, setValue, control } = useForm({
@@ -75,16 +76,34 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const saveValues = (value, name) => {
-        project[name] = value;
+        if (['project-start', 'project-end'].includes(name)) {
+            let date = new Intl.DateTimeFormat('es-CO', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }).format(value).split('/')
+
+            date.splice(0, 0, date.splice(2, 1)[0]);
+
+            return setProject({
+                ...project,
+                [name]: date.join('-')
+            })
+        }
+
+        setProject({
+            ...project,
+            [name]: value
+        })
     }
 
     const submitForm = async () => {
         organizations.map(org => {
             !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
         })
-        console.log(project)
+
         let res = await createAdapter(project);
-        console.log(res)
+        navigateTo('/proyecto')
     }
 
     const getTecnicalSheet = (value) => {
