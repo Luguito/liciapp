@@ -48,11 +48,21 @@ export const List: FC<any> = (props) => {
     }
 
     const handleEdit = (id) => {
-        console.log(id);
+        const index = projects.findIndex((project) => project['project-id'].id == id);
+        
+        console.log(projects[index])
+
+        localStorage.setItem('project', JSON.stringify(projects[index]));
         navigateTo(`/proyecto/edit/${id}`)
     }
 
     const handleDetail = id => {
+        const index = projects.findIndex((project) => project['project-id'].id == id);
+
+        console.log(projects[index])
+
+        localStorage.setItem('project', JSON.stringify(projects[index]));
+
         navigateTo(`/proyecto/details/${id}`)
     }
 
@@ -89,7 +99,7 @@ export const List: FC<any> = (props) => {
                             </LeftActions>
                             <RightActions>
                                 <DeleteForeverIcon onClick={handleDelete} style={{color: ColorLiciGrayLighten1, marginRight: '20px'}} />
-                                <EditIcon onClick={() => handleEdit(project.projectId) } style={{color: ColorLiciGrayLighten1}} />
+                                <EditIcon onClick={() => handleEdit(project['project-id'].id) } style={{color: ColorLiciGrayLighten1}} />
                             </RightActions>
                         </ActionsCard>
                     </ProyectCard>

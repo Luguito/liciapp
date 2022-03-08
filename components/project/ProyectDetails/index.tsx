@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { HeaderContainer, Title, ComparateButton, ProyectRedirect,StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table } from './details.styled';
+import { HeaderContainer, Title, ComparateButton, ProyectRedirect, StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table } from './details.styled';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -18,6 +18,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 export const DetailsProyect = () => {
     const [tab, setTab] = useState('1')
     const steps = ['Apertura', 'Recepcion', 'Asignacion'];
+    const project = JSON.parse(localStorage.getItem('project'));
 
     const goToEdit = id => {
         navigateTo(`/proyecto/edit/${id}`)
@@ -34,24 +35,23 @@ export const DetailsProyect = () => {
                 <span>Abierta</span>
             </StatusApp>
             <ProyectRedirect>
-                Proyecto 
-                <EditIcon onClick={goToEdit} style={{ fontSize: '1.1rem', marginLeft: 5, cursor: 'pointer'}} />
+                Proyecto
+                <EditIcon onClick={goToEdit} style={{ fontSize: '1.1rem', marginLeft: 5, cursor: 'pointer' }} />
             </ProyectRedirect>
             <DescriptionTitle>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Labore debitis ipsum adipisci libero quibusdam nam incidunt ab deleniti autem nostrum expedita laborum, optio reprehenderit deserunt accusantium magnam in porro rem.
+                {project.details.description}
             </DescriptionTitle>
             <ContainerDates>
                 <Dates>
                     <TitleDates>Fecha de inicio</TitleDates>
                     <ContentDates>
-                        30 Dic 2021
+                        {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(project['project-start'].date))}
                     </ContentDates>
                 </Dates>
                 <Dates>
                     <TitleDates>Fecha de cierre</TitleDates>
                     <ContentDates>
-                        30 Enero 2021
+                        {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(project['project-end'].end))}
                     </ContentDates>
                 </Dates>
             </ContainerDates>

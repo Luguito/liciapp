@@ -18,6 +18,12 @@ function reducer(state: AppState = initialState.app, action: AppAction): AppStat
         ...state,
         user: null,
       };
+    case APP_ACTIONS.INIT_PROJECTS:
+      console.log("List =>", action.list)
+      return {
+        ...state,
+        projects: action.list
+      }
     default:
       return state;
   }

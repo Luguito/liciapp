@@ -11,17 +11,19 @@ import Box from '@mui/material/Box';
 import { TabPanel } from './tabPanel'
 import { List } from './List'
 import { navigateTo } from '../../../utils/helpers';
-import { listAdapter, listGuestAdapter} from '../adapters/list.adapter';
-import { createAdapter} from '../adapters/create.adapter';
+import { listAdapter } from '../adapters/list.adapter';
+import { useDispatch } from 'react-redux';
 
 export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
     const [value, setValue] = React.useState(0);
     const [list, setList] = React.useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async function () {
             let res = await listAdapter();
-            setList([...res.body])
+            setList([...res.body]);
+            // dispatch({ type: "APP.INIT_LIST", list: res.body });
         })()
     }, [])
 

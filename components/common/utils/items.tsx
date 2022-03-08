@@ -5,10 +5,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { TextField } from '@mui/material'
 import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField } from './utils.styled';
 
-export const TestContainer = ({ fn }) => {
+export const TestContainer = ({ fn, edit }) => {
     const [itemIndex, setIndex] = useState('');
 
-    const [name, setName] = useState([
+    const [name, setName] = useState(edit ?? [
         {
             name: 'Francisco',
             unit: 0,
@@ -77,7 +77,7 @@ export const TestContainer = ({ fn }) => {
     );
 };
 
-export const Item = ({ name, fn, id, setValue }) => {
+export const Item = ({ item, fn, id, setValue }) => {
     const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
 
     return <Items onClick={() => fn(id)}>
@@ -85,15 +85,15 @@ export const Item = ({ name, fn, id, setValue }) => {
         <Container>
             <CustomAutoComplete
                 options={dummyOptions}
-                getOptionLabel={(option) => option}
+                getOptionLabel={(option) => 'Edit'}
                 renderInput={(params) => (
                     <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)} />
                 )}
             />
             <ContainerCustomField>
-                <CustomTextField onChange={({ target }) => setValue(target.value, 'unit', id)} />
-                <CustomTextField onChange={({ target }) => setValue(target.value, 'qty', id)} />
-                <CustomTextField onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
+                <CustomTextField value={item.unit ?? 0} onChange={({ target }) => setValue(target.value, 'unit', id)} />
+                <CustomTextField value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
+                <CustomTextField value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
                 <p>$2000</p>
             </ContainerCustomField>
         </Container>
@@ -112,13 +112,13 @@ export const TestItem = ({ items, fn, setValue }) => {
             {
                 item.child && item.child.length > 0 ? (
                     <>
-                        <Item name={item.name} fn={fn} id={item.id} setValue={setValue}></Item>
+                        <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>
                         <ContainerItems>
                             <TestItem items={item.child} fn={fn} setValue={setValue}></TestItem>
                         </ContainerItems>
                     </>
                 ) : (
-                    <Item name={item.name} fn={fn} id={item.id} setValue={setValue}></Item>
+                    <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>
                 )
             }
 
