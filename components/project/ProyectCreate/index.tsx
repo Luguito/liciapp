@@ -1,4 +1,4 @@
-import { ContainerComponent, TitleCreate, SubTitleCreate, ContainerButton, DatePickerContainer, HeaderCreate, NextButton, TitleContainer, CustomInput, TextArea, InputDate, DocumentInput, DobleContainer, ContainerInputs, ListDocuments, ElementList, DocumentName, IconsList } from './create.styled';
+import { ContainerComponent, TitleCreate, SubTitleCreate, ContainerButton, DatePickerContainer, HeaderCreate, NextButton, TitleContainer, CustomInput, TextArea, InputDate, DocumentInput, DobleContainer, ContainerInputs, ListDocuments, ElementList, DocumentName, IconsList, HeaderItems } from './create.styled';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { Autocomplete, Box, Button, Tab, Tabs, TextareaAutosize, TextField } from '@mui/material'
@@ -197,6 +197,13 @@ export const CreateProyect: FC<any> = ({ title }) => {
                     </form>
                 </TabPanel>
                 <TabPanel value="2">
+                    <HeaderItems>
+                        <p>Descriptor</p>
+                        <p>Unidad</p>
+                        <p>Cantidad</p>
+                        <p>Valor unitario</p>
+                        <p>Valor total</p>
+                    </HeaderItems>
                     <ContainerItems>
                         <TestContainer fn={getTecnicalSheet}></TestContainer>
                     </ContainerItems>

@@ -5,7 +5,7 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 /** STYLED COMPONENTS */
-import { HeaderContainer, Title, DeleteButton, ContainerItems, DatePickerContainer, ContainerInputs, ListDocuments, IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton } from './edit.styled';
+import { HeaderContainer, NextButton, Title, DeleteButton, ContainerItems, DatePickerContainer, ContainerInputs, ListDocuments, IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton } from './edit.styled';
 
 /** ICONS  */
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -176,7 +176,7 @@ export const EditProyect = () => {
                 <TestContainer fn={getTecnicalSheet} edit={project['technical-sheet']}></TestContainer>
             </ContainerItems>
             <footer>
-                <button onClick={submitForm}>Edit Project</button>
+                <NextButton onClick={submitForm}>Edit Project</NextButton>
             </footer>
         </>
     );

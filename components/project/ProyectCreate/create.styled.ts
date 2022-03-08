@@ -120,3 +120,12 @@ export const IconsList = styled.div`
     gap: 10px;
     align-items: center;
 `
+export const HeaderItems = styled.div`
+    font-family: ${FontLiciFamilyDefaultName};
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid ${ColorLiciGrayDarken1};
+    margin-left:10px;
+    font-weight: 500;
+    color: ${ColorLiciGrayDarken1};
+`;

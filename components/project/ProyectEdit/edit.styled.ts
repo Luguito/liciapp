@@ -105,3 +105,9 @@ export const Items = styled.li`
         background-color: ${ColorLiciGrayLighten4};
     }
 `
+export const NextButton = styled(Button)`
+    && {
+        background-color: ${ColorLiciPrimaryActive};
+        color: white;
+    }
+`
