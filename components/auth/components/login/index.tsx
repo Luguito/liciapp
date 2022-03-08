@@ -4,6 +4,8 @@ import { loginAdapter } from "./adapters/login.adapter";
 import { navigateTo, setToken } from "../../../../utils/helpers";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { APP_ACTIONS } from '../../../../store/actions/app.actions'
+import { useDispatch } from 'react-redux';
 
 import { 
     LoginContainer, 
@@ -15,6 +17,7 @@ interface LoginProps {
 }
 
 const Login = (props: LoginProps) => {
+    const dispatch = useDispatch();
     const [ alertVisible, setAlertVisible ] = useState(false);
     const MySwal = withReactContent(Swal)
     const onSubmit = async (payload) => {
@@ -22,6 +25,7 @@ const Login = (props: LoginProps) => {
 
         const accessToken = response?.body['access-token'];
         if (accessToken) {
+            dispatch({type: APP_ACTIONS.SET_USER , user: response?.body['license-token']})
             setToken('token', accessToken);
             setToken('user', JSON.stringify(response?.body['license-token']))
             navigateTo('/');

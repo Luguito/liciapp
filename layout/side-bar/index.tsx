@@ -36,17 +36,17 @@ const SideBar: FC<SideBarProps> = () => {
     'BE:ADMIN':[
       {
         label:'Proyectos',
-        path: 'proyecto',
+        path: '/proyecto',
         iconName: 'ballot'
       },
       {
         label:'Usuarios',
-        path: 'usuario',
+        path: '/usuario',
         iconName: 'group'
       },
       {
         label:'Hojas de vida ',
-        path: 'hojas-de-vida',
+        path: '/hojas-de-vida',
         iconName: 'ballot'
       },
     ],
@@ -62,7 +62,7 @@ const SideBar: FC<SideBarProps> = () => {
 
   const logout = () => {
       if (typeof window !== 'undefined') {
-          localStorage.removeItem('TOKEN')
+          localStorage.removeItem('token')
       }
       router.push('/login')
   }
