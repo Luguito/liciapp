@@ -3,7 +3,7 @@ import { Autocomplete, TextareaAutosize, TextField } from '@mui/material'
 
 
 export const CustomAutoComplete = styled(Autocomplete)`
-    width: 60%;
+    width: 40%;
 `;
 
 export const Container = styled.div`
@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const CustomTextField = styled(TextField)`
     && {
-        width: 15%;
+        width: 20%;
     }
 `
 export const ContainerCustomField = styled.div`

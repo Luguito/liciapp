@@ -102,11 +102,13 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const submitForm = async () => {
-        organizations.map(org => {
-            !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
-        })
+        project['organizations'] = [getUniqueId()];
 
-        formatDates(); 
+        // organizations.map(org => {
+        //     !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
+        // })
+
+        formatDates();
         console.log(project)
         let res = await createAdapter(project);
         console.log(res)
@@ -116,6 +118,14 @@ export const CreateProyect: FC<any> = ({ title }) => {
     const getTecnicalSheet = (value) => {
         project['technical-sheet'] = value
     }
+
+    const getUniqueId = () => {
+        let s4 = () => {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
 
     const onSubmit = data => console.log(data);
 

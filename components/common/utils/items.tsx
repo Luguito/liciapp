@@ -11,7 +11,7 @@ export const TestContainer = ({ fn, edit }) => {
     const [name, setName] = useState(edit ?? [
         {
             name: 'Francisco',
-            unit: 0,
+            unit: "",
             qty: 0,
             qtyUnit: 0,
             id: '0',
@@ -21,12 +21,11 @@ export const TestContainer = ({ fn, edit }) => {
 
     const showIndex = (item?) => {
         let index = item ?? itemIndex;
-
         let element = getElement(index, false);
 
         element.child && element.child.push({
             name: '',
-            unit: 0,
+            unit: "",
             qty: 0,
             qtyUnit: 0,
             id: element.id + '.' + element.child.length,
@@ -35,7 +34,7 @@ export const TestContainer = ({ fn, edit }) => {
 
         !element.child && element.push({
             name: '',
-            unit: 0,
+            unit: "",
             qty: 0,
             qtyUnit: 0,
             id: index + '.' + element.length,
@@ -47,8 +46,8 @@ export const TestContainer = ({ fn, edit }) => {
 
     const changeInput = (value, field, id) => {
         let newObject = getElement(id, true);
+
         newObject[field] = value;
-        console.log(newObject)
 
         setName([...name]);
         fn(name)
@@ -60,9 +59,9 @@ export const TestContainer = ({ fn, edit }) => {
         } else {
             let child;
 
-            id.split('.').map((v) => {
+            id.split('.').map((v, i) => {
                 let index = Number(v);
-                child = !child ? name[index].child : (!findChild ? (child[index].child ? child[index].child : child[index]) : child[index].child);
+                child = !child ? name[index].child : (!findChild ? (child[index].child ? child[index].child : child[index]) : (i === id.split('.').length - 1 ? child[index] : child[index].child));
             });
 
             return child
@@ -79,22 +78,31 @@ export const TestContainer = ({ fn, edit }) => {
 
 export const Item = ({ item, fn, id, setValue }) => {
     const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
-
+    const unitOptions = ['und', 'mts', 'cm']
     return <Items onClick={() => fn(id)}>
         <OpenWithIcon></OpenWithIcon>
         <Container>
             <CustomAutoComplete
                 options={dummyOptions}
-                getOptionLabel={(option) => 'Edit'}
+                getOptionLabel={(option) => 'Item'}
                 renderInput={(params) => (
                     <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)} />
                 )}
             />
             <ContainerCustomField>
-                <CustomTextField value={item.unit ?? 0} onChange={({ target }) => setValue(target.value, 'unit', id)} />
-                <CustomTextField value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
-                <CustomTextField value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
-                <p>$2000</p>
+                <CustomAutoComplete
+                    style={{width: '20%'}}
+                    options={unitOptions}
+                    getOptionLabel={(option) => option}
+                    value={item.unit ?? 'und'}
+                    onChange={(event, value) => setValue(value, 'unit', id)}
+                    renderInput={(params) => (
+                        <TextField {...params} />
+                    )}
+                />
+                <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
+                <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
+                <p>{'$' + (item.qtyUnit * item.qty)}</p>
             </ContainerCustomField>
         </Container>
     </Items>;
