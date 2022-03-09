@@ -68,10 +68,24 @@ export const TestContainer = ({ fn, edit }) => {
         }
     }
 
+    const addRow = () => {
+        name.push({
+            name: '',
+            unit: "",
+            qty: 0,
+            qtyUnit: 0,
+            id: name.length.toString(),
+            child: [],
+        });
+
+        setName([...name])
+    }
+
     return (
         <div>
             <TestItem items={name} fn={setIndex} setValue={changeInput}></TestItem>
             <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
+            <NewActionButton startIcon={<AddIcon />} onClick={() => addRow()}>Nueva Fila</NewActionButton>
         </div>
     );
 };
