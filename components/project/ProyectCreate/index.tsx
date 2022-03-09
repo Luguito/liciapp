@@ -109,10 +109,8 @@ export const CreateProyect: FC<any> = ({ title }) => {
         // })
 
         formatDates();
-        console.log(project)
         let res = await createAdapter(project);
-        console.log(res)
-        // navigateTo('/proyecto')
+        navigateTo('/proyecto')
     }
 
     const getTecnicalSheet = (value) => {
