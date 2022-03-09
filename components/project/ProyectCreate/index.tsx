@@ -25,10 +25,20 @@ import { createAdapter } from '../adapters/create.adapter';
 import { listGuestAdapter } from '../adapters/list.adapter';
 import { navigateTo } from 'utils/helpers';
 
+interface proyectType {
+    name: string,
+    details: string,
+    'project-start': number | string | Date,
+    'project-end': number | string | Date,
+    'project-documents': object,
+    "technical-sheet": object,
+    organizations: object,
+}
+
 export const CreateProyect: FC<any> = ({ title }) => {
     const [guest, setGuest] = useState([]);
     const [organizations, setOrganizations] = useState([]);
-    const [project, setProject] = useState({
+    const [project, setProject] = useState<proyectType>({
         name: '',
         details: "",
         'project-start': Date.now() || "",
@@ -75,6 +85,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const saveValues = (value, name) => {
+        console.log(value)
         setProject({
             ...project,
             [name]: value
@@ -82,17 +93,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const formatDates = () => {
-        let start = new Intl.DateTimeFormat('es-CO', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-        }).format(project['project-start']).split('/');
-
-        let end = new Intl.DateTimeFormat('es-CO', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-        }).format(project['project-end']).split('/');
+        console.log(project['project-start'], project['project-end'])
+        // @ts-ignore
+        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
+        // @ts-ignore
+        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit',day: '2-digit',}).format(project['project-end']).split('/'); 
 
         start.splice(0, 0, start.splice(2, 1)[0]);
         end.splice(0, 0, end.splice(2, 1)[0]);

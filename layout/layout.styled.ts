@@ -4,8 +4,7 @@ import { ColorLiciBackgroundWhite, } from '@common'
 
 export const MainPageContainer = styled.div`
   display: flex;
-  height: calc(100vh - 0px);
-  width: calc(100vw - 0px);
+  height: calc(100vh - 70px);
 `;
 
 export const PageContainer = styled.section`
@@ -13,6 +12,7 @@ export const PageContainer = styled.section`
     background-color: ${ColorLiciGrayLighten3};
     padding:50px;    
     overflow-y:scroll;
+    width:100%;
 `;
 
 export const CleanContent = styled.div`

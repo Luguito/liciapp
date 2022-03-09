@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,FC } from 'react';
 import { ContainerItems, Items, NewActionButton } from '../../project/ProyectEdit/edit.styled';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import AddIcon from '@mui/icons-material/Add';
 import { TextField } from '@mui/material'
 import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField } from './utils.styled';
 
-export const TestContainer = ({ fn, edit }) => {
+interface testContainerProps {
+    fn: any;
+    edit?: any;
+}
+
+export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
     const [itemIndex, setIndex] = useState('');
 
     const [name, setName] = useState(edit ?? [
@@ -92,13 +97,14 @@ export const TestContainer = ({ fn, edit }) => {
 
 export const Item = ({ item, fn, id, setValue }) => {
     const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
-    const unitOptions = ['und', 'mts', 'cm']
+    const unitOptions = ['Und', 'Mts2', 'Pulg']
     return <Items onClick={() => fn(id)}>
         <OpenWithIcon></OpenWithIcon>
         <Container>
             <CustomAutoComplete
                 options={dummyOptions}
-                getOptionLabel={(option) => 'Item'}
+                // @ts-ignore
+                getOptionLabel={(option) => option}
                 renderInput={(params) => (
                     <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)} />
                 )}
@@ -107,6 +113,7 @@ export const Item = ({ item, fn, id, setValue }) => {
                 <CustomAutoComplete
                     style={{width: '20%'}}
                     options={unitOptions}
+                    // @ts-ignore
                     getOptionLabel={(option) => option}
                     value={item.unit ?? 'und'}
                     onChange={(event, value) => setValue(value, 'unit', id)}
