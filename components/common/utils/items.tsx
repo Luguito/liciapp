@@ -15,7 +15,7 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
 
     const [name, setName] = useState(edit ?? [
         {
-            name: 'Francisco',
+            name: 'list',
             unit: "",
             qty: 0,
             qtyUnit: 0,
@@ -96,7 +96,14 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
 };
 
 export const Item = ({ item, fn, id, setValue }) => {
-    const dummyOptions = ['Fuego', 'Peter', 'Parker', 'Francisco'];
+    const dummyOptions = [
+        'EXCAVACION Y RETIRO DEL MATERIAL', 
+        'RELLENO PIEDRA RAJON', 
+        'RELLENO CON TRITURADO CALIZO TM 3 PULGADAS', 
+        'SUMINISTRO E INSTALACIÓN DE GEOTEXTIL FORTEX BX-40 O SIMILAR',
+        'SUMINISTRO E INSTALACIÓN DE GEOMALLA TENSAR TX-160 O SIMILAR',
+        'CONFORMACION Y COMPACTACION DE BANCA'
+    ];
     const unitOptions = ['Und', 'Mts2', 'Pulg']
     return <Items onClick={() => fn(id)}>
         <OpenWithIcon></OpenWithIcon>

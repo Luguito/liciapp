@@ -26,14 +26,14 @@ type AppPropsWithLayout = AppProps & {
 
 
 function MyApp({ Component, pageProps, store }: AppProps & { store: LiciAppStore; user: any }) {
-  
+  console.log(pageProps)
   return(
     <Provider store={store}>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com"/>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"/>
-        <link rel='icon' type='image/png' href='favicon.png' />
+        <link rel='icon' type='image/png' href='' />
       </Head>
       <Component {...pageProps} />
     </Provider>
@@ -44,7 +44,7 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   const { Component, ctx } = appContext;
   // @ts-ignore  -- ctx has no field store in typings
   const store: AlliesAppStore = ctx.store;
-
+  console.log(Component, store.getState())
  
   if (ctx.req && ctx.res) {
     const { res } = ctx;
@@ -54,7 +54,7 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
   const appProps = await App.getInitialProps(appContext);
 
-  return { ...appProps, namespacesRequired: ['common'] };
+  return { ...appProps, namespacesRequired: ['common'], store };
 };
 
 export default withRedux(createStore)(MyApp);
