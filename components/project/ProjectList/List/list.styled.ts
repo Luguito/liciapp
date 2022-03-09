@@ -45,6 +45,7 @@ export const HeaderCard = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 `
 
 export const BodyCard = styled.div`
@@ -83,6 +84,7 @@ export const RightActions = styled.div`
     justify-content: flex-end;
     align-items: flex-end;
     right:20px;
+    cursor: pointer;
 `
 export const LeftActions = styled.div`
     display: flex;

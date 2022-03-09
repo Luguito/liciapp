@@ -66,7 +66,7 @@ export const IsoLogo = styled.div`
   border-radius:50%;
 `
 export const UserName = styled.p`
-  margin: 3px 0;
+  margin: 1.5em 0 0 0;
   padding:0;
   font-family: '${FontLiciFamilyDefaultName}';
   font-weight: ${FontLiciWeightSemiBold};
