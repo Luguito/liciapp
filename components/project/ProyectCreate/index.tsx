@@ -25,15 +25,14 @@ import { createAdapter } from '../adapters/create.adapter';
 import { listGuestAdapter } from '../adapters/list.adapter';
 import { navigateTo } from 'utils/helpers';
 
-
 export const CreateProyect: FC<any> = ({ title }) => {
     const [guest, setGuest] = useState([]);
     const [organizations, setOrganizations] = useState([]);
     const [project, setProject] = useState({
         name: '',
         details: "",
-        'project-start': "",
-        'project-end': "",
+        'project-start': Date.now() || "",
+        'project-end': Date.now() || "",
         'project-documents': [],
         "technical-sheet": [],
         organizations: [],
@@ -76,25 +75,30 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const saveValues = (value, name) => {
-        if (['project-start', 'project-end'].includes(name)) {
-            let date = new Intl.DateTimeFormat('es-CO', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            }).format(value).split('/')
-
-            date.splice(0, 0, date.splice(2, 1)[0]);
-
-            return setProject({
-                ...project,
-                [name]: date.join('-')
-            })
-        }
-
         setProject({
             ...project,
             [name]: value
         })
+    }
+
+    const formatDates = () => {
+        let start = new Intl.DateTimeFormat('es-CO', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        }).format(project['project-start']).split('/');
+
+        let end = new Intl.DateTimeFormat('es-CO', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        }).format(project['project-end']).split('/');
+
+        start.splice(0, 0, start.splice(2, 1)[0]);
+        end.splice(0, 0, end.splice(2, 1)[0]);
+
+        project['project-start'] = start.join('-')
+        project['project-end'] = end.join('-');
     }
 
     const submitForm = async () => {
@@ -102,8 +106,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
             !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
         })
 
+        formatDates(); 
+        console.log(project)
         let res = await createAdapter(project);
-        navigateTo('/proyecto')
+        console.log(res)
+        // navigateTo('/proyecto')
     }
 
     const getTecnicalSheet = (value) => {
