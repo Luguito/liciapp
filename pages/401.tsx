@@ -3,6 +3,7 @@ import { APP_ACTIONS, LogoutAction } from '../store/actions/app.actions';
 import { GlobalState } from '../store/state';
 //import { logoutUrl } from '@addi-domains/identity-management/loginApp';
 import { connect, useDispatch } from 'react-redux';
+import Layout from '../layout'
 
 interface UnauthorizedPageProps {
     user:any
@@ -19,9 +20,10 @@ const UnauthorizedPage = (props: UnauthorizedPageProps) => {
     };
 
     return <>
-        <h1>Unauthorized user:</h1>
-        <p>current rol: </p>
-        <button onClick={logoutHandler}>LOGOUT</button>
+        <Layout userName={''}>
+            <h1>No esta autorizado para ingresar a esta pagina </h1>
+            <p></p>
+        </Layout>
     </>
 };
 

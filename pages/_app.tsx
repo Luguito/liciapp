@@ -44,7 +44,6 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   const { Component, ctx } = appContext;
   // @ts-ignore  -- ctx has no field store in typings
   const store: AlliesAppStore = ctx.store;
-  console.log(Component, store.getState())
  
   if (ctx.req && ctx.res) {
     const { res } = ctx;

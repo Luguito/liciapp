@@ -28,6 +28,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import { navigateTo } from '../../../../utils/helpers';
 import { useRolePermission } from '../../../../utils/permissionRole';
+import { deleteAdapter } from '../../adapters/delete.adapter '
 interface project {
     projectId: string;
     description: string;
@@ -41,11 +42,15 @@ interface ListProps {
 }
 
 export const List: FC<any> = (props) => {
-    const { projects } = props;
+    const { projects, onChange } = props;
     const currentUser = useRolePermission();
     console.log(props)
-    const handleDelete = () => {
-        console.log('delete project')
+    const handleDelete = async(id: string) => {
+        const index = projects.findIndex((project) => project['project-id'].id == id);
+        console.log('delete project', index)
+        const res = await deleteAdapter(id);
+        onChange(projects.filter(project => project['project-id'].id !== id))
+        //navigateTo(`/proyecto/edit/${id}`);
     }
 
     const handleEdit = (id) => {
@@ -98,7 +103,7 @@ export const List: FC<any> = (props) => {
                             </LeftActions>
                             {
                                 currentUser?.role !== "BE:ADMIN" ? '' : <RightActions>
-                                    <DeleteForeverIcon onClick={handleDelete} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
+                                    <DeleteForeverIcon onClick={() => handleDelete(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
                                     <EditIcon onClick={() => handleEdit(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1 }} />
                                 </RightActions>
                             }

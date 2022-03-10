@@ -42,3 +42,17 @@ export const httpPut = async (path: string, body: any, token?: string, options?:
     
     return response    
 }
+
+export const httpDelete = async (path: string, token?: string, options?: any): Promise<any> => {
+    const url = path;
+    options = {
+        ...options,
+        headers: {
+            ...options?.headers,
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await (await Axios.delete(url, { ...options })).data;
+    return response;
+}

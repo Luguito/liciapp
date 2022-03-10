@@ -69,7 +69,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                 </TabsRow>
 
                 <TabPanel value={value} index={0}>
-                    <List projects={list} />
+                    <List projects={list} onChange={setList} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <List projects={list} />

@@ -16,6 +16,7 @@ import { TestContainer } from '../../common/utils/items';
 import { listGuestAdapter } from '../adapters/list.adapter';
 import { updateAdapter } from '../adapters/update.adapter'
 import { navigateTo } from 'utils/helpers';
+import { deleteAdapter } from '../adapters/delete.adapter ';
 
 /** COMPONENT */
 export const EditProyect = () => {
@@ -70,6 +71,13 @@ export const EditProyect = () => {
         project['technical-sheet'] = value
     }
 
+    const getUniqueId = () => {
+        let s4 = () => {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
     const formatDates = () => {
         // @ts-ignore
         let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
@@ -89,14 +97,20 @@ export const EditProyect = () => {
     }
 
     const submitForm = async () => {
-        organizations.map(org => {
+        /*organizations.map(org => {
             !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
-        })
+        })*/
+        project['organizations']=[getUniqueId()]
         console.log(project)
         formatDates();
         let res = await updateAdapter(project, id);
         console.log(res)
         navigateTo('/proyecto')
+    }
+
+    const handleDelete = async() => {
+        const res = await deleteAdapter(id);
+        navigateTo(`/proyecto`);
     }
 
     return (
@@ -105,7 +119,7 @@ export const EditProyect = () => {
                 <Title>
                     Editar Proyecto
                 </Title>
-                <DeleteButton startIcon={<DeleteIcon />}>
+                <DeleteButton onClick={handleDelete} startIcon={<DeleteIcon />}>
                     Eliminar Proyecto
                 </DeleteButton>
             </HeaderContainer>
@@ -181,7 +195,7 @@ export const EditProyect = () => {
                 <TestContainer fn={getTecnicalSheet} edit={project['technical-sheet']}></TestContainer>
             </ContainerItems>
             <footer style={{ textAlign: 'right' }}>
-                <NextButton onClick={submitForm}>Edit Project</NextButton>
+                <NextButton onClick={submitForm}>Editar Proyecto</NextButton>
             </footer>
         </>
     );
