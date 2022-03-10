@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Ballot, Group } from '@material-ui/icons';
@@ -23,6 +23,7 @@ import {
   CompanyName,
   Divider
 } from './side-bar.styled';
+import { useRolePermission } from '../../utils/permissionRole';
 
 interface Route {
   label: string,
@@ -32,56 +33,10 @@ interface Route {
 
 const SideBar: FC<SideBarProps> = () => {
   const router = useRouter();
+  const currentUser = useRolePermission();
 
+  const routess = currentUser?.routesAvailables;
 
-  const routess = {
-    'BE:ADMIN': [
-      {
-        label: 'Proyectos',
-        path: '/proyecto',
-        iconName: 'ballot'
-      },
-      {
-        label: 'Usuarios',
-        path: '/usuario',
-        iconName: 'group'
-      },
-      {
-        label: 'Hojas de vida',
-        path: '/hojas-de-vida',
-        iconName: 'cv'
-      },
-    ],
-    'BE:LICI': [
-      {
-        label: 'Proyectos',
-        path: '/proyecto',
-        iconName: 'ballot'
-      },
-      {
-        label: 'Usuarios',
-        path: '/usuario',
-        iconName: 'group'
-      },
-    ],
-    'BE:COMPANY': [
-      {
-        label: "Mis Proyectos",
-        path: '/proyecto',
-        iconName: 'ballot'
-      },
-      {
-        label: "La Empresa",
-        path: '/empresa',
-        iconName: 'company'
-      },
-      {
-        label: 'Hojas de vida',
-        path: '/hojas-de-vida',
-        iconName: 'cv'
-      },
-    ]
-  }
   const routes = {
     home: '/',
     users: '/usuario',
@@ -107,12 +62,12 @@ const SideBar: FC<SideBarProps> = () => {
     company: BusinessIcon,
     cv: StickyNote2Icon
   }
-  const currentUser = JSON.parse(localStorage.getItem('user'));
+
   return (
     <SideBarContainer>
       <UserInfo>
         <IsoLogo></IsoLogo>
-        <UserName>{currentUser['first-name'] + ' ' + currentUser['last-name']}</UserName>
+        <UserName>{currentUser?.name}</UserName>
         {/* <CompanyName>Empresa</CompanyName> */}
       </UserInfo>
       {false && <NavList>
@@ -145,7 +100,7 @@ const SideBar: FC<SideBarProps> = () => {
       </NavList>}
       <NavList>
         {
-          routess[currentUser.licenses[0]].map((route, index) => {
+          routess?.map((route, index) => {
             const Icon = components[route.iconName];
 
             return (

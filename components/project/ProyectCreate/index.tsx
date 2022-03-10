@@ -95,16 +95,18 @@ export const CreateProyect: FC<any> = ({ title }) => {
     const formatDates = () => {
         
         // @ts-ignore
-        let start = new Date(project['project-start']);
+        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
         // @ts-ignore
-        let end = new Date(project['project-end']); 
+        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit',day: '2-digit',}).format(project['project-end']).split('/'); 
 
-        //start.splice(0, 0, start.splice(2, 1)[0]);
-        //end.splice(0, 0, end.splice(2, 1)[0]);
+        start.splice(0, 0, start.splice(2, 1)[0]);
+        start.splice(1, 0, start.splice(2, 1)[0]);
 
-        project['project-start'] = `${start.getFullYear()}-${start.getMonth() < 10 ? '0'+start.getMonth(): start.getMonth() }-${start.getDate() < 10 ? '0'+start.getDate(): start.getDate()}`
-        project['project-end'] = `${end.getFullYear()}-${end.getMonth() < 10 ? '0'+end.getMonth(): end.getMonth()}-${end.getDate() < 10 ? '0'+end.getDate(): end.getDate()}`
-        console.log(project['project-start'], project['project-end'])
+        end.splice(0, 0, end.splice(2, 1)[0]);
+        end.splice(1, 0, end.splice(2, 1)[0]);
+
+        project['project-start'] = start.join('-')
+        project['project-end'] = end.join('-');
     }
 
     const submitForm = async () => {
@@ -115,6 +117,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
         // })
 
         formatDates();
+        console.log(project)
         let res = await createAdapter(project);
         navigateTo('/proyecto')
     }

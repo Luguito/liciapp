@@ -1,10 +1,10 @@
-import {FC} from 'react';
-import { 
-    ListContainer, 
-    ProyectCard, 
-    HeaderCard, 
-    BodyCard, 
-    ActionsCard, 
+import { FC } from 'react';
+import {
+    ListContainer,
+    ProyectCard,
+    HeaderCard,
+    BodyCard,
+    ActionsCard,
     Title,
     Subtitle,
     Caption,
@@ -15,9 +15,9 @@ import {
     LeftActions,
     StyledBadge
 } from './list.styled'
-import { 
-    ColorLiciPrimaryActive, 
-    ColorLiciWhite, 
+import {
+    ColorLiciPrimaryActive,
+    ColorLiciWhite,
     ColorLiciGrayLighten1,
     ColorLiciGrayBase
 } from '@common'
@@ -27,14 +27,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import { navigateTo } from '../../../../utils/helpers';
-
+import { useRolePermission } from '../../../../utils/permissionRole';
 interface project {
-        projectId:string;
-        description: string;
-        startDate: string;
-        endDate: string;
-        totalApplications: number;
-        status?: string;
+    projectId: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    totalApplications: number;
+    status?: string;
 }
 interface ListProps {
     projects: project[]
@@ -42,6 +42,7 @@ interface ListProps {
 
 export const List: FC<any> = (props) => {
     const { projects } = props;
+    const currentUser = useRolePermission();
     console.log(props)
     const handleDelete = () => {
         console.log('delete project')
@@ -49,8 +50,6 @@ export const List: FC<any> = (props) => {
 
     const handleEdit = (id) => {
         const index = projects.findIndex((project) => project['project-id'].id == id);
-        
-        console.log(projects[index])
 
         localStorage.setItem('project', JSON.stringify(projects[index]));
         navigateTo(`/proyecto/edit/${id}`)
@@ -59,8 +58,6 @@ export const List: FC<any> = (props) => {
     const handleDetail = id => {
         const index = projects.findIndex((project) => project['project-id'].id == id);
 
-        console.log(projects[index])
-
         localStorage.setItem('project', JSON.stringify(projects[index]));
 
         navigateTo(`/proyecto/details/${id}`)
@@ -68,15 +65,17 @@ export const List: FC<any> = (props) => {
 
     return (
         <ListContainer>
-            { projects.map((project, index) => {
-                return ( 
+            {projects.map((project, index) => {
+                return (
                     <ProyectCard key={index}>
                         <HeaderCard onClick={() => handleDetail(project['project-id'].id)}>
                             <Subtitle>{project['full'].name}</Subtitle>
-                            <StyledBadge badgeContent={project.totalApplications}>
-                                <NotificationsIcon style={{color: ColorLiciGrayLighten1}}/>
-                            </StyledBadge>
-                            {false &&<Caption>Abierta</Caption>}
+                            {
+                                currentUser?.role !== "BE:ADMIN" ? '' : <StyledBadge badgeContent={project.totalApplications}>
+                                    <NotificationsIcon style={{ color: ColorLiciGrayLighten1 }} />
+                                </StyledBadge>
+                            }
+                            {false && <Caption>Abierta</Caption>}
                         </HeaderCard>
                         <BodyCard>
                             <Description>
@@ -97,10 +96,12 @@ export const List: FC<any> = (props) => {
                             <LeftActions>
 
                             </LeftActions>
-                            <RightActions>
-                                <DeleteForeverIcon onClick={handleDelete} style={{color: ColorLiciGrayLighten1, marginRight: '20px'}} />
-                                <EditIcon onClick={() => handleEdit(project['project-id'].id) } style={{color: ColorLiciGrayLighten1}} />
-                            </RightActions>
+                            {
+                                currentUser?.role !== "BE:ADMIN" ? '' : <RightActions>
+                                    <DeleteForeverIcon onClick={handleDelete} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
+                                    <EditIcon onClick={() => handleEdit(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1 }} />
+                                </RightActions>
+                            }
                         </ActionsCard>
                     </ProyectCard>
                 )

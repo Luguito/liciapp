@@ -13,36 +13,17 @@ import { List } from './List'
 import { navigateTo } from '../../../utils/helpers';
 import { listAdapter } from '../adapters/list.adapter';
 import { useDispatch } from 'react-redux';
-import { createAdapter} from '../adapters/create.adapter';
-
+import { createAdapter } from '../adapters/create.adapter';
+import { useRolePermission } from '@utils/permissionRole';
 export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
     const [value, setValue] = React.useState(0);
     const [list, setList] = React.useState([]);
-    const dispatch = useDispatch();
-    const payload = {
+    const currentUser = useRolePermission();
 
-        "name": "Projecto 3",
-        "details": "Projecto 3",
-        "project-start": "2022-02-02",
-        "project-end": "2022-12-02",
-        "project-documents": [
-            {
-                "document": "test-1"
-            }
-        ],
-        "technical-sheet": [
-            {
-                "test": "test-1"
-            }
-        ],
-        "organizations": [
-            "32b41014-833e-48bb-9800-4ab34c9cc7eec"
-        ]
-    }
+    const dispatch = useDispatch();
+
     useEffect(() => {
         (async function () {
-            // let create = await createAdapter(payload); 
-            // console.log(create);
             let res = await listAdapter();
             setList([...res.body]);
             // dispatch({ type: "APP.INIT_LIST", list: res.body });
@@ -68,12 +49,12 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
         <ProjectContainer>
             <HeaderContainer>
                 <Title>Proyectos</Title>
-                <CustomButton
-                    onClick={handleNewProject}
-                >
-                    <AddIcon style={{ color: ColorLiciWhite, fontSize: 'large' }} />
-                    NUEVO PROYECTO
-                </CustomButton>
+                {
+                    currentUser?.role === 'BE:ADMIN' && <CustomButton onClick={handleNewProject}>
+                        <AddIcon style={{ color: ColorLiciWhite, fontSize: 'large' }} />
+                        NUEVO PROYECTO
+                    </CustomButton>
+                }
             </HeaderContainer>
 
             <Box sx={{ width: '100%' }}>
@@ -84,7 +65,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
                             <NewTab label='Cerradas' {...a11yProps(1)} />
                         </NewTabs>
                     </Box>
-                    <Caption>Aplicaciones {value === 0 ? 'activas' : 'inactivas'}: 40</Caption>
+                    <Caption>Aplicaciones {value === 0 ? 'activas' : 'inactivas'}: {list.length}</Caption>
                 </TabsRow>
 
                 <TabPanel value={value} index={0}>

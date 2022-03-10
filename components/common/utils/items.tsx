@@ -112,8 +112,10 @@ export const Item = ({ item, fn, id, setValue }) => {
                 options={dummyOptions}
                 // @ts-ignore
                 getOptionLabel={(option) => option}
+                value={item.name}
+                onChange={(event, value) => setValue(value, 'name', id)}
                 renderInput={(params) => (
-                    <TextField {...params} onChange={({ target }) => setValue(target.value, 'name', id)} />
+                    <TextField {...params} />
                 )}
             />
             <ContainerCustomField>

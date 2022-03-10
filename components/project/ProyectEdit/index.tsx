@@ -26,8 +26,8 @@ export const EditProyect = () => {
     const [project, setProject] = useState({
         name: projectEditable['full'].name,
         details: projectEditable['details'].description,
-        'project-start': projectEditable['project-start'].date,
-        'project-end': projectEditable['project-end'].end,
+        'project-start': new Date(projectEditable['project-start'].date.split('-').join()),
+        'project-end': new Date(projectEditable['project-end'].end.split('-').join()),
         'project-documents': projectEditable['project-documents'].collections,
         "technical-sheet": projectEditable['technical-sheet'].collections,
         organizations: projectEditable['organizations'].collections,
@@ -56,24 +56,10 @@ export const EditProyect = () => {
             setGuest(guest.body);
             setDocument([...project['project-documents']])
         })()
+        console.log(project)
     }, [])
 
     const saveValues = (value, name) => {
-        if (['project-start', 'project-end'].includes(name)) {
-            let date = new Intl.DateTimeFormat('es-CO', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            }).format(value).split('/')
-
-            date.splice(0, 0, date.splice(2, 1)[0]);
-
-            return setProject({
-                ...project,
-                [name]: date.join('-')
-            })
-        }
-
         setProject({
             ...project,
             [name]: value
@@ -84,11 +70,30 @@ export const EditProyect = () => {
         project['technical-sheet'] = value
     }
 
+    const formatDates = () => {
+        // @ts-ignore
+        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
+        // @ts-ignore
+        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit',day: '2-digit',}).format(project['project-end']).split('/'); 
+
+        start.splice(0, 0, start.splice(2, 1)[0]);
+        start.splice(1, 0, start.splice(2, 1)[0]);
+
+        end.splice(0, 0, end.splice(2, 1)[0]);
+        end.splice(1, 0, end.splice(2, 1)[0]);
+
+        // @ts-ignore
+        project['project-start'] = start.join('-');
+        // @ts-ignore
+        project['project-end'] = end.join('-');
+    }
+
     const submitForm = async () => {
         organizations.map(org => {
             !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
         })
         console.log(project)
+        formatDates();
         let res = await updateAdapter(project, id);
         console.log(res)
         navigateTo('/proyecto')
@@ -108,7 +113,7 @@ export const EditProyect = () => {
             <TextareaAutosize
                 aria-label="empty textarea"
                 placeholder="Empty"
-                value={project['details'].description}
+                value={project.details}
                 style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
                 minRows={9}
                 onChange={({ target }) => saveValues(target.value, 'details')}
@@ -175,7 +180,7 @@ export const EditProyect = () => {
             <ContainerItems>
                 <TestContainer fn={getTecnicalSheet} edit={project['technical-sheet']}></TestContainer>
             </ContainerItems>
-            <footer>
+            <footer style={{ textAlign: 'right' }}>
                 <NextButton onClick={submitForm}>Edit Project</NextButton>
             </footer>
         </>
