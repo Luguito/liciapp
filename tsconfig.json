@@ -11,6 +11,7 @@
       "@store/*": ["store/*"],
       "@common": ["components/common/"],
       "@utils/*": ["utils/*"],
+      "@global-styled": ["styled-components/global-components.styled.ts"],
     },
     "allowJs": true,
     "skipLibCheck": true,

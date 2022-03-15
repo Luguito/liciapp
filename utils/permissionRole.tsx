@@ -34,6 +34,11 @@ export function useRolePermission() {
                 iconName: 'ballot'
             },
             {
+                label: 'Empresa',
+                path: '/empresa',
+                iconName: 'ballot'
+            },
+            {
                 label: 'Usuarios',
                 path: '/usuario',
                 iconName: 'group'

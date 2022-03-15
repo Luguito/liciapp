@@ -1,10 +1,11 @@
 import React from 'react';
 import withAuth from '../utils/withAuth'
-import Layout from '../layout'
+import Layout from '../layout';
+import { CompanyProfile } from '../components/profile/company'
 const EmpresaPage = () => {
     return (
         <Layout userName={''}>
-            <h1>Pagina de empresa</h1>
+            <CompanyProfile></CompanyProfile>
         </Layout>
     )
 };

@@ -36,7 +36,7 @@ const SideBar: FC<SideBarProps> = () => {
   const currentUser = useRolePermission();
 
   const routess = currentUser?.routesAvailables;
-
+  console.log(routess)
   const routes = {
     home: '/',
     users: '/usuario',
