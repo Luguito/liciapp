@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ContainerFlex, ElementList, IconsList, ItemList, ListDocuments, Logo, PurpleButton, TitleCreate } from '@global-styled';
-
+import { navigateTo } from '@utils/helpers';
 /** Icons */
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,14 +15,14 @@ export function CVPage() {
                 <TitleCreate>
                     Hojas de Vida
                 </TitleCreate>
-                <PurpleButton>Agregar</PurpleButton>
+                <PurpleButton onClick={() => navigateTo('/hojas-de-vida/create')}>Agregar</PurpleButton>
             </ContainerFlex>
             <ListDocuments>
                 {
                     dummy.map((item, index) => {
                         return (
                             <ElementList key={index}>
-                                <div style={{ display: 'flex', gap: '1em', alignItems: 'center'}}>
+                                <div style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
                                     <Logo></Logo>
                                     <ItemList>
                                         {item}

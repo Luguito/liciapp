@@ -18,6 +18,14 @@ export const TitleCreate = styled.h1`
         font-weight: 400;
     }
 `
+
+export const SubTitle = styled.h4`
+    font-family: ${FontLiciFamilyDefaultName};
+    && {
+        font-weight: 400;
+    }
+`
+
 export const ContainerFlex = styled.article`
     display: flex;
     justify-content: space-between;
