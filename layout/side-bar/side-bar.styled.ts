@@ -64,6 +64,7 @@ export const IsoLogo = styled.div`
   height: 40px;
   background: ${ColorLiciCompFiveBase};
   border-radius:50%;
+  overflow:hidden;
 `
 export const UserName = styled.p`
   margin: 1.5em 0 0 0;

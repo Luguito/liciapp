@@ -91,7 +91,7 @@ export const NewActionButton = styled(Button)`
 export const ContainerItems = styled.ul`
     font-family: ${FontLiciFamilyDefaultName};
     list-style: none;
-    padding: 0 0.7em 0 0.7em;
+    padding: 0;
 `
 export const Items = styled.li`
     display: flex;

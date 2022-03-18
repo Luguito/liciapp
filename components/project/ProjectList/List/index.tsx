@@ -87,7 +87,7 @@ export const List: FC<any> = (props) => {
                         <HeaderCard onClick={() => handleDetail(project['project-id'].id)}>
                             <Subtitle>{project['full'].name}</Subtitle>
                             {
-                                currentUser?.role !== "BE:ADMIN" ? '' : <StyledBadge badgeContent={project.totalApplications}>
+                                ['BE:ADMIN','BE:LICI'].includes(currentUser?.role) && <StyledBadge badgeContent={project.totalApplications}>
                                     <NotificationsIcon style={{ color: ColorLiciGrayLighten1 }} />
                                 </StyledBadge>
                             }
@@ -113,7 +113,7 @@ export const List: FC<any> = (props) => {
 
                             </LeftActions>
                             {
-                                currentUser?.role !== "BE:ADMIN" ? '' : <RightActions>
+                                ['BE:ADMIN','BE:LICI'].includes(currentUser?.role) && <RightActions>
                                     <DeleteForeverIcon onClick={() => handleDelete(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
                                     <EditIcon onClick={() => handleEdit(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1 }} />
                                 </RightActions>

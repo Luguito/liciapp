@@ -184,13 +184,6 @@ export const EditProyect = () => {
             <SubTitle>
                 Propuesta economica
             </SubTitle>
-            <HeaderItems>
-                <p>Descriptor</p>
-                <p>Unidad</p>
-                <p>Cantidad</p>
-                <p>Valor unitario</p>
-                <p>Valor total</p>
-            </HeaderItems>
             <ContainerItems>
                 <TestContainer fn={getTecnicalSheet} edit={project['technical-sheet']}></TestContainer>
             </ContainerItems>

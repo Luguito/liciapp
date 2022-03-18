@@ -67,7 +67,7 @@ const SideBar: FC<SideBarProps> = () => {
     <SideBarContainer>
       <UserInfo>
         <IsoLogo>
-          <img src="../public/assets/lici.jpeg" alt="Logo" />
+          <img width="100%" src="/assets/lici.jpeg" alt="Logo" />
         </IsoLogo>
         <UserName>{currentUser?.name}</UserName>
         {/* <CompanyName>Empresa</CompanyName> */}

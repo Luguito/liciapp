@@ -3,7 +3,7 @@ import { ContainerItems, Items, NewActionButton } from '../../project/ProyectEdi
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import AddIcon from '@mui/icons-material/Add';
 import { TextField } from '@mui/material'
-import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField } from './utils.styled';
+import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField, InputContainer, Label } from './utils.styled';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { TreeView, TreeItem } from '@mui/lab';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -121,6 +121,14 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
 
 export default TestContainer;
 
+const getId = (id: string) => {
+    const caracteres =  id.split('.');
+    const value = caracteres.length == 1 ? Number(id)+1 : caracteres.length > 1 && Number(caracteres[1]) == 0 ? 
+                    `${Number(caracteres[0]) + 1}.1` : 
+                    `${Number(caracteres[0])}.${Number(caracteres[1]+1)}`
+    return value
+}
+
 export const Item = ({ item, fn, id, setValue }) => {
     const dummyOptions = [
         'EXCAVACION Y RETIRO DEL MATERIAL',
@@ -135,31 +143,47 @@ export const Item = ({ item, fn, id, setValue }) => {
     return (
         <TreeItem onClick={() => fn(id)} nodeId={id} style={{ marginTop: '0.7em' }} label={
             <Container>
-                <CustomAutoComplete
-                    options={dummyOptions}
-                    // @ts-ignore
-                    getOptionLabel={(option) => option}
-                    value={item.name}
-                    onChange={(event, value) => setValue(value, 'name', id)}
-                    renderInput={(params) => (
-                        <TextField {...params} />
-                    )}
-                />
-                <ContainerCustomField>
-                    <CustomAutoComplete
-                        style={{ width: '20%' }}
-                        options={unitOptions}
+                    <p> {id} </p>
+                <InputContainer>
+                    <Label>Descriptor</Label>
+                   <CustomAutoComplete
+                        options={dummyOptions}
                         // @ts-ignore
                         getOptionLabel={(option) => option}
-                        value={item.unit ?? 'und'}
-                        onChange={(event, value) => setValue(value, 'unit', id)}
+                        value={item.name}
+                        onChange={(event, value) => setValue(value, 'name', id)}
                         renderInput={(params) => (
                             <TextField {...params} />
                         )}
                     />
-                    <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
-                    <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
-                    <p>{'$' + (item.qtyUnit * item.qty)}</p>
+                </InputContainer>
+                <ContainerCustomField>
+                    <InputContainer>
+                        <Label>Unidad</Label>
+                        <CustomAutoComplete
+                            style={{ width: '100%' }}
+                            options={unitOptions}
+                            // @ts-ignore
+                            getOptionLabel={(option) => option}
+                            value={item.unit ?? 'und'}
+                            onChange={(event, value) => setValue(value, 'unit', id)}
+                            renderInput={(params) => (
+                                <TextField {...params} />
+                            )}
+                        />
+                    </InputContainer>   
+                    <InputContainer>
+                        <Label>Cantidad</Label>
+                        <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
+                    </InputContainer>   
+                    <InputContainer>
+                        <Label>Valor unitario</Label> 
+                        <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
+                    </InputContainer>     
+                    <InputContainer>
+                        <Label>Valor total</Label> 
+                        <p>{'$' + (item.qtyUnit * item.qty)}</p>
+                    </InputContainer>
                 </ContainerCustomField>
             </Container>
         }>

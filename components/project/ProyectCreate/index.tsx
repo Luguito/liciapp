@@ -222,13 +222,6 @@ export const CreateProyect: FC<any> = ({ title }) => {
                     </form>
                 </TabPanel>
                 <TabPanel value="2">
-                    <HeaderItems>
-                        <p>Descriptor</p>
-                        <p>Unidad</p>
-                        <p>Cantidad</p>
-                        <p>Valor unitario</p>
-                        <p>Valor total</p>
-                    </HeaderItems>
                     <ContainerItems>
                         <TestContainer fn={getTecnicalSheet}></TestContainer>
                     </ContainerItems>
