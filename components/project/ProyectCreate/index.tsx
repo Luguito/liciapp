@@ -24,7 +24,8 @@ import TabList from '@mui/lab/TabList';
 import { createAdapter } from '../adapters/create.adapter';
 import { listGuestAdapter } from '../adapters/list.adapter';
 import { navigateTo } from 'utils/helpers';
-
+import { AddDocuments } from '@global-styled';
+import { AttachFile } from '@material-ui/icons';
 interface proyectType {
     name: string,
     details: string,
@@ -93,11 +94,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const formatDates = () => {
-        
+
         // @ts-ignore
-        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
+        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(project['project-start']).split('/');
         // @ts-ignore
-        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit',day: '2-digit',}).format(project['project-end']).split('/'); 
+        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(project['project-end']).split('/');
 
         start.splice(0, 0, start.splice(2, 1)[0]);
         start.splice(1, 0, start.splice(2, 1)[0]);
@@ -197,7 +198,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                                 )}
                             />
                         </ContainerInputs>
-                        <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('project-documents')} style={{ marginTop: 20 }}></TextField>
+                        <AddDocuments  onClick={() => triggerInputFile('project-documents')} style={{ marginTop: 20 }} endIcon={<AttachFile></AttachFile>}>Documentos</AddDocuments>
                         {documents.map((item, index) => {
                             return (
                                 <ListDocuments key={index}>

@@ -28,7 +28,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import { navigateTo } from '../../../../utils/helpers';
 import { useRolePermission } from '../../../../utils/permissionRole';
-import { deleteAdapter } from '../../adapters/delete.adapter '
+import { deleteAdapter } from '../../adapters/delete.adapter ';
+import Swal from 'sweetalert2';
 interface project {
     projectId: string;
     description: string;
@@ -45,12 +46,22 @@ export const List: FC<any> = (props) => {
     const { projects, onChange } = props;
     const currentUser = useRolePermission();
     console.log(props)
-    const handleDelete = async(id: string) => {
-        const index = projects.findIndex((project) => project['project-id'].id == id);
-        console.log('delete project', index)
-        const res = await deleteAdapter(id);
-        onChange(projects.filter(project => project['project-id'].id !== id))
-        //navigateTo(`/proyecto/edit/${id}`);
+    
+    const handleDelete = async (id: string) => {
+        Swal.fire({
+            title: 'Eliminar proyecto',
+            text: 'Seguro que desea eliminar el proyecto?',
+            icon: 'info',
+            confirmButtonText: 'Si',
+            showCancelButton: true,
+            cancelButtonText: 'No'
+        }).then(async ({ value }) => {
+
+            if (value) {
+                const res = await deleteAdapter(id);
+                onChange(projects.filter(project => project['project-id'].id !== id))
+            }
+        });
     }
 
     const handleEdit = (id) => {

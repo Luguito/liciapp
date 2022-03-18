@@ -1,17 +1,20 @@
-import React, { useEffect, useState,FC } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { ContainerItems, Items, NewActionButton } from '../../project/ProyectEdit/edit.styled';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import AddIcon from '@mui/icons-material/Add';
 import { TextField } from '@mui/material'
 import { CustomAutoComplete, Container, CustomTextField, ContainerCustomField } from './utils.styled';
-
+import RemoveIcon from '@mui/icons-material/Remove';
+import { TreeView, TreeItem } from '@mui/lab';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 interface testContainerProps {
     fn: any;
     edit?: any;
 }
 
 export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
-    const [itemIndex, setIndex] = useState('');
+    const [itemIndex, setIndex] = useState('0');
 
     const [name, setName] = useState(edit ?? [
         {
@@ -86,74 +89,100 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
         setName([...name])
     }
 
-    return (
-        <div>
-            <TestItem items={name} fn={setIndex} setValue={changeInput}></TestItem>
-            <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
-            <NewActionButton startIcon={<AddIcon />} onClick={() => addRow()}>Nueva Fila</NewActionButton>
-        </div>
-    );
-};
+    const deleteItem = () => {
+        let item = itemIndex;
 
-export const Item = ({ item, fn, id, setValue }) => {
+        let element = getElement(item, false);
+
+        console.log(element)
+
+        // setName([...name]);
+    }
     const dummyOptions = [
-        'EXCAVACION Y RETIRO DEL MATERIAL', 
-        'RELLENO PIEDRA RAJON', 
-        'RELLENO CON TRITURADO CALIZO TM 3 PULGADAS', 
+        'EXCAVACION Y RETIRO DEL MATERIAL',
+        'RELLENO PIEDRA RAJON',
+        'RELLENO CON TRITURADO CALIZO TM 3 PULGADAS',
         'SUMINISTRO E INSTALACIÓN DE GEOTEXTIL FORTEX BX-40 O SIMILAR',
         'SUMINISTRO E INSTALACIÓN DE GEOMALLA TENSAR TX-160 O SIMILAR',
         'CONFORMACION Y COMPACTACION DE BANCA'
     ];
-    const unitOptions = ['Und', 'Mts2', 'Pulg']
-    return <Items onClick={() => fn(id)}>
-        <OpenWithIcon></OpenWithIcon>
-        <Container>
-            <CustomAutoComplete
-                options={dummyOptions}
-                // @ts-ignore
-                getOptionLabel={(option) => option}
-                value={item.name}
-                onChange={(event, value) => setValue(value, 'name', id)}
-                renderInput={(params) => (
-                    <TextField {...params} />
-                )}
-            />
-            <ContainerCustomField>
-                <CustomAutoComplete
-                    style={{width: '20%'}}
-                    options={unitOptions}
-                    // @ts-ignore
-                    getOptionLabel={(option) => option}
-                    value={item.unit ?? 'und'}
-                    onChange={(event, value) => setValue(value, 'unit', id)}
-                    renderInput={(params) => (
-                        <TextField {...params} />
-                    )}
-                />
-                <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
-                <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
-                <p>{'$' + (item.qtyUnit * item.qty)}</p>
-            </ContainerCustomField>
-        </Container>
-    </Items>;
+    return (
+        <div>
+            <TreeView defaultCollapseIcon={<ArrowRightIcon />} defaultExpandIcon={<ArrowDropDownIcon />} sx={{ flexGrow: 1, overflowY: 'auto' }}>
+                <TestItem items={name} fn={setIndex} setValue={changeInput}></TestItem>
+            </TreeView>
+
+            <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
+            <NewActionButton startIcon={<AddIcon />} onClick={() => addRow()}>Nueva Fila</NewActionButton>
+            <NewActionButton startIcon={<RemoveIcon />} onClick={() => deleteItem()}>Eliminar Item</NewActionButton>
+        </div>
+    );
 };
 
 export default TestContainer;
 
+export const Item = ({ item, fn, id, setValue }) => {
+    const dummyOptions = [
+        'EXCAVACION Y RETIRO DEL MATERIAL',
+        'RELLENO PIEDRA RAJON',
+        'RELLENO CON TRITURADO CALIZO TM 3 PULGADAS',
+        'SUMINISTRO E INSTALACIÓN DE GEOTEXTIL FORTEX BX-40 O SIMILAR',
+        'SUMINISTRO E INSTALACIÓN DE GEOMALLA TENSAR TX-160 O SIMILAR',
+        'CONFORMACION Y COMPACTACION DE BANCA'
+    ];
+    const unitOptions = ['M2', 'UN', 'GL', 'ML', 'M3']
+
+    return (
+        <TreeItem onClick={() => fn(id)} nodeId={id} style={{ marginTop: '0.7em' }} label={
+            <Container>
+                <CustomAutoComplete
+                    options={dummyOptions}
+                    // @ts-ignore
+                    getOptionLabel={(option) => option}
+                    value={item.name}
+                    onChange={(event, value) => setValue(value, 'name', id)}
+                    renderInput={(params) => (
+                        <TextField {...params} />
+                    )}
+                />
+                <ContainerCustomField>
+                    <CustomAutoComplete
+                        style={{ width: '20%' }}
+                        options={unitOptions}
+                        // @ts-ignore
+                        getOptionLabel={(option) => option}
+                        value={item.unit ?? 'und'}
+                        onChange={(event, value) => setValue(value, 'unit', id)}
+                        renderInput={(params) => (
+                            <TextField {...params} />
+                        )}
+                    />
+                    <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
+                    <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
+                    <p>{'$' + (item.qtyUnit * item.qty)}</p>
+                </ContainerCustomField>
+            </Container>
+        }>
+        </TreeItem>
+    )
+};
 
 export const TestItem = ({ items, fn, setValue }) => {
+
     useEffect(() => {
-        console.log(items)
-    }, [])
+        console.log(items);
+    }, []);
+
     return items.map((item, index) => (
         <>
             {
                 item.child && item.child.length > 0 ? (
                     <>
                         <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>
-                        <ContainerItems>
+                        <TreeItem nodeId={item.id} label={
                             <TestItem items={item.child} fn={fn} setValue={setValue}></TestItem>
-                        </ContainerItems>
+                        }>
+                        </TreeItem>
                     </>
                 ) : (
                     <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>

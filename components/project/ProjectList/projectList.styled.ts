@@ -1,4 +1,4 @@
-import { Header2 } from '@common';
+import { ColorLiciGrayLighten1, ColorLiciGrayLighten2, Header2 } from '@common';
 import { ColorLiciPrimaryActive, FontLiciFamilyDefaultName } from '@common'
 import { FontLiciWeightRegular, FontLiciWeightMedium } from '@common'
 import { SizeLiciFontXxSmall } from '@common'
@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import styled from 'styled-components';
 import Tab, { tabClasses } from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import { ColorLiciGrayLighten3 } from 'components/common/iu-template/mobile/colors';
 
 export const ProjectContainer = styled.div`
     font-family: ${FontLiciFamilyDefaultName};
@@ -38,7 +39,7 @@ export const Title = styled(Header2)`
 
 export const NewTab = styled(Tab)`
     font-family: Roboto;
-    color: white;
+    color: ${ColorLiciGrayLighten1};
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: bold;
@@ -47,10 +48,10 @@ export const NewTab = styled(Tab)`
     border: none;
     border-radius: 5px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     
     && {
-        align-items: flex-start;
+        align-items: center;
         margin: 0;
         padding: 0;
     }

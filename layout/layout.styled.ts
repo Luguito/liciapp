@@ -16,8 +16,6 @@ export const PageContainer = styled.section`
 `;
 
 export const CleanContent = styled.div`
-  margin-left: 100px;
-  width: 70%;
   min-width: 700px;
   background-color: ${ColorLiciBackgroundWhite};
   padding: 35px 50px;

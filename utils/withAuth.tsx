@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 const withAuth = (WrappedComponent) => {
   const availablesRoutes = {
-    'BE:LICI': ['/proyecto', '/proyecto/details/[id]', '/usuario', '/', '/empresa'],
-    'BE:COMPANY': ['/proyecto', '/proyecto/details/[id]', '/empresa', '/hojas-de-vida', '/hojas-de-vida/create','/'],
-    'BE:ADMIN': ['/proyecto', '/proyecto/nuevo', '/proyecto/edit/[id]', '/proyecto/details/[id]', '/usuario', '/hojas-de-vida', '/hojas-de-vida/create','/']
+    'BE:LICI': ['/proyecto', '/proyecto/nuevo', '/proyecto/edit/[id]', '/proyecto/details/[id]', '/usuario', '/'],
+    'BE:COMPANY': ['/proyecto', '/proyecto/details/[id]', '/empresa', '/hojas-de-vida', '/hojas-de-vida/create', '/'],
+    'BE:ADMIN': ['/proyecto', '/proyecto/nuevo', '/proyecto/edit/[id]', '/proyecto/details/[id]', '/usuario', '/hojas-de-vida', '/hojas-de-vida/create', '/']
   }
   return (props) => {
     // checks whether we are on client / browser or server.

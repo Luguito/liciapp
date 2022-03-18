@@ -11,15 +11,12 @@ export function CreateCV() {
     }]);
 
     function addProject() {
-        proyects.push({
+        setProyects([...proyects, {
             name: '',
             date_start: '',
             date_end: '',
             job: ''
-        });
-
-        setProyects(proyects);
-        console.log(proyects)
+        }]);
     }
 
     return (
@@ -64,7 +61,8 @@ export function CreateCV() {
                     </ContainerFlex>
                 )
             })}
-            <TextField fullWidth placeholder="Hoja de vida (PDF)" size="small" style={{ marginTop: '2em' }}></TextField>
+            <TextField fullWidth placeholder="Hoja de vida (PDF
+            )" size="small" style={{ marginTop: '2em' }}></TextField>
             <PurpleButton>Siguiente</PurpleButton>
         </>
     )

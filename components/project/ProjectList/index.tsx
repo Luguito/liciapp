@@ -50,7 +50,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
             <HeaderContainer>
                 <Title>Proyectos</Title>
                 {
-                    currentUser?.role === 'BE:ADMIN' && <CustomButton onClick={handleNewProject}>
+                    ['BE:ADMIN','BE:LICI'].includes(currentUser?.role) && <CustomButton onClick={handleNewProject}>
                         <AddIcon style={{ color: ColorLiciWhite, fontSize: 'large' }} />
                         NUEVO PROYECTO
                     </CustomButton>

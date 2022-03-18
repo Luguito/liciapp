@@ -95,3 +95,16 @@ export const DocumentName = styled.div`
     align-items: center;
     font-family: ${FontLiciFamilyDefaultName};
 `
+
+export const AddDocuments = styled(Button)`
+    && {
+        width: 100%;
+        background-color: #FFF;
+        border-radius: 4px;
+        border: 1px solid #ccc8c8;
+        display: flex;
+        justify-content: space-between;
+        color: #ccc8c8;
+        padding: 8px 19px;
+    }
+`
