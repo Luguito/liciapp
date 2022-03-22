@@ -90,13 +90,15 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
     }
 
     const deleteItem = () => {
-        let item = itemIndex;
+        let indexArr = itemIndex.split('.');
 
-        let element = getElement(item, false);
+        let itemDeleted = indexArr.splice(indexArr.length - 1, 1).join();
 
-        console.log(element)
+        let element = getElement(indexArr.join('.'), false);
 
-        // setName([...name]);
+        element.child ? delete element.child[itemDeleted] : delete element[itemDeleted];
+
+        setName([...name])
     }
     const dummyOptions = [
         'EXCAVACION Y RETIRO DEL MATERIAL',
@@ -122,10 +124,10 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
 export default TestContainer;
 
 const getId = (id: string) => {
-    const caracteres =  id.split('.');
-    const value = caracteres.length == 1 ? Number(id)+1 : caracteres.length > 1 && Number(caracteres[1]) == 0 ? 
-                    `${Number(caracteres[0]) + 1}.1` : 
-                    `${Number(caracteres[0])}.${Number(caracteres[1]+1)}`
+    const caracteres = id.split('.');
+    const value = caracteres.length == 1 ? Number(id) + 1 : caracteres.length > 1 && Number(caracteres[1]) == 0 ?
+        `${Number(caracteres[0]) + 1}.1` :
+        `${Number(caracteres[0])}.${Number(caracteres[1] + 1)}`
     return value
 }
 
@@ -143,10 +145,10 @@ export const Item = ({ item, fn, id, setValue }) => {
     return (
         <TreeItem onClick={() => fn(id)} nodeId={id} style={{ marginTop: '0.7em' }} label={
             <Container>
-                    <p> {id} </p>
+                <p> {id.split('.').map((i, index) => Number(i) + 1 + (id.split('.').length - 1 === index ? '' : '.'))  } </p>
                 <InputContainer>
                     <Label>Descriptor</Label>
-                   <CustomAutoComplete
+                    <CustomAutoComplete
                         options={dummyOptions}
                         // @ts-ignore
                         getOptionLabel={(option) => option}
@@ -171,17 +173,17 @@ export const Item = ({ item, fn, id, setValue }) => {
                                 <TextField {...params} />
                             )}
                         />
-                    </InputContainer>   
+                    </InputContainer>
                     <InputContainer>
                         <Label>Cantidad</Label>
                         <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
-                    </InputContainer>   
+                    </InputContainer>
                     <InputContainer>
-                        <Label>Valor unitario</Label> 
+                        <Label>Valor unitario</Label>
                         <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
-                    </InputContainer>     
+                    </InputContainer>
                     <InputContainer>
-                        <Label>Valor total</Label> 
+                        <Label>Valor total</Label>
                         <p>{'$' + (item.qtyUnit * item.qty)}</p>
                     </InputContainer>
                 </ContainerCustomField>
