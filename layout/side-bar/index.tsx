@@ -24,7 +24,7 @@ import {
   Divider
 } from './side-bar.styled';
 import { useRolePermission } from '../../utils/permissionRole';
-
+import { logoutAdapter } from '../../components/auth/components/login/adapters/login.adapter';
 interface Route {
   label: string,
   path: string,
@@ -44,9 +44,10 @@ const SideBar: FC<SideBarProps> = () => {
     logout: '/logout'
   };
 
-  const logout = () => {
+  const logout = async () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('token')
+      await logoutAdapter();
+      localStorage.removeItem('token');
     }
     router.push('/login')
   }

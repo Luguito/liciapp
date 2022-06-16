@@ -22,6 +22,7 @@ import {
 import {  APP_ACTIONS } from "../../../../../store/actions/app.actions";
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { LoginProps } from "./cardForm.types";
+import { navigateTo } from "@utils/helpers";
 
 const CardForm: React.FC<LoginProps> = ({ submitForm }) => {
     const dispatch = useDispatch();
@@ -94,6 +95,7 @@ const CardForm: React.FC<LoginProps> = ({ submitForm }) => {
                         />
                     </FormControl>
                 </ContainerField>
+                <SubTitle onClick={() => navigateTo('/forgot')}>Olvidaste la contraseña?</SubTitle>
                 <ContainerButton >
                     <Button 
                         variant="contained" 

@@ -23,7 +23,8 @@ const Login = (props: LoginProps) => {
     const onSubmit = async (payload) => {
         const response = await loginAdapter(payload);
 
-        const accessToken = response?.body['access-token'];
+        const accessToken = response?.body["id-token"];
+
         if (accessToken) {
             dispatch({type: APP_ACTIONS.SET_USER , user: response?.body['license-token']})
             setToken('token', accessToken);
