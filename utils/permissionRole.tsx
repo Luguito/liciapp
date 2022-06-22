@@ -68,9 +68,9 @@ export function useRolePermission() {
 
             setUser({
                 ...user,
-                routesAvailables: routesAvailables[currentUser.licenses[0]],
-                name: currentUser['first-name'] + ' ' + currentUser['last-name'],
-                role: currentUser.licenses[0]
+                routesAvailables: routesAvailables[currentUser['permission-name']],
+                name: currentUser['full-name'],
+                role: currentUser['permission-name']
             });
 
         }

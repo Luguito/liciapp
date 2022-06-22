@@ -27,3 +27,16 @@ export const getCompanys = async () => {
         console.error(e)
     }
 }
+
+export const getUsers = async () => {
+    const path = "company/api/user/v1/enable-organizations";
+    const { LOGIN_URL } = getConfig().publicRuntimeConfig
+    try {
+        const response = await httpGet(`${LOGIN_URL}/${path}`, localStorage.getItem('token'));
+        console.log(response);
+
+        return response;
+    } catch (e) {
+        console.error(e)
+    }
+}

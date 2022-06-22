@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardForm from './cardForm';
 import { loginAdapter } from "./adapters/login.adapter";
 import { navigateTo, setToken } from "../../../../utils/helpers";
@@ -20,15 +20,16 @@ const Login = (props: LoginProps) => {
     const dispatch = useDispatch();
     const [ alertVisible, setAlertVisible ] = useState(false);
     const MySwal = withReactContent(Swal)
+
     const onSubmit = async (payload) => {
         const response = await loginAdapter(payload);
 
         const accessToken = response?.body["id-token"];
 
         if (accessToken) {
-            dispatch({type: APP_ACTIONS.SET_USER , user: response?.body['license-token']})
+            dispatch({type: APP_ACTIONS.SET_USER , user: response?.body.user});
             setToken('token', accessToken);
-            setToken('user', JSON.stringify(response?.body['license-token']))
+            setToken('user', JSON.stringify(response?.body.user));
             navigateTo('/');
         } else {
             await MySwal.fire({

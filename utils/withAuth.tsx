@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent) => {
       const Router = useRouter();
       const accessToken = localStorage.getItem("token");
       if (localStorage.getItem('user')) {
-        const permissions = JSON.parse(localStorage.getItem('user'))?.licenses[0];
+        const permissions = JSON.parse(localStorage.getItem('user'))['permission-name'];
         // If user try to get access to route where he dont have permission we redirect to error page
         if (!availablesRoutes[permissions].includes(Router.route)) {
           Router.replace("/401")
