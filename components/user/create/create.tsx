@@ -127,7 +127,7 @@ export const CreateUser = ({ user }) => {
                         style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
                         minRows={9}
                         onChange={(e) => setFields('details', e.target.value)}
-                        value={form['description']}
+                        value={form['details']}
                     />
                 </ContainerFields>
                 <ContainerFields>
