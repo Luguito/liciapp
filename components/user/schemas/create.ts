@@ -22,3 +22,12 @@ export const createSchema = yup.object().shape({
         .string()
         .required("Telefono requerido")
 })
+
+export const createWithOrg = yup.object().shape({
+    "first-name": yup.string().required("Requerido"),
+    "middle-name": yup.string().required("Requerido"),
+    "last-name": yup.string().required("Requerido"),
+    "second-last-name": yup.string().required("Requerido"),
+    "login-email": yup.string().required("Requerido"),
+    "license": yup.string().required("Requerido"),
+})

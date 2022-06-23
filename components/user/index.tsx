@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Modal } from '@mui/material';
 import { getUsers, deleteAdapter } from './adapters/user.adapter';
+import Swal from 'sweetalert2';
 
 export const UserComponent = () => {
     // const [dummy, setDummy] = useState(['Andres Camilo', 'Peter Parker', 'Fuego-sama', 'Francisco Gomez', 'Dr. Doom', 'Dr. Strange', 'Vision', 'Wanda', 'Tony Stark', 'La Venganza', 'The Batman']);
@@ -38,9 +39,15 @@ export const UserComponent = () => {
         try {
             await deleteAdapter(userId);
             await getUsersHandler();
+            Swal.fire("Eliminado", "Se ha eliminado el usuario", 'success')
         } catch (e) {
             console.error(e)
         }
+    }
+
+    const finalEvent = async () => {
+        await getUsersHandler()
+        setCreateOpen(false);
     }
     return (
         <>
@@ -74,7 +81,7 @@ export const UserComponent = () => {
                 }
             </ListDocuments>
             <Modal open={createOpen} onClose={() => setCreateOpen(false)}>
-                <CreateUser user={user} />
+                <CreateUser user={user} final={finalEvent}/>
             </Modal>
         </>
     )

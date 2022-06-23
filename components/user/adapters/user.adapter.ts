@@ -15,6 +15,21 @@ export const createAdapter = async (data: IUser) => {
     }
 }
 
+export const createUserInOrganization = async (data:any) => {
+    let orgId = JSON.parse(localStorage.user)['organization-id'];
+    const path = `company/api/user/v1/${orgId}/create-user-organization-enable`;
+    const { LOGIN_URL } = getConfig().publicRuntimeConfig
+    
+    try {
+        const response = await httpPost(`${LOGIN_URL}/${path}`, { ...data }, localStorage.getItem('token'));
+        console.log(response);
+
+        return response;
+    } catch (e) {
+        console.error(e)
+    }
+}
+
 export const updateAdapter = async (data: IUser, orgId: string) => {
     const path = `company/api/user/v1/${orgId}/update`;
     const { LOGIN_URL } = getConfig().publicRuntimeConfig
@@ -24,10 +39,10 @@ export const updateAdapter = async (data: IUser, orgId: string) => {
         return response
     } catch (e) {
         console.error(e)
-    }   
+    }
 }
 
-export const deleteAdapter = async (userId:string) => {
+export const deleteAdapter = async (userId: string) => {
     const path = `company/api/user/v1/${userId}/delete`;
     const { LOGIN_URL } = getConfig().publicRuntimeConfig
     try {
@@ -36,7 +51,7 @@ export const deleteAdapter = async (userId:string) => {
         return response
     } catch (e) {
         console.error(e)
-    }   
+    }
 }
 
 export const getCompanys = async () => {
