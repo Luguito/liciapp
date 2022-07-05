@@ -31,9 +31,8 @@ interface proyectType {
     details: string,
     'project-start': number | string | Date,
     'project-end': number | string | Date,
-    'project-documents': object,
-    "technical-sheet": object,
-    organizations: object,
+    'documents': object,
+    "technical-document": object,
 }
 
 export const CreateProyect: FC<any> = ({ title }) => {
@@ -44,9 +43,8 @@ export const CreateProyect: FC<any> = ({ title }) => {
         details: "",
         'project-start': Date.now() || "",
         'project-end': Date.now() || "",
-        'project-documents': [],
-        "technical-sheet": [],
-        organizations: [],
+        'documents': [],
+        "technical-document": [],
     });
 
     const { register, handleSubmit, errors, setValue, control } = useForm({
@@ -54,10 +52,10 @@ export const CreateProyect: FC<any> = ({ title }) => {
     })
 
     useEffect(() => {
-        (async function () {
-            let guest = await listGuestAdapter();
-            setGuest(guest.body);
-        })()
+        // (async function () {
+        //     let guest = await listGuestAdapter();
+        //     setGuest(guest.body);
+        // })()
         register({ name: 'name' });
         register({ name: 'details' });
         register({ name: 'project-start' });
@@ -79,9 +77,15 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
         input.click();
 
-        input.addEventListener('change', (e) => {
-            setDocument([...documents, ...e.target['files']])
-            project[name] = [...e.target['files']];
+        input.addEventListener('change', async (e) => {
+            console.log(e.target['files'])
+            let base: any = await convertFileToBase64(e.target['files'][0]);
+            let document = {
+                name: e.target['files'][0].name,
+                "binary-file": base.split('base64,')[1]
+            }
+            setDocument([...documents, document])
+            project[name] = [...documents, document];
         });
     }
 
@@ -111,7 +115,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
     }
 
     const submitForm = async () => {
-        project['organizations'] = [getUniqueId()];
+        // project['organizations'] = [getUniqueId()];
 
         // organizations.map(org => {
         //     !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
@@ -119,12 +123,24 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
         formatDates();
         console.log(project)
+        project['technical-document'] = [{
+            "tittle-documentation": "colocar piso",
+            "details-documentation": [{
+                unit: "m3",
+                quantity: 2,
+                "unit-amount": 21,
+                "partial-amount": 20.5,
+                name:'asd'
+            }]
+        }]
         let res = await createAdapter(project);
-        navigateTo('/proyecto')
+        console.log(res)
+        // navigateTo('/proyecto')
     }
 
     const getTecnicalSheet = (value) => {
-        project['technical-sheet'] = value
+        console.log(value)
+        project['technical-document'] = value
     }
 
     const getUniqueId = () => {
@@ -133,6 +149,16 @@ export const CreateProyect: FC<any> = ({ title }) => {
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
+
+
+    const convertFileToBase64 = (file: File) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    })
 
 
     const onSubmit = data => console.log(data);
@@ -198,7 +224,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                                 )}
                             />
                         </ContainerInputs>
-                        <AddDocuments  onClick={() => triggerInputFile('project-documents')} style={{ marginTop: 20 }} endIcon={<AttachFile></AttachFile>}>Documentos</AddDocuments>
+                        <AddDocuments onClick={() => triggerInputFile('documents')} style={{ marginTop: 20 }} endIcon={<AttachFile></AttachFile>}>Documentos</AddDocuments>
                         {documents.map((item, index) => {
                             return (
                                 <ListDocuments key={index}>

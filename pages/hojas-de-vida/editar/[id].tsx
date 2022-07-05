@@ -3,14 +3,14 @@ import withAuth from '@utils/withAuth'
 import Layout from '../../../layout';
 import { CreateCV } from '../../../components/hojas-de-vida/create/create';
 
-const CreateHojasDeVida = () => {
+const UpdateCV = () => {
     return (
         <Layout userName={''}>
-            <CreateCV isUpdated={false}></CreateCV>
+            <CreateCV isUpdated={true}></CreateCV>
         </Layout>
     )
 };
 
 
 
-export default withAuth(CreateHojasDeVida);
+export default withAuth(UpdateCV);

@@ -23,7 +23,7 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
             qty: 0,
             qtyUnit: 0,
             id: '0',
-            child: [],
+            // child: [],
         },
     ]);
 
