@@ -13,30 +13,37 @@ import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { TestContainer } from '../../common/utils/items';
-import { listGuestAdapter } from '../adapters/list.adapter';
+
 import { updateAdapter } from '../adapters/update.adapter'
 import { navigateTo } from 'utils/helpers';
-import { deleteAdapter } from '../adapters/delete.adapter ';
-
+import { deleteAdapter, deleteProjectById } from '../adapters/delete.adapter ';
+import { getProyectById } from '../adapters/list.adapter';
 /** COMPONENT */
 export const EditProyect = () => {
-    const projectEditable = JSON.parse(localStorage.getItem('project'));
-    const [guests, setGuest] = useState([]);
-    const [documents, setDocument] = useState([]);
-    const [organizations, setOrganizations] = useState([]);
-    const [project, setProject] = useState({
-        name: projectEditable['full'].name,
-        details: projectEditable['details'].description,
-        'project-start': new Date(projectEditable['project-start'].date.split('-').join()),
-        'project-end': new Date(projectEditable['project-end'].end.split('-').join()),
-        'project-documents': projectEditable['project-documents'].collections,
-        "technical-sheet": projectEditable['technical-sheet'].collections,
-        organizations: projectEditable['organizations'].collections,
-    });
+    const { id } = useRouter().query;
     const [item, setItem] = useState(0);
+    const [project, setProject] = useState({
+        name: '',
+        details: '',
+        'project-start': '',
+        'project-end': '',
+        'documents': [],
+        "technical-document": '',
+        'physical-document': [],
+        'status': "PENDING"
+    });
 
-    const router = useRouter();
-    const { id } = router.query;
+    useEffect(() => {
+        (async function () {
+            let res = await getProyectById(id);
+            console.log(res)
+            setProject({
+                ...res?.body,
+                status: "PENDING",
+                'physical-document': [],
+            })
+        })()
+    }, [])
 
     const triggerInputFile = (name: string) => {
         let input = document.createElement('input');
@@ -45,20 +52,31 @@ export const EditProyect = () => {
 
         input.click();
 
-        input.addEventListener('change', (e) => {
-            setDocument([...documents, ...e.target['files']])
-            project[name] = [...e.target['files']];
-        });
+        input.addEventListener('change', async (e: any) => await addFile(e.target));
+        console.log(project)
     }
 
-    useEffect(() => {
-        (async function () {
-            let guest = await listGuestAdapter();
-            setGuest(guest.body);
-            setDocument([...project['project-documents']])
-        })()
-        console.log(project)
-    }, [])
+    const addFile = async ({ files }) => {
+        let base: any = await convertFileToBase64(files[0]);
+
+        let document = {
+            name: files[0].name,
+            "binary-file": base.split('base64,')[1]
+        }
+        setProject({
+            ...project,
+            'physical-document': [...project.documents, document]
+        })
+    }
+
+    const convertFileToBase64 = (file: File) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    })
 
     const saveValues = (value, name) => {
         setProject({
@@ -80,9 +98,9 @@ export const EditProyect = () => {
 
     const formatDates = () => {
         // @ts-ignore
-        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric',month: '2-digit',day: '2-digit',}).format(project['project-start']).split('/');
+        let start = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(project['project-start']).split('/');
         // @ts-ignore
-        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit',day: '2-digit',}).format(project['project-end']).split('/'); 
+        let end = new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(project['project-end']).split('/');
 
         start.splice(0, 0, start.splice(2, 1)[0]);
         start.splice(1, 0, start.splice(2, 1)[0]);
@@ -100,16 +118,18 @@ export const EditProyect = () => {
         /*organizations.map(org => {
             !project['organizations'].includes(org['organization-id'].id) && project['organizations'].push(org['organization-id'].id);
         })*/
-        project['organizations']=[getUniqueId()]
+        // project['organizations'] = [getUniqueId()]
+        // console.log(project)
+        // formatDates();
         console.log(project)
-        formatDates();
         let res = await updateAdapter(project, id);
         console.log(res)
-        navigateTo('/proyecto')
+        // navigateTo('/proyecto')
     }
 
-    const handleDelete = async() => {
-        const res = await deleteAdapter(id);
+    const handleDelete = async () => {
+        const res = await deleteProjectById(project, id as string);
+        console.log(res)
         navigateTo(`/proyecto`);
     }
 
@@ -123,11 +143,11 @@ export const EditProyect = () => {
                     Eliminar Proyecto
                 </DeleteButton>
             </HeaderContainer>
-            <TextField fullWidth size="small" value={project.name} onChange={({ target }) => saveValues(target.value, 'name')}></TextField>
+            <TextField fullWidth size="small" value={project?.name} onChange={({ target }) => saveValues(target.value, 'name')}></TextField>
             <TextareaAutosize
                 aria-label="empty textarea"
                 placeholder="Empty"
-                value={project.details}
+                value={project?.details}
                 style={{ width: '100%', marginTop: 20, marginBottom: 20 }}
                 minRows={9}
                 onChange={({ target }) => saveValues(target.value, 'details')}
@@ -150,7 +170,7 @@ export const EditProyect = () => {
                     ></DesktopDatePicker>
                 </LocalizationProvider>
             </DatePickerContainer>
-            <ContainerInputs>
+            {/* <ContainerInputs>
                 <Autocomplete
                     multiple
                     id="size-small-outlined-multi"
@@ -162,15 +182,16 @@ export const EditProyect = () => {
                         <TextField {...params} placeholder="Invitados" />
                     )}
                 />
-            </ContainerInputs>
-            <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('project-documents')} style={{ marginTop: 20 }}></TextField>
-            {documents.map((item, index) => {
+            </ContainerInputs> */}
+            <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('documents')} style={{ marginTop: 20 }}></TextField>
+            {project.documents.map((item, index) => {
                 return (
                     <ListDocuments key={index}>
                         <ElementList>
                             <DocumentName>
                                 <PlagiarismIcon></PlagiarismIcon>
-                                {item.name}
+                                {/* {item.name} */}
+                                Document
                             </DocumentName>
                             <IconsList>
                                 <DeleteIcon />
@@ -185,7 +206,7 @@ export const EditProyect = () => {
                 Propuesta economica
             </SubTitle>
             <ContainerItems>
-                <TestContainer fn={getTecnicalSheet} edit={project['technical-sheet']}></TestContainer>
+                {/* <TestContainer fn={getTecnicalSheet} edit={project['technical-document']}></TestContainer> */}
             </ContainerItems>
             <footer style={{ textAlign: 'right' }}>
                 <NextButton onClick={submitForm}>Editar Proyecto</NextButton>

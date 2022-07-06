@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HeaderContainer, Title, ComparateButton, ProyectRedirect, StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table } from './details.styled';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -9,19 +9,32 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { navigateTo } from '../../../utils/helpers';
+import { getProyectById } from '../adapters/list.adapter'
+import { useRouter } from 'next/router'
 
 /** ICONS */
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
+
 export const DetailsProyect = () => {
     const [tab, setTab] = useState('1')
     const steps = ['Apertura', 'Recepcion', 'Asignacion'];
-    const project = JSON.parse(localStorage.getItem('project'));
+    const [project, setProject] = useState<any>({});
+    const { id } = useRouter().query;
 
-    const goToEdit = id => {
+    useEffect(() => {
+        getInformation(id)
+    }, [])
+
+    const goToEdit = () => {
         navigateTo(`/proyecto/edit/${id}`)
+    }
+
+    const getInformation = async id => {
+        let res = await getProyectById(id);
+        setProject(res?.body);
     }
     return (
         <ContainerComponent>
@@ -39,38 +52,35 @@ export const DetailsProyect = () => {
                 <EditIcon onClick={goToEdit} style={{ fontSize: '1.1rem', marginLeft: 5, cursor: 'pointer' }} />
             </ProyectRedirect>
             <DescriptionTitle>
-                {project.details.description}
+                {project?.name}
             </DescriptionTitle>
             <ContainerDates>
                 <Dates>
                     <TitleDates>Fecha de inicio</TitleDates>
                     <ContentDates>
-                        {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(project['project-start'].date))}
+                        {project['project-start']}
                     </ContentDates>
                 </Dates>
                 <Dates>
                     <TitleDates>Fecha de cierre</TitleDates>
                     <ContentDates>
-                        {new Intl.DateTimeFormat('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(project['project-end'].end))}
+                        {project['project-end']}
                     </ContentDates>
                 </Dates>
             </ContainerDates>
             <SubTitle>Alcance</SubTitle>
             <Content>
+                {project?.details}
+            </Content>
+            {/* <Content>
                 Lorem ipsum dolor sit amet consectetur,
                 adipisicing elit. Neque pariatur beatae voluptatum reiciendis doloremque
                 saepe sed, facilis debitis, repellendus suscipit, reprehenderit odio nam quae.
                 Rerum, enim. Obcaecati fugiat impedit totam.
-            </Content>
-            <Content>
-                Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Neque pariatur beatae voluptatum reiciendis doloremque
-                saepe sed, facilis debitis, repellendus suscipit, reprehenderit odio nam quae.
-                Rerum, enim. Obcaecati fugiat impedit totam.
-            </Content>
+            </Content> */}
             <Stepper alternativeLabel style={{ marginTop: '4em' }}>
                 {steps.map((label, index) => (
-                    <Step key={label}>
+                    <Step key={index}>
                         <StepButton>
                             {label}
                         </StepButton>

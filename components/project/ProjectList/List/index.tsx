@@ -28,7 +28,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import { navigateTo } from '../../../../utils/helpers';
 import { useRolePermission } from '../../../../utils/permissionRole';
-import { deleteAdapter } from '../../adapters/delete.adapter ';
+import { deleteProjectById } from '../../adapters/delete.adapter ';
 import Swal from 'sweetalert2';
 interface project {
     projectId: string;
@@ -47,7 +47,7 @@ export const List: FC<any> = (props) => {
     const currentUser = useRolePermission();
     console.log(props)
     
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (data:any, id: string) => {
         Swal.fire({
             title: 'Eliminar proyecto',
             text: 'Seguro que desea eliminar el proyecto?',
@@ -58,7 +58,7 @@ export const List: FC<any> = (props) => {
         }).then(async ({ value }) => {
 
             if (value) {
-                const res = await deleteAdapter(id);
+                const res = await deleteProjectById(data, id);
                 onChange(projects.filter(project => project['project-id'].id !== id))
             }
         });
@@ -84,10 +84,10 @@ export const List: FC<any> = (props) => {
             {projects.map((project, index) => {
                 return (
                     <ProyectCard key={index}>
-                        <HeaderCard onClick={() => handleDetail(project['project-id'].id)}>
-                            <Subtitle>{project['full'].name}</Subtitle>
+                        <HeaderCard onClick={() => handleDetail(project['project-id'])}>
+                            <Subtitle>{project?.name}</Subtitle>
                             {
-                                ['BE:ADMIN','BE:LICI'].includes(currentUser?.role) && <StyledBadge badgeContent={project.totalApplications}>
+                                ['BE:ADMIN', 'BE:LICI'].includes(currentUser?.role) && <StyledBadge badgeContent={project.length}>
                                     <NotificationsIcon style={{ color: ColorLiciGrayLighten1 }} />
                                 </StyledBadge>
                             }
@@ -95,16 +95,16 @@ export const List: FC<any> = (props) => {
                         </HeaderCard>
                         <BodyCard>
                             <Description>
-                                {project['details'].description}
+                                {project?.details}
                             </Description>
                             <Schedule>
                                 <Paragraph>
                                     <Caption>Fecha de apertura</Caption>
-                                    {project['project-start'].date}
+                                    {project['project-start']}
                                 </Paragraph>
                                 <Paragraph>
                                     <Caption>Fecha de cierre</Caption>
-                                    {project['project-end'].end}
+                                    {project['project-end']}
                                 </Paragraph>
                             </Schedule>
                         </BodyCard>
@@ -113,8 +113,8 @@ export const List: FC<any> = (props) => {
 
                             </LeftActions>
                             {
-                                ['BE:ADMIN','BE:LICI'].includes(currentUser?.role) && <RightActions>
-                                    <DeleteForeverIcon onClick={() => handleDelete(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
+                                ['BE:ADMIN', 'BE:LICI'].includes(currentUser?.role) && <RightActions>
+                                    <DeleteForeverIcon onClick={() => handleDelete(project, project['project-id'])} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
                                     <EditIcon onClick={() => handleEdit(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1 }} />
                                 </RightActions>
                             }

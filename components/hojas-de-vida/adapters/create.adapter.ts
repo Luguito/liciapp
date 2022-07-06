@@ -4,11 +4,11 @@ import { getToken } from 'utils/helpers';
 
 export const createAdapter: any = async (data: any) => {
     try {
-        const { PROJECT_URI, GUEST_URI} = getConfig().publicRuntimeConfig;
+        const { TEAMWORK } = getConfig().publicRuntimeConfig;
         const token = getToken()
-        const organizationId = JSON.parse(localStorage.user)['organization-id'];
 
-        const response = await httpPost(`${PROJECT_URI}/evaluator/api/project/v1/${organizationId}/create`, data, token);
+        const response = await httpPost(`http://ec2-18-233-75-58.compute-1.amazonaws.com:9050/teamwork/api/project/v1/create-cv`, data, token);
+        console.log(response)
         return response;
     } catch (e) {
         console.error( 'err', e);
