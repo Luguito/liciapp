@@ -22,6 +22,7 @@ export const UserComponent = () => {
 
     const getUsersHandler = async () => {
         const resp = await getUsers()
+        console.log({resp})
         setUsers(resp.body)
     }
 
@@ -80,7 +81,7 @@ export const UserComponent = () => {
                     })
                 }
             </ListDocuments>
-            <Modal open={createOpen} onClose={() => setCreateOpen(false)}>
+            <Modal open={createOpen} onClose={() => {setCreateOpen(false); openCreate()}}>
                 <CreateUser user={user} final={finalEvent}/>
             </Modal>
         </>

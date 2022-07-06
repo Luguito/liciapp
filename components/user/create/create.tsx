@@ -79,12 +79,11 @@ export const CreateUser = ({ user, final }) => {
     }
 
     const validateUpdate = async (data) => {
-        try {
-            await updateAdapter(data, user['user-information']['organization-id']);
-            Swal.fire("Actualizado", "El usuario ha sido actualizado con exito", "success");
-        } catch (e) {
-            console.error(e)
-        }
+        
+            const updated = await updateAdapter(data, user['user-information']['organization-id']);
+            console.log('error al actualizar datos ');
+            updated ? Swal.fire("Actualizado", "El usuario ha sido actualizado con exito", "success") :
+                      Swal.fire("Error", "Error al actualizar usuario", "error");
     }
 
     const validateSucess = async (data: any) => {
@@ -126,9 +125,10 @@ export const CreateUser = ({ user, final }) => {
                         id="size-small-outlined-multi"
                         style={{}}
                         size="small"
-                        options={['BE:ADMIN', 'BE:COMPANY', 'BE:LICI']}
+                        options={[{label:'ADMIN', value:'BE:ADMIN'}, {label:'COMPAÑIA', value:'BE:COMPANY'}, {label:'EVALUADOR', value:'BE:LICI'}]}
+                        getOptionLabel={(option) => option.label}
                         value={form['license']}
-                        onChange={(event, value) => setFields('license', value)}
+                        onChange={(event, item) => setFields('license', item.value)}
                         renderInput={(params) => (
                             <TextField {...params} placeholder="Permisos" />
                         )}
