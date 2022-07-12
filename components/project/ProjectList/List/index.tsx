@@ -59,20 +59,20 @@ export const List: FC<any> = (props) => {
 
             if (value) {
                 const res = await deleteProjectById(data, id);
-                onChange(projects.filter(project => project['project-id'].id !== id))
+                onChange(projects.filter(project => project['project-id'] !== id))
             }
         });
     }
 
     const handleEdit = (id) => {
-        const index = projects.findIndex((project) => project['project-id'].id == id);
+        const index = projects.findIndex((project) => project['project-id'] == id);
 
         localStorage.setItem('project', JSON.stringify(projects[index]));
         navigateTo(`/proyecto/edit/${id}`)
     }
 
     const handleDetail = id => {
-        const index = projects.findIndex((project) => project['project-id'].id == id);
+        const index = projects.findIndex((project) => project['project-id'] == id);
 
         localStorage.setItem('project', JSON.stringify(projects[index]));
 
@@ -115,7 +115,7 @@ export const List: FC<any> = (props) => {
                             {
                                 ['BE:ADMIN', 'BE:LICI'].includes(currentUser?.role) && <RightActions>
                                     <DeleteForeverIcon onClick={() => handleDelete(project, project['project-id'])} style={{ color: ColorLiciGrayLighten1, marginRight: '20px' }} />
-                                    <EditIcon onClick={() => handleEdit(project['project-id'].id)} style={{ color: ColorLiciGrayLighten1 }} />
+                                    <EditIcon onClick={() => handleEdit(project['project-id'])} style={{ color: ColorLiciGrayLighten1 }} />
                                 </RightActions>
                             }
                         </ActionsCard>

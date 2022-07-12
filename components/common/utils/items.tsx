@@ -20,10 +20,11 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
         {
             name: 'list',
             unit: "",
-            qty: 0,
-            qtyUnit: 0,
+            quantity: 0,
+            "partial-amount": 0,
+            "unit-amount": 0,
             id: '0',
-            // child: [],
+            child: [],
         },
     ]);
 
@@ -32,19 +33,21 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
         let element = getElement(index, false);
 
         element.child && element.child.push({
+            id: element.id + '.' + element.child.length,
             name: '',
             unit: "",
-            qty: 0,
-            qtyUnit: 0,
-            id: element.id + '.' + element.child.length,
+            quantity: 0,
+            "partial-amount": 0,
+            "unit-amount": 0,
             child: [],
         })
 
         !element.child && element.push({
             name: '',
             unit: "",
-            qty: 0,
-            qtyUnit: 0,
+            quantity: 0,
+            "partial-amount": 0,
+            "unit-amount": 0,
             id: index + '.' + element.length,
             child: [],
         })
@@ -80,9 +83,10 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
         name.push({
             name: '',
             unit: "",
-            qty: 0,
-            qtyUnit: 0,
+            quantity: 0,
+            "partial-amount": 0,
             id: name.length.toString(),
+            "unit-amount": 0,
             child: [],
         });
 
@@ -176,15 +180,15 @@ export const Item = ({ item, fn, id, setValue }) => {
                     </InputContainer>
                     <InputContainer>
                         <Label>Cantidad</Label>
-                        <CustomTextField type="number" value={item.qty ?? 0} onChange={({ target }) => setValue(target.value, 'qty', id)} />
+                        <CustomTextField type="number" value={item.quantity ?? 0} onChange={({ target }) => setValue(target['valueAsNumber'], 'quantity', id)} />
                     </InputContainer>
                     <InputContainer>
                         <Label>Valor unitario</Label>
-                        <CustomTextField type="number" value={item.qtyUnit ?? 0} onChange={({ target }) => setValue(target.value, 'qtyUnit', id)} />
+                        <CustomTextField type="number" value={item["partial-amount"] ?? 0} onChange={({ target }) => setValue(target['valueAsNumber'], "partial-amount", id)} />
                     </InputContainer>
                     <InputContainer>
                         <Label>Valor total</Label>
-                        <p>{'$' + (item.qtyUnit * item.qty)}</p>
+                        <p>{'$' + (item["partial-amount"] * item.quantity)}</p>
                     </InputContainer>
                 </ContainerCustomField>
             </Container>

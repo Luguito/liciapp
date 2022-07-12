@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react'
 import { schema } from '../schemas/creat.schema';
 import { createAdapter } from '../adapters/create.adapter';
 import { useRouter } from 'next/router';
+import { DatePickerContainer } from 'components/project/ProyectCreate/create.styled';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
+import { updateAdapter } from '../adapters/update.adapter';
 
 export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any }) {
     const [cv, setCV] = useState<any>({});
@@ -25,7 +29,7 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
 
         experience[index] = {
             ...experience[index],
-            [label]: value
+            [label]: ["start-date", "end-date"].includes(label) ? new Date(value).getTime() : value
         }
 
         setCV({ ...cv, experience });
@@ -58,7 +62,8 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
     })
 
     const handleSubmit = () => {
-        schema.isValid(cv).then(async v => await createAdapter(cv))
+        !isUpdated && schema.isValid(cv).then(async v => await createAdapter(cv));
+        isUpdated && updateAdapter(cv)
     };
     return (
         <>
@@ -87,7 +92,7 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
             </ContainerFlex>
             <ContainerFlex>
                 <TextField value={cv['city']} fullWidth placeholder="Ciudad" size="small" onChange={(e) => setValues('city', e.target.value)}></TextField>
-                <TextField value={cv['departament']} fullWidth placeholder="Departamento" size="small" onChange={(e) => setValues('departament', e.target.value)}></TextField>
+                <TextField value={cv['department']} fullWidth placeholder="Departamento" size="small" onChange={(e) => setValues('department', e.target.value)}></TextField>
                 <TextField value={cv['address']} fullWidth placeholder="Direccion" size="small" onChange={(e) => setValues('address', e.target.value)}></TextField>
             </ContainerFlex>
 
@@ -99,8 +104,24 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                 return (
                     <ContainerFlex key={index}>
                         <TextField value={proyect['company-name']} fullWidth placeholder="Nombre de la Empresa" size="small" onChange={(e) => setValuesExperiencie('company-name', e.target.value, index)}></TextField>
-                        <TextField value={proyect['start-date']} fullWidth placeholder="Fecha de inicio" size="small" onChange={(e) => setValuesExperiencie('start-date', e.target.value, index)}></TextField>
-                        <TextField value={proyect['end-date']} fullWidth placeholder="Fecha de Finalizacion" size="small" onChange={(e) => setValuesExperiencie('end-date', e.target.value, index)}></TextField>
+                        <DatePickerContainer>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DesktopDatePicker
+                                    label="Fecha de Inicio"
+                                    inputFormat="MM/dd/yyyy"
+                                    value={proyect['start-date']}
+                                    onChange={(value) => setValuesExperiencie('start-date', value, index)}
+                                    renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
+                                ></DesktopDatePicker>
+                                <DesktopDatePicker
+                                    label="Fecha de cierre"
+                                    inputFormat="MM/dd/yyyy"
+                                    value={proyect['end-date']}
+                                    onChange={(value) => setValuesExperiencie('end-date', value, index)}
+                                    renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
+                                ></DesktopDatePicker>
+                            </LocalizationProvider>
+                        </DatePickerContainer>
                         <TextField value={proyect['role']} fullWidth placeholder="Cargo" size="small" onChange={(e) => setValuesExperiencie('role', e.target.value, index)}></TextField>
                         <TextField value={proyect['details']} fullWidth placeholder="Detalles" size="small" onChange={(e) => setValuesExperiencie('details', e.target.value, index)}></TextField>
                     </ContainerFlex>

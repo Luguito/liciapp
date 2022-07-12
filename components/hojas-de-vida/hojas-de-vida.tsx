@@ -11,9 +11,12 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { getProfiles } from './adapters/list.adapter';
 
 export function CVPage() {
+    const [list, setList] = useState([]);
+
     useEffect(() => {
-        getProfiles()
-    }, [])
+        getProfiles().then(({ body }) => setList(body))
+    }, []);
+
     const [dummy, setDummy] = useState(['Andres Camilo', 'Peter Parker', 'Fuego-sama', 'Francisco Gomez', 'Dr. Doom', 'Dr. Strange', 'Vision', 'Wanda', 'Tony Stark', 'La Venganza', 'The Batman']);
     return (
         <>
@@ -25,19 +28,19 @@ export function CVPage() {
             </ContainerFlex>
             <ListDocuments>
                 {
-                    dummy.map((item, index) => {
+                    list.length > 0 && list.map((item, index) => {
                         return (
                             <ElementList key={index}>
                                 <div style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
                                     <Logo></Logo>
                                     <ItemList>
-                                        {item}
+                                        {item['first-name']}
                                         <small>Ingeniero de Software</small>
                                     </ItemList>
                                 </div>
                                 <IconsList>
                                     <DeleteIcon></DeleteIcon>
-                                    <EditIcon onClick={() => navigateTo('/hojas-de-vida/edit/'+ item._id)}></EditIcon>
+                                    <EditIcon onClick={() => navigateTo('/hojas-de-vida/edit/'+ '1234')}></EditIcon>
                                     <VisibilityIcon></VisibilityIcon>
                                 </IconsList>
                             </ElementList>

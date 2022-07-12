@@ -123,16 +123,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
         formatDates();
         console.log(project)
-        project['technical-document'] = [{
-            "tittle-documentation": "colocar piso",
-            "details-documentation": [{
-                unit: "m3",
-                quantity: 2,
-                "unit-amount": 21,
-                "partial-amount": 20.5,
-                name:'asd'
-            }]
-        }]
+    
         let res = await createAdapter(project);
         console.log(res)
         // navigateTo('/proyecto')
@@ -140,7 +131,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
     const getTecnicalSheet = (value) => {
         console.log(value)
-        project['technical-document'] = value
+        project['technical-document'] = [
+            {
+                "details-documentation": value
+            }
+        ]
     }
 
     const getUniqueId = () => {

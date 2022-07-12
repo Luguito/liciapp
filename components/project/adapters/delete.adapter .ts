@@ -6,8 +6,9 @@ const { PROJECT_URI, GUEST_URI} = getConfig().publicRuntimeConfig
 const token = getToken()
 
 export const deleteProjectById = async (data:any, id:string) => {
+    const organizationId = JSON.parse(localStorage.getItem('user'))['organization-id'];
     try{
-        const path = `evaluator/api/project/v1/${id}/remove`;
+        const path = `evaluator/api/project/v1/${id}/${organizationId}/remove`;
 
         const response = await httpDelete(`${PROJECT_URI}/${path}`, token);
         console.log(response);

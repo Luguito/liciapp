@@ -26,6 +26,7 @@ export const ProjectList: FC<ProjectListProps> = ({ projects }) => {
         (async function () {
             let res = await listAdapter();
             setList([...res.body]);
+            console.log(res)
             // dispatch({ type: "APP.INIT_LIST", list: res.body });
         })()
     }, [])
