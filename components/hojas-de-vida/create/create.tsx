@@ -104,24 +104,22 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                 return (
                     <ContainerFlex key={index}>
                         <TextField value={proyect['company-name']} fullWidth placeholder="Nombre de la Empresa" size="small" onChange={(e) => setValuesExperiencie('company-name', e.target.value, index)}></TextField>
-                        <DatePickerContainer>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DesktopDatePicker
-                                    label="Fecha de Inicio"
-                                    inputFormat="MM/dd/yyyy"
-                                    value={proyect['start-date']}
-                                    onChange={(value) => setValuesExperiencie('start-date', value, index)}
-                                    renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
-                                ></DesktopDatePicker>
-                                <DesktopDatePicker
-                                    label="Fecha de cierre"
-                                    inputFormat="MM/dd/yyyy"
-                                    value={proyect['end-date']}
-                                    onChange={(value) => setValuesExperiencie('end-date', value, index)}
-                                    renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
-                                ></DesktopDatePicker>
-                            </LocalizationProvider>
-                        </DatePickerContainer>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DesktopDatePicker
+                                label="Fecha de Inicio"
+                                inputFormat="MM/dd/yyyy"
+                                value={proyect['start-date']}
+                                onChange={(value) => setValuesExperiencie('start-date', value, index)}
+                                renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
+                            ></DesktopDatePicker>
+                            <DesktopDatePicker
+                                label="Fecha de cierre"
+                                inputFormat="MM/dd/yyyy"
+                                value={proyect['end-date']}
+                                onChange={(value) => setValuesExperiencie('end-date', value, index)}
+                                renderInput={(params) => <TextField fullWidth {...params} style={{ width: '50%' }} />}
+                            ></DesktopDatePicker>
+                        </LocalizationProvider>
                         <TextField value={proyect['role']} fullWidth placeholder="Cargo" size="small" onChange={(e) => setValuesExperiencie('role', e.target.value, index)}></TextField>
                         <TextField value={proyect['details']} fullWidth placeholder="Detalles" size="small" onChange={(e) => setValuesExperiencie('details', e.target.value, index)}></TextField>
                     </ContainerFlex>

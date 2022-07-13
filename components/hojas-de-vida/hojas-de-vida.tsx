@@ -40,7 +40,7 @@ export function CVPage() {
                                 </div>
                                 <IconsList>
                                     <DeleteIcon></DeleteIcon>
-                                    <EditIcon onClick={() => navigateTo('/hojas-de-vida/edit/'+ '1234')}></EditIcon>
+                                    <EditIcon onClick={() => navigateTo('/hojas-de-vida/edit/'+ item?.id)}></EditIcon>
                                     <VisibilityIcon></VisibilityIcon>
                                 </IconsList>
                             </ElementList>
