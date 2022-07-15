@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { HeaderContainer, Title, ComparateButton, ProyectRedirect, StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table } from './details.styled';
+import { HeaderContainer, Title, ComparateButton, HoursMessage, TextMessage, HisMessages, MyMessages, ProyectRedirect, StatusApp, ContainerDates, Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table, ContainerMessages } from './details.styled';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
@@ -10,22 +10,29 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { navigateTo } from '../../../utils/helpers';
 import { getProyectById } from '../adapters/list.adapter'
+import { anwserForomQuestion, createForomQuestion, getForom } from '../adapters/create.adapter'
 import { useRouter } from 'next/router'
+import SendIcon from '@mui/icons-material/Send';
 
 /** ICONS */
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { InputAdornment, TextField } from '@mui/material';
 
 
 export const DetailsProyect = () => {
     const [tab, setTab] = useState('1')
     const steps = ['Apertura', 'Recepcion', 'Asignacion'];
-    const [project, setProject] = useState<any>({});
+    const [text, setText] = useState('');
+    const [project, setProject] = useState<any>({
+        question: ''
+    });
     const { id } = useRouter().query;
 
     useEffect(() => {
         getInformation(id)
+        getForo()
     }, [])
 
     const goToEdit = () => {
@@ -35,6 +42,21 @@ export const DetailsProyect = () => {
     const getInformation = async id => {
         let res = await getProyectById(id);
         setProject(res?.body);
+    }
+
+    const getForo = async () => {
+        let res = await getForom(id);
+        console.log(res)
+    }
+
+    const createQuestion = async () => {
+        let res = await createForomQuestion(id, text);
+        console.log(res)
+    }
+
+    const anwserQuestion = async () => {
+        let res = await anwserForomQuestion(id, text);
+        console.log(res)
     }
     return (
         <ContainerComponent>
@@ -100,7 +122,8 @@ export const DetailsProyect = () => {
                 <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
                     <TabList>
                         <Tab onClick={() => setTab('1')} label="Aplicaciones" value="1" style={{ marginRight: 20 }} />
-                        <Tab onClick={() => setTab('2')} label="Preguntas y Respuestas" value="2" />
+                        <Tab onClick={() => setTab('2')} label="Preguntas y Respuestas" value="2" style={{ marginRight: 20 }} />
+                        <Tab onClick={() => setTab('3')} label="Comentarios" value="3" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
@@ -125,8 +148,27 @@ export const DetailsProyect = () => {
                 <TabPanel value="2">
                     In Progress
                 </TabPanel>
+                <TabPanel value="3">
+                    <ContainerMessages>
+                        <HisMessages>
+                            <HoursMessage>30 Dic 2021 / 15:00</HoursMessage>
+                            <TextMessage>Test mensaje tuyo</TextMessage>
+                        </HisMessages>
+                        <MyMessages>
+                            <HoursMessage>30 Dic 2021 / 15:00</HoursMessage>
+                            <TextMessage>Test mensaje mio</TextMessage>
+                        </MyMessages>
+                    </ContainerMessages>
+                    <TextField fullWidth onChange={({ target }) => setText({ question: target.value })} InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <SendIcon onClick={createQuestion} />
+                            </InputAdornment>
+                        ),
+                    }}></TextField>
+                </TabPanel>
             </TabContext>
-        </ContainerComponent>
+        </ContainerComponent >
     )
 }
 

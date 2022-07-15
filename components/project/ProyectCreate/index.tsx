@@ -126,7 +126,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
     
         let res = await createAdapter(project);
         console.log(res)
-        // navigateTo('/proyecto')
+        navigateTo('/proyecto')
     }
 
     const getTecnicalSheet = (value) => {

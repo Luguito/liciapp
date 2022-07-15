@@ -99,3 +99,62 @@ export const Table = styled.table`
         font-weight: 600;
     }
 `
+
+export const ContainerMessages = styled.section`
+    width:100%;
+`
+
+export const MyMessages = styled.section`
+    max-width: 25em;
+    background: #E5E6FF;
+    position: relative;
+    right: 0px;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius: 10px;
+    margin-top:2em;
+    margin-bottom:2em;
+    &:after{
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: auto;
+        right: -20px;
+        top: 0;
+        bottom: auto;
+        border-top: 4px solid transparent;
+        border-left: 27px solid #E5E6FE;
+        border-bottom: 13px solid transparent;
+    }
+`
+export const HisMessages = styled.section`
+    max-width: 25em;
+    background: #F5F5F5;
+    position: relative;
+    left:100px;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius: 10px;
+    &:before {
+        content:"";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 4px solid transparent;
+        border-right: 27px solid #F5F5F5;
+        border-bottom: 13px solid transparent;
+        margin: 2px 0 0 -25px;
+    }
+`
+
+export const HoursMessage = styled.p`
+    color: #B1AFAF;
+    padding: 0.4em 0 0 1em;
+`
+
+export const TextMessage = styled.p`
+    margin: 1em;
+    padding-bottom:1em;
+    word-wrap: break-word;
+`
