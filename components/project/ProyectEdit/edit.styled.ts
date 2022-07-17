@@ -111,3 +111,7 @@ export const NextButton = styled(Button)`
         color: white;
     }
 `
+
+export const Wrapper = styled.div`
+    padding: 20px 0;
+`

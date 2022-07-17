@@ -39,7 +39,7 @@ export const createForomQuestion = async (id:string|string[], data: any) => {
     }
 }
 
-export const anwserForomQuestion = async (id:string | string[], data: any) => {
+export const answerForomQuestion = async (id:string | string[], data: any) => {
     try {
         const { PROJECT_URI } = getConfig().publicRuntimeConfig;
         const token = getToken()

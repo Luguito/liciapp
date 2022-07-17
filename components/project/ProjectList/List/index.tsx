@@ -26,7 +26,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
-import { navigateTo } from '../../../../utils/helpers';
+import { navigateTo, truncateText } from '../../../../utils/helpers';
 import { useRolePermission } from '../../../../utils/permissionRole';
 import { deleteProjectById } from '../../adapters/delete.adapter ';
 import Swal from 'sweetalert2';
@@ -67,17 +67,15 @@ export const List: FC<any> = (props) => {
     const handleEdit = (id) => {
         const index = projects.findIndex((project) => project['project-id'] == id);
 
-        localStorage.setItem('project', JSON.stringify(projects[index]));
-        navigateTo(`/proyecto/edit/${id}`)
+            navigateTo(`/proyecto/edit/${id}`)
+
     }
 
     const handleDetail = id => {
         const index = projects.findIndex((project) => project['project-id'] == id);
-
-        localStorage.setItem('project', JSON.stringify(projects[index]));
-
-        navigateTo(`/proyecto/details/${id}`)
+            navigateTo(`/proyecto/details/${id}`);
     }
+
 
     return (
         <ListContainer>
@@ -95,7 +93,7 @@ export const List: FC<any> = (props) => {
                         </HeaderCard>
                         <BodyCard>
                             <Description>
-                                {project?.details}
+                                {truncateText(project?.details, 130)}
                             </Description>
                             <Schedule>
                                 <Paragraph>

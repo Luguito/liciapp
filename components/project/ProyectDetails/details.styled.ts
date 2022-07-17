@@ -104,7 +104,7 @@ export const ContainerMessages = styled.section`
     width:100%;
 `
 
-export const MyMessages = styled.section`
+export const QuestionMessages = styled.section`
     max-width: 25em;
     background: #E5E6FF;
     position: relative;
@@ -112,8 +112,6 @@ export const MyMessages = styled.section`
     -moz-border-radius: 10px; 
     -webkit-border-radius: 10px; 
     border-radius: 10px;
-    margin-top:2em;
-    margin-bottom:2em;
     &:after{
         content: ' ';
         position: absolute;
@@ -128,7 +126,7 @@ export const MyMessages = styled.section`
         border-bottom: 13px solid transparent;
     }
 `
-export const HisMessages = styled.section`
+export const AnswerMessages = styled.section`
     max-width: 25em;
     background: #F5F5F5;
     position: relative;
@@ -155,6 +153,45 @@ export const HoursMessage = styled.p`
 
 export const TextMessage = styled.p`
     margin: 1em;
-    padding-bottom:1em;
+    padding:1em 0;
     word-wrap: break-word;
 `
+
+export const DocumentList = styled.div`
+    width:100%;
+`
+
+export const DocumentItem = styled.div`
+    border-top: 1px ${ColorLiciGrayLighten3} solid;
+    border-bottom: 1px ${ColorLiciGrayLighten3} solid;
+    padding: 0;
+    a {
+        display: flex;
+        gap: 10px;
+        align-items:center;
+    }
+`
+
+export const Container = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    & p {
+        margin: 20px 15px 0 0;
+        color: ${ColorLiciPrimaryActive};
+        font-weight: bold;
+    }
+`;
+
+export const InputContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width:40%;
+`
+
+export const Label = styled('label')`
+    padding: 0 0 4px;
+    line-height: 1.5;
+    display: block;
+`;

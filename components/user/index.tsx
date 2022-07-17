@@ -74,7 +74,7 @@ export const UserComponent = () => {
                                 <IconsList>
                                     <DeleteIcon onClick={() => deleteUser(item['user-information']['user-id'])}></DeleteIcon>
                                     <EditIcon onClick={() => openEdit(item)}></EditIcon>
-                                    <VisibilityIcon></VisibilityIcon>
+                                    {/* <VisibilityIcon></VisibilityIcon> */}
                                 </IconsList>
                             </ElementList>
                         )

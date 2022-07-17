@@ -63,8 +63,8 @@ export const CreateUser = ({ user, final }) => {
     }
 
     const handleSubmit = () => {
-        let schema = ['BE:COMPANY'].includes(form['license']) ? createSchema : createWithOrg;
-        let method = ['BE:COMPANY'].includes(form['license']) ? (isEdit() ? validateUpdate : validateSucess) : (isEdit() ? validateUpdate : createUser)
+        let schema = ['BE:LICIs'].includes(form['license']) ? createSchema : createWithOrg;
+        let method = ['BE:LICIs'].includes(form['license']) ? (isEdit() ? validateUpdate : validateSucess) : (isEdit() ? validateUpdate : createUser)
 
         schema.validate(form).then(method).catch((ValidationError) => {
             console.log(ValidationError)
@@ -125,7 +125,7 @@ export const CreateUser = ({ user, final }) => {
                         id="size-small-outlined-multi"
                         style={{}}
                         size="small"
-                        options={[{label:'ADMIN', value:'BE:ADMIN'}, {label:'COMPAÑIA', value:'BE:COMPANY'}, {label:'EVALUADOR', value:'BE:LICI'}]}
+                        options={[{label:'ADMIN', value:'BE:ADMIN'}, {label:'LICITADOR', value:'BE:LICI'}, {label:'EVALUADOR', value:'BE:COMPANY'}]}
                         getOptionLabel={(option) => option.label}
                         value={form['license']}
                         onChange={(event, item) => setFields('license', item.value)}
@@ -135,7 +135,7 @@ export const CreateUser = ({ user, final }) => {
                     />
                 </ContainerFields>
                 {
-                    ['BE:COMPANY'].includes(form['license'])
+                    ['BE:LICIS'].includes(form['license'])
                         ?
                         <>
                             <ContainerFields>

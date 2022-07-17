@@ -9,6 +9,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { TestContainer } from '../../common/utils/items';
 import { ContainerItems } from '../ProyectEdit/edit.styled'
+import Swal from 'sweetalert2';
+// import { Viewer } from '@react-pdf-viewer/core';
+
 /** ICONS */
 import DeleteIcon from '@mui/icons-material/Delete';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
@@ -22,10 +25,12 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 
 import { createAdapter } from '../adapters/create.adapter';
-import { listGuestAdapter } from '../adapters/list.adapter';
-import { navigateTo } from 'utils/helpers';
+import { navigateTo, base64toBlobPDF } from 'utils/helpers';
 import { AddDocuments } from '@global-styled';
 import { AttachFile } from '@material-ui/icons';
+
+// Import the styles
+// import '@react-pdf-viewer/core/lib/styles/index.css';
 interface proyectType {
     name: string,
     details: string,
@@ -38,6 +43,8 @@ interface proyectType {
 export const CreateProyect: FC<any> = ({ title }) => {
     const [guest, setGuest] = useState([]);
     const [organizations, setOrganizations] = useState([]);
+    const [docView, setDocView] = useState<string>('');
+    const [isVisibleDoc, setIsVisibleDoc] = useState<boolean>(false);
     const [project, setProject] = useState<proyectType>({
         name: '',
         details: "",
@@ -71,6 +78,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
     const [tab, setTab] = useState('1')
 
     const triggerInputFile = (name: string) => {
+        const documentTypeAvailables=['pdf']
         let input = document.createElement('input');
 
         input.type = 'file';
@@ -78,15 +86,26 @@ export const CreateProyect: FC<any> = ({ title }) => {
         input.click();
 
         input.addEventListener('change', async (e) => {
-            console.log(e.target['files'])
-            let base: any = await convertFileToBase64(e.target['files'][0]);
-            let document = {
-                name: e.target['files'][0].name,
-                "binary-file": base.split('base64,')[1]
+            const file = e.target['files'][0].name
+            const fileType = file.split('.').pop();
+            if(documentTypeAvailables.includes(fileType)){
+                const fileName = file;
+                let base: any = await convertFileToBase64(e.target['files'][0]);
+                let document = {
+                    name: fileName,
+                    "binary-file": base.split('base64,')[1]
+                }
+                setDocument([...documents, document])
+                project[name] = [...documents, document];
+            }else{
+                Swal.fire("Documento invalido", "Solo se permitren documentos pdf", "warning");
             }
-            setDocument([...documents, document])
-            project[name] = [...documents, document];
         });
+    }
+
+    const removeDoc = (index: number) => {
+        const docs = documents.filter((doc: any, i: number) => index !== i);
+        setDocument(docs);
     }
 
     const saveValues = (value, name) => {
@@ -157,6 +176,14 @@ export const CreateProyect: FC<any> = ({ title }) => {
 
 
     const onSubmit = data => console.log(data);
+
+
+    const viewPdfDoc = (index: number) => {
+        const doc = documents.find((doc: any, i: number) => i === index);
+        const docUrl = window.URL.createObjectURL(base64toBlobPDF(doc));
+        setIsVisibleDoc(true);
+        setDocView(docUrl);
+    }
 
     return (
         <ContainerComponent>
@@ -229,9 +256,8 @@ export const CreateProyect: FC<any> = ({ title }) => {
                                             {item.name}
                                         </DocumentName>
                                         <IconsList>
-                                            <DeleteIcon />
-                                            <EditIcon />
-                                            <RemoveRedEyeIcon />
+                                            <DeleteIcon onClick={() => removeDoc(index)}/>
+                                            {/* <RemoveRedEyeIcon  onClick={() => viewPdfDoc(index)}/> */}
                                         </IconsList>
                                     </ElementList>
                                 </ListDocuments>
@@ -249,6 +275,11 @@ export const CreateProyect: FC<any> = ({ title }) => {
                     <NextButton onClick={() => submitForm()}>Guardar proyecto</NextButton>
                 </TabPanel>
             </TabContext>
+            { isVisibleDoc 
+                // <div>
+                //     <Viewer fileUrl={docView} />;
+                // </div>
+            }
         </ContainerComponent>
     );
 };

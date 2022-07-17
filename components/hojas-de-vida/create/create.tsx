@@ -8,6 +8,7 @@ import { DatePickerContainer } from 'components/project/ProyectCreate/create.sty
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 import { updateAdapter } from '../adapters/update.adapter';
+import Swal from 'sweetalert2';
 
 export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any }) {
     const [cv, setCV] = useState<any>({});
@@ -36,6 +37,7 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
     }
 
     const triggerInputFile = () => {
+        const documentTypeAvailables=['pdf']
         let input = document.createElement('input');
 
         input.type = 'file';
@@ -43,12 +45,19 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
         input.click();
 
         input.addEventListener('change', async (e) => {
-            let base: any = await convertFileToBase64(e.target['files'][0]);
-            let document = {
-                name: e.target['files'][0].name,
-                "binary-file": base.split('base64,')[1]
+            const file = e.target['files'][0].name
+            const fileType = file.split('.').pop();
+            if(documentTypeAvailables.includes(fileType)){
+                const fileName = file;
+                let base: any = await convertFileToBase64(e.target['files'][0]);
+                let document = {
+                    name: fileName,
+                    "binary-file": base.split('base64,')[1]
+                }
+                setCV({ ...cv, "curriculum-vitae-binary": document })
+            }else{
+                Swal.fire("Documento invalido", "Solo se permitren documentos pdf", "warning");
             }
-            setCV({ ...cv, "curriculum-vitae-binary": document })
         });
     }
 
@@ -79,7 +88,7 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                 <TextField value={cv['second-last-name']} fullWidth placeholder="Segundo Apellido" size="small" onChange={(e) => setValues('second-last-name', e.target.value)}></TextField>
             </ContainerFlex>
             <ContainerFlex>
-                <TextField value={cv['type-identification']} fullWidth placeholder="Tipo de Identificacion" size="small" onChange={(e) => setValues('type-identification', e.target.value)}></TextField>
+                <TextField value={cv['identification-type']} fullWidth placeholder="Tipo de Identificacion" size="small" onChange={(e) => setValues('identification-type', e.target.value)}></TextField>
                 <TextField value={cv['identification']} fullWidth placeholder="Numero de Identificacion" size="small" onChange={(e) => setValues('identification', e.target.value)}></TextField>
             </ContainerFlex>
             <ContainerFlex>
@@ -94,6 +103,9 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                 <TextField value={cv['city']} fullWidth placeholder="Ciudad" size="small" onChange={(e) => setValues('city', e.target.value)}></TextField>
                 <TextField value={cv['department']} fullWidth placeholder="Departamento" size="small" onChange={(e) => setValues('department', e.target.value)}></TextField>
                 <TextField value={cv['address']} fullWidth placeholder="Direccion" size="small" onChange={(e) => setValues('address', e.target.value)}></TextField>
+            </ContainerFlex>
+            <ContainerFlex>
+                <TextField value={cv['social-profile']} fullWidth placeholder="Perfil social - Facebook o instagram" size="small" onChange={(e) => setValues('social-profile', e.target.value)}></TextField>
             </ContainerFlex>
 
             <SubTitle style={{ borderTop: '1px solid black', paddingTop: '1em' }}>

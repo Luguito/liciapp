@@ -17,9 +17,9 @@ export const listAdapter: any = async () => {
 }
 
 
-export const listGuestAdapter: any = async () => {
+export const listBiddersAdapter: any = async () => {
     try {
-        const path = 'company/api/project/v1/get/guest'
+        const path = 'company/api/organization/v1/bidders'
 
         const response = await httpGet(`${GUEST_URI}/${path}`, token);
 

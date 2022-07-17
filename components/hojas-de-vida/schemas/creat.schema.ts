@@ -10,7 +10,7 @@ export const schema = yup.object().shape({
     address: yup.string(),
     cellphone: yup.string(),
     "social-profile": yup.string(),
-    "type-identification": yup.string(),
+    "identification-type": yup.string(),
     identification: yup.string(),
     department: yup.string(),
     city: yup.string(),

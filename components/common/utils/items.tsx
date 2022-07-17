@@ -16,17 +16,26 @@ interface testContainerProps {
 export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
     const [itemIndex, setIndex] = useState('0');
 
-    const [name, setName] = useState(edit ?? [
-        {
-            name: 'list',
-            unit: "",
-            quantity: 0,
-            "partial-amount": 0,
-            "unit-amount": 0,
-            id: '0',
-            child: [],
-        },
-    ]);
+    console.log({fn, edit})
+
+    const [name, setName] = useState([]);
+
+
+    useEffect(()=> {
+        setName(edit ? edit : 
+            [
+                {
+                    name: 'list',
+                    unit: "",
+                    quantity: 0,
+                    "partial-amount": 0,
+                    "unit-amount": 0,
+                    id: '0',
+                    child: [],
+                },
+            ]
+        )
+    },[edit])
 
     const showIndex = (item?) => {
         let index = item ?? itemIndex;
@@ -198,7 +207,7 @@ export const Item = ({ item, fn, id, setValue }) => {
 };
 
 export const TestItem = ({ items, fn, setValue }) => {
-
+    console.log({items, fn, setValue})
     useEffect(() => {
         console.log(items);
     }, []);

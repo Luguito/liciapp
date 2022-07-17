@@ -27,7 +27,7 @@ export function useRolePermission() {
                 iconName: 'cv'
             },
         ],
-        'BE:LICI': [
+        'BE:COMPANY': [
             {
                 label: 'Proyectos',
                 path: '/proyecto',
@@ -44,7 +44,7 @@ export function useRolePermission() {
                 iconName: 'group'
             },
         ],
-        'BE:COMPANY': [
+        'BE:LICI': [
             {
                 label: "Mis Proyectos",
                 path: '/proyecto',

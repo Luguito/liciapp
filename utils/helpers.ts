@@ -10,22 +10,28 @@ export function navigateTo(url: string, asUrl?: string): Promise<boolean> {
 const TOKEN_KEY = 'token'
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY)
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(TOKEN_KEY)
+  }
 }
 
 export const setToken = (key, token) => {
-  return localStorage.setItem(key, token)
+  if (typeof window !== 'undefined') {
+    return localStorage.setItem(key, token)
+  }
 }
 
 export const removeToken = () => {
-  return localStorage.getItem(TOKEN_KEY)
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(TOKEN_KEY)
+  }
 }
 
 export const initAxiosInterceptors = () => {
   Axios.interceptors.request.use((config) => {
     const token = getToken();
     if (token) {
-      config.headers.Authorization = `${token}`;
+      config.headers.token2 = `${token}`;
     }
     return config;
   })
@@ -38,3 +44,21 @@ export const initAxiosInterceptors = () => {
     }
   )
 }
+
+export const truncateText = (text: string, count: number) => {
+  return text.length > count ? `${text.substring(0, count)}...` : text;
+}
+
+export const base64toBlobPDF = (data: string) => {
+  const base64WithoutPrefix = data.substr('data:application/pdf;base64,'.length);
+
+  const bytes = atob(base64WithoutPrefix);
+  let length = bytes.length;
+  let out = new Uint8Array(length);
+
+  while (length--) {
+      out[length] = bytes.charCodeAt(length);
+  }
+
+  return new Blob([out], { type: 'application/pdf' });
+};

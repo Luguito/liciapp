@@ -4,8 +4,10 @@ import { Autocomplete, TextareaAutosize, TextField } from '@mui/material'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import Swal from 'sweetalert2';
 /** STYLED COMPONENTS */
-import { HeaderContainer, NextButton, Title, DeleteButton, ContainerItems, DatePickerContainer, ContainerInputs, ListDocuments, IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton } from './edit.styled';
+import { HeaderContainer, NextButton, Title, DeleteButton, ContainerItems, DatePickerContainer, ContainerInputs, ListDocuments, 
+    IconsList, ElementList, DocumentName, SubTitle, HeaderItems, NewActionButton, Wrapper } from './edit.styled';
 
 /** ICONS  */
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,22 +15,28 @@ import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { TestContainer } from '../../common/utils/items';
-
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { updateAdapter } from '../adapters/update.adapter'
 import { navigateTo } from 'utils/helpers';
-import { deleteAdapter, deleteProjectById } from '../adapters/delete.adapter ';
+import { deleteProjectById } from '../adapters/delete.adapter ';
 import { getProyectById } from '../adapters/list.adapter';
 /** COMPONENT */
 export const EditProyect = () => {
     const { id } = useRouter().query;
     const [item, setItem] = useState(0);
+    const [itemsTemp, setItemsTemp] = useState([])
     const [project, setProject] = useState({
         name: '',
         details: '',
         'project-start': '',
         'project-end': '',
         'documents': [],
-        "technical-document": '',
+        "technical-document": [
+            {
+                "details-documentation":[]
+            }
+        ],
+        'save-new-document':[],
         'physical-document': [],
         'status': "PENDING"
     });
@@ -40,8 +48,10 @@ export const EditProyect = () => {
             setProject({
                 ...res?.body,
                 status: "PENDING",
-                'physical-document': [],
+                'physical-document': [...res?.body.documents],
+                'save-new-document': []
             })
+            setItemsTemp(res?.body['technical-document'][0]['details-documentation']);
         })()
     }, [])
 
@@ -57,16 +67,42 @@ export const EditProyect = () => {
     }
 
     const addFile = async ({ files }) => {
-        let base: any = await convertFileToBase64(files[0]);
+        const documentTypeAvailables=['pdf']
+        const file = files[0].name
+        const fileType = file.split('.').pop();
+        if(documentTypeAvailables.includes(fileType)){
+            const fileName = file;
+            let base: any = await convertFileToBase64(files[0]);
+            let document = {
+                name: fileName,
+                "binary-file": base.split('base64,')[1]
+            }
+            setProject({
+                ...project,
+                'save-new-document': [...project['save-new-document'], document]
+            })
+        }else{
+            Swal.fire("Documento invalido", "Solo se permitren documentos pdf", "warning");
+        }
+        
+    }
 
-        let document = {
-            name: files[0].name,
-            "binary-file": base.split('base64,')[1]
+    const removeDoc = (index: number, isNew = false) => {
+        const docs = project.documents.filter((doc: any, i: number) => index !== i);
+        let updateDocuments = {};
+        if(isNew){
+            updateDocuments = {'save-new-document': project['save-new-document'].filter((doc: any, i: number) => index !== i) }
+
+        }else{
+            updateDocuments = {
+                documents: project.documents.filter((doc: any, i: number) => index !== i),
+                'physical-document': project['physical-document'].filter((doc: any, i: number) => index !== i)
+            }; 
         }
         setProject({
             ...project,
-            'physical-document': [...project.documents, document]
-        })
+            ...updateDocuments
+        });
     }
 
     const convertFileToBase64 = (file: File) => new Promise((resolve, reject) => {
@@ -86,7 +122,7 @@ export const EditProyect = () => {
     }
 
     const getTecnicalSheet = (value) => {
-        project['technical-sheet'] = value
+        project['technical-document'][0]['details-documentation'] = value
     }
 
     const getUniqueId = () => {
@@ -121,6 +157,8 @@ export const EditProyect = () => {
         // project['organizations'] = [getUniqueId()]
         // console.log(project)
         // formatDates();
+        delete project.documents;
+        delete project['project-id'];
         console.log(project)
         let res = await updateAdapter(project, id);
         console.log(res)
@@ -184,29 +222,63 @@ export const EditProyect = () => {
                 />
             </ContainerInputs> */}
             <TextField fullWidth placeholder='Documentos' onClick={() => triggerInputFile('documents')} style={{ marginTop: 20 }}></TextField>
-            {project.documents.map((item, index) => {
+            <SubTitle>
+                Documentos existentes:
+            </SubTitle>
+            {project?.documents?.map((item, index) => {
                 return (
                     <ListDocuments key={index}>
                         <ElementList>
                             <DocumentName>
-                                <PlagiarismIcon></PlagiarismIcon>
-                                {/* {item.name} */}
-                                Document
+                                <PictureAsPdfIcon />
+                                <a target="_blank" href={item.uri}>
+                                    Document {index + 1}  
+                                </a>
                             </DocumentName>
                             <IconsList>
-                                <DeleteIcon />
-                                <EditIcon />
-                                <RemoveRedEyeIcon />
+                                <DeleteIcon onClick={() => removeDoc(index)} />
+                                {/* <EditIcon /> */}
+                                {/* <RemoveRedEyeIcon /> */}
                             </IconsList>
                         </ElementList>
                     </ListDocuments>
                 )
             })}
+            <Wrapper>
+                { !!project['save-new-document'].length &&
+                    <SubTitle>
+                        Documentos Nuevos:
+                    </SubTitle>
+                }
+                {
+                    project['save-new-document']?.map((item, index) => {
+                        return (
+                            <ListDocuments key={index}>
+                                <ElementList>
+                                    <DocumentName>
+                                        <PictureAsPdfIcon />
+                                        <a target="_blank" >
+                                            Document {index + 1}  
+                                        </a>
+                                    </DocumentName>
+                                    <IconsList>
+                                        <DeleteIcon onClick={() => removeDoc(index , true)} />
+                                        {/* <EditIcon /> */}
+                                        {/* <RemoveRedEyeIcon /> */}
+                                    </IconsList>
+                                </ElementList>
+                            </ListDocuments>
+                        )
+                    })
+
+                }
+
+            </Wrapper>
             <SubTitle>
                 Propuesta economica
             </SubTitle>
             <ContainerItems>
-                {/* <TestContainer fn={getTecnicalSheet} edit={project['technical-document']}></TestContainer> */}
+                <TestContainer fn={getTecnicalSheet} edit={itemsTemp}></TestContainer>
             </ContainerItems>
             <footer style={{ textAlign: 'right' }}>
                 <NextButton onClick={submitForm}>Editar Proyecto</NextButton>

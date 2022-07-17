@@ -29,6 +29,9 @@ module.exports = withBundleAnalyzer(
     images: {
       domains: ['s3.amazonaws.com'],
     },
+    typescript:{
+      ignoreBuildErrors: true,
+    },
     webpack: (config) => {
       // font-loading
       config.resolve.alias = {
