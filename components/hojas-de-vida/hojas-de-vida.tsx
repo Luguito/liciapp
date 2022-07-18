@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ContainerFlex, ElementList, IconsList, ItemList, ListDocuments, Logo, PurpleButton, TitleCreate } from '@global-styled';
-import { navigateTo } from '@utils/helpers';
+import { navigateTo, getKey} from '@utils/helpers';
 /** Icons */
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,13 +8,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
-import { getProfiles } from './adapters/list.adapter';
+import { getProfiles, getProfilesByLici } from './adapters/list.adapter';
 
 export function CVPage() {
     const [list, setList] = useState([]);
 
     useEffect(() => {
-        getProfiles().then(({ body }) => setList(body))
+        const user = JSON.parse(getKey('user'))
+        if(user['permission-name'] === "BE:LICI") {
+            getProfilesByLici().then(({ body }) => setList(body))
+        }
+        
+        if(user['permission-name'] === "BE:ADMIN") {
+            getProfiles().then(({ body }) => setList(body))
+        }
     }, []);
 
     const [dummy, setDummy] = useState(['Andres Camilo', 'Peter Parker', 'Fuego-sama', 'Francisco Gomez', 'Dr. Doom', 'Dr. Strange', 'Vision', 'Wanda', 'Tony Stark', 'La Venganza', 'The Batman']);
@@ -39,9 +46,9 @@ export function CVPage() {
                                     </ItemList>
                                 </div>
                                 <IconsList>
-                                    <DeleteIcon></DeleteIcon>
+                                    {/* <DeleteIcon></DeleteIcon> */}
                                     <EditIcon onClick={() => navigateTo('/hojas-de-vida/edit/'+ item?.id)}></EditIcon>
-                                    <VisibilityIcon></VisibilityIcon>
+                                    {/* <VisibilityIcon></VisibilityIcon> */}
                                 </IconsList>
                             </ElementList>
                         )

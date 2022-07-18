@@ -27,6 +27,12 @@ export const removeToken = () => {
   }
 }
 
+export const getKey = (key:string) => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(key)
+  }
+}
+
 export const initAxiosInterceptors = () => {
   Axios.interceptors.request.use((config) => {
     const token = getToken();

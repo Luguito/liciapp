@@ -15,3 +15,5 @@ export const updateAdapter: any = async (data: any) => {
         console.error( 'err', e);
     }
 }
+
+

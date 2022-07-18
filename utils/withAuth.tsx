@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 const withAuth = (WrappedComponent) => {
   const availablesRoutes = {
     'BE:COMPANY': ['/proyecto', '/proyecto/nuevo', '/proyecto/edit/[id]', '/proyecto/details/[id]', '/usuario', '/'],
-    'BE:LICI': ['/proyecto', '/proyecto/details/[id]', '/empresa', '/hojas-de-vida', '/hojas-de-vida/create', '/'],
+    'BE:LICI': ['/proyectos', '/proyectos/details/[id]', '/empresa', '/hojas-de-vida', '/hojas-de-vida/create', '/'],
     'BE:ADMIN': ['/proyecto', '/proyecto/nuevo', '/proyecto/edit/[id]', '/proyecto/details/[id]', '/usuario', '/hojas-de-vida', '/hojas-de-vida/create', '/']
   }
   return (props) => {

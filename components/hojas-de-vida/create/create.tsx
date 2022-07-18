@@ -9,9 +9,13 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/lab';
 import { updateAdapter } from '../adapters/update.adapter';
 import Swal from 'sweetalert2';
+import { navigateTo } from 'utils/helpers';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+
 
 export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any }) {
     const [cv, setCV] = useState<any>({});
+    const [hvFile, setHvFile] = useState({});
     const { id } = useRouter().query;
 
     useEffect(() => {
@@ -54,7 +58,7 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                     name: fileName,
                     "binary-file": base.split('base64,')[1]
                 }
-                setCV({ ...cv, "curriculum-vitae-binary": document })
+                setCV({ ...cv, "curriculum-vitae-binary": document });
             }else{
                 Swal.fire("Documento invalido", "Solo se permitren documentos pdf", "warning");
             }
@@ -71,8 +75,10 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
     })
 
     const handleSubmit = () => {
+        if(cv.id) cv['curriculum-vitae-id'] = cv.id;
         !isUpdated && schema.isValid(cv).then(async v => await createAdapter(cv));
-        isUpdated && updateAdapter(cv)
+        isUpdated && updateAdapter(cv) 
+        navigateTo('/hojas-de-vida')
     };
     return (
         <>
@@ -138,14 +144,37 @@ export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any
                 )
             })}
             <TextField fullWidth placeholder="Hoja de vida (PDF)" size="small" style={{ marginTop: '2em' }} onClick={triggerInputFile}></TextField>
+            {cv['curriculum-vitae-physical'] &&
+                <>
+                    <ListDocuments>
+                        <ElementList>
+                            <DocumentName>
+                                {/* <PlagiarismIcon></PlagiarismIcon> */}
+                                <PictureAsPdfIcon />
+                                <a target="_blank" href={cv['curriculum-vitae-physical'] }>
+                                    {'Hoja de vida pdf'}
+                                </a>
+                            </DocumentName>    
+                            <IconsList>
+                                {/* <DeleteIcon />
+                                <EditIcon />
+                                <RemoveRedEyeIcon /> */}
+                            </IconsList>
+                        </ElementList>
+                    </ListDocuments>
+                </>
+            }
             {cv['curriculum-vitae-binary'] &&
                 <>
                     <ListDocuments>
                         <ElementList>
                             <DocumentName>
                                 {/* <PlagiarismIcon></PlagiarismIcon> */}
-                                {cv['curriculum-vitae-binary'].name}
-                            </DocumentName>
+                                <PictureAsPdfIcon />
+                                <a target="_blank" href={''}>
+                                    {cv['curriculum-vitae-binary']?.name || 'Hoja de vida pdf'}
+                                </a>
+                            </DocumentName>    
                             <IconsList>
                                 {/* <DeleteIcon />
                                 <EditIcon />

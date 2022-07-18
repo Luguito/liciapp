@@ -47,7 +47,7 @@ export function useRolePermission() {
         'BE:LICI': [
             {
                 label: "Mis Proyectos",
-                path: '/proyecto',
+                path: '/proyectos',
                 iconName: 'ballot'
             },
             {
