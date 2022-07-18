@@ -15,7 +15,6 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 export function CreateCV({ isUpdated, sheet }: { isUpdated: boolean, sheet?: any }) {
     const [cv, setCV] = useState<any>({});
-    const [hvFile, setHvFile] = useState({});
     const { id } = useRouter().query;
 
     useEffect(() => {

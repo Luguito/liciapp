@@ -63,8 +63,8 @@ export const CreateUser = ({ user, final }) => {
     }
 
     const handleSubmit = () => {
-        let schema = ['BE:LICIs'].includes(form['license']) ? createSchema : createWithOrg;
-        let method = ['BE:LICIs'].includes(form['license']) ? (isEdit() ? validateUpdate : validateSucess) : (isEdit() ? validateUpdate : createUser)
+        let schema = ['BE:LICI'].includes(form['license']) ? createSchema : createWithOrg;
+        let method = ['BE:LICI'].includes(form['license']) ? (isEdit() ? validateUpdate : validateSucess) : (isEdit() ? validateUpdate : createUser)
 
         schema.validate(form).then(method).catch((ValidationError) => {
             console.log(ValidationError)
@@ -135,7 +135,7 @@ export const CreateUser = ({ user, final }) => {
                     />
                 </ContainerFields>
                 {
-                    ['BE:LICIS'].includes(form['license'])
+                    ['BE:LICI'].includes(form['license'])
                         ?
                         <>
                             <ContainerFields>
