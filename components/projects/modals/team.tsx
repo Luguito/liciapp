@@ -1,4 +1,4 @@
-import { Box, Autocomplete, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { Box, Autocomplete, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material'
 import { FontLiciFamilyDefaultName, ColorLiciPrimaryActive } from '@common';
 import { getTeamWork, saveCV } from '../adapters/list.adapter';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,8 @@ import { ElementList, ItemList, Logo, PurpleButton } from '@global-styled';
 
 export const TeamCVs = ({ id, close }) => {
     const [team, setTeam] = useState([]);
-
+    const [openToast, setOpenToast] = useState(false);
+    const [message, setMessage] = useState('')
     // Styles
     const style = {
         position: 'absolute' as 'absolute',
@@ -28,7 +29,15 @@ export const TeamCVs = ({ id, close }) => {
 
     // Functions
     const saveRole = (id, { value }) => {
-        saveCV(id, { "curriculum-vitae-id": id, role: value }).then(console.log)
+        saveCV(id, { "curriculum-vitae-id": id, role: value }).then(() => {
+            setMessage('Role agregado')
+            setOpenToast(true)
+        })
+    }
+
+    const finishProposal = () => {
+        setMessage('Propuesta enviada');
+        close()
     }
     return (
         <>
@@ -37,19 +46,19 @@ export const TeamCVs = ({ id, close }) => {
                 {
                     team.length > 0 && team.map((cv, index) => {
                         return (
-                                <ElementList key={index}>
-                                    <div style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
-                                        <Logo></Logo>
-                                        <ItemList>
-                                            {cv['first-name']}
-                                        </ItemList>
-                                    </div>
-                                    <select onChange={(e) => saveRole(cv?.id, e.target)}>
-                                        <option value="Gerente">Gerente</option>
-                                        <option value="Tecnico">Tecnico</option>
-                                        <option value="Otro">Otro</option>
-                                    </select>
-                                    {/* <FormControl>
+                            <ElementList key={index}>
+                                <div style={{ display: 'flex', gap: '1em', alignItems: 'center' }}>
+                                    <Logo></Logo>
+                                    <ItemList>
+                                        {cv['first-name']}
+                                    </ItemList>
+                                </div>
+                                <select onChange={(e) => saveRole(cv?.id, e.target)}>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Tecnico">Tecnico</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                                {/* <FormControl>
                                         <InputLabel id="demo-simple-select-label">Role</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -62,14 +71,19 @@ export const TeamCVs = ({ id, close }) => {
                                             <MenuItem value={30}>Thirty</MenuItem>
                                         </Select>
                                     </FormControl> */}
-                                </ElementList>
+                            </ElementList>
                         )
                     })
                 }
                 <div style={{ display: 'flex', justifyContent: 'end' }}>
-                    <PurpleButton onClick={() => close()}>Seleccionar</PurpleButton>
+                    <PurpleButton onClick={() => finishProposal()}>Seleccionar</PurpleButton>
                 </div>
             </Box>
+            <Snackbar open={openToast} autoHideDuration={6000} onClose={() => setOpenToast(false)}>
+                <Alert onClose={() => setOpenToast(false)} severity="success" sx={{ width: '100%' }}>
+                    {message}
+                </Alert>
+            </Snackbar>
         </>
     );
 }
