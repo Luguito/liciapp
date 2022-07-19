@@ -270,7 +270,7 @@ export const CreateProyect: FC<any> = ({ title }) => {
                 </TabPanel>
                 <TabPanel value="2">
                     <ContainerItems>
-                        <TestContainer fn={getTecnicalSheet}></TestContainer>
+                        <TestContainer proposal={false} fn={getTecnicalSheet}></TestContainer>
                     </ContainerItems>
                     <NextButton onClick={() => submitForm()}>Guardar proyecto</NextButton>
                 </TabPanel>

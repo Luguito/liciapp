@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { HeaderContainer, Title, ComparateButton, HoursMessage, TextMessage, AnswerMessages, QuestionMessages, ProyectRedirect, StatusApp, ContainerDates, 
+import {
+    HeaderContainer, Title, ComparateButton, HoursMessage, TextMessage, AnswerMessages, QuestionMessages, ProyectRedirect, StatusApp, ContainerDates,
     Dates, TitleDates, SubTitle, ContentDates, ShowDetailsDocument, DescriptionTitle, Content, ContainerComponent, Table, ContainerMessages,
     DocumentList, DocumentItem, Container, InputContainer, Label
 } from './details.styled';
@@ -11,13 +12,15 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { navigateTo } from '../../../utils/helpers';
-import { getProyectByProposalId, listBiddersAdapter } from '../adapters/list.adapter'
+import { getProyectByProposalId, listBiddersAdapter, sendProposal } from '../adapters/list.adapter'
 import { answerForomQuestion, createForomQuestion, getForom } from '../adapters/create.adapter'
 import { useRouter } from 'next/router'
 import { ColorLiciPrimaryActive } from '@common'
 import { TreeView, TreeItem } from '@mui/lab';
 import { TestContainer } from '../../common/utils/items';
+import { TeamCVs } from '../modals/team';
+import { Documents } from '../modals/documents';
+import { Modal } from '@mui/material';
 
 /** ICONS */
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -27,6 +30,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { InputAdornment, TextField } from '@mui/material';
+import { PurpleButton } from '@global-styled';
+import { navigateTo } from "@utils/helpers";
 
 interface Iquestion {
     question: string;
@@ -35,62 +40,25 @@ interface Iquestion {
 
 export const DetailsProyect = () => {
     const [tab, setTab] = useState('1')
+    const [teamOpen, setTeamOpen] = useState<boolean>(false);
+    const [documentOpen, setDocumentOpen] = useState<boolean>(false);
     const steps = ['Apertura', 'Recepcion', 'Asignacion'];
     const [question, setQuestion] = useState<string>('');
     const [foro, setForo] = useState<Iquestion[]>([]);
-
-    const test = [
-        {
-            "id": "0",
-            "name": "RELLENO CON TRITURADO CALIZO TM 3 PULGADAS",
-            "unit": null,
-            "quantity": null,
-            "unit-amount": null,
-            "partial-amount": null,
-            "child": [
-                {
-                    "id": "0.0",
-                    "name": "RELLENO PIEDRA RAJON",
-                    "unit": null,
-                    "quantity": null,
-                    "unit-amount": null,
-                    "partial-amount": null,
-                    "child": []
-                }
-            ]
-        }
-    ]
-    
-
-    const [name, setName] = useState([
-        {
-            name: 'list',
-            unit: "",
-            quantity: 0,
-            "partial-amount": 0,
-            "unit-amount": 0,
-            id: '0',
-            child: [],
-        },
-    ]);
-
+    const [proposal, setProposal] = useState({});
     const [project, setProject] = useState<any>({
         question: ''
     });
 
     const [bidders, serBidders] = useState([]);
-    const [areDocumentsVisible, setAreDocumentsVisible] = useState<boolean>(false);
-
     const { id } = useRouter().query;
 
     useEffect(() => {
         getInformation(id);
-        // getBidders(id);
     }, [])
 
     useEffect(() => {
         getForo(project['project-id']);
-        // getBidders(id);
     }, [project])
 
     const goToEdit = () => {
@@ -100,7 +68,11 @@ export const DetailsProyect = () => {
     const getInformation = async id => {
         let res = await getProyectByProposalId(id);
         setProject(res?.body);
-        console.log(res.body)
+
+        res && setProposal({
+            ...proposal,
+            "physical-document": res.body['project-physical-document']
+        })
     }
 
     const getBidders = async id => {
@@ -115,76 +87,35 @@ export const DetailsProyect = () => {
         setForo(res?.body)
     }
 
+    const closeModal = (docs:Array<any>) => {
+        setDocumentOpen(false);
+        setTeamOpen(true);
+        setProposal({
+            ...proposal,
+            documents: docs
+        })
+    }   
+
+    const saveProposal = async () => {
+        sendProposal(id, proposal).then(() => navigateTo('/proyectos'))
+    }
+
+    const getTecnicalSheet = (value) => {
+        console.log(value)
+        proposal["proposal-organization"] = [
+            {
+                "details-documentation": value
+            }
+        ]
+    }
+
     const createQuestion = async () => {
-        if(question){
+        if (question) {
             let res = await createForomQuestion(project['project-id'], { question });
             await getForo(project['project-id']);
 
         }
     }
-
-
-    const Item = ({ item, fn, id, setValue }) => {
-       
-        const unitOptions = ['M2', 'UN', 'GL', 'ML', 'M3']
-    
-        return (
-            <TreeItem onClick={() => fn(id)} nodeId={id} style={{ marginTop: '0.7em' }} label={
-                <Container>
-                    <p> {id.split('.').map((i, index) => Number(i) + 1 + (id.split('.').length - 1 === index ? '' : '.'))  } </p>
-                    <InputContainer>
-                        <Label>Descriptor</Label>
-                        
-                    </InputContainer>
-                    
-                    <InputContainer>
-                            <Label>Unidad</Label>
-                            
-                    </InputContainer>
-                    <InputContainer>
-                            <Label>Cantidad</Label>
-                            
-                    </InputContainer>
-                    <InputContainer>
-                        <Label>Valor unitario</Label>
-                    </InputContainer>
-                    <InputContainer>
-                        <Label>Valor total</Label>
-                    </InputContainer>
-                </Container>
-            }>
-            </TreeItem>
-        )
-    };
-
-    const TestItem = ({ items, fn, setValue }) => {
-
-        useEffect(() => {
-            console.log(items);
-        }, []);
-    
-        return items.map((item, index) => (
-            <>
-                {
-                    item.child && item.child.length > 0 ? (
-                        <>
-                            <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>
-                            <TreeItem nodeId={item.id} label={
-                                <TestItem items={item.child} fn={fn} setValue={setValue}></TestItem>
-                            }>
-                            </TreeItem>
-                        </>
-                    ) : (
-                        <Item item={item} fn={fn} id={item.id} setValue={setValue}></Item>
-                    )
-                }
-    
-            </>
-        ));
-    }
-
-
-
 
     return (
         <ContainerComponent>
@@ -222,12 +153,6 @@ export const DetailsProyect = () => {
             <Content>
                 {project['project-details']}
             </Content>
-            {/* <Content>
-                Lorem ipsum dolor sit amet consectetur,
-                adipisicing elit. Neque pariatur beatae voluptatum reiciendis doloremque
-                saepe sed, facilis debitis, repellendus suscipit, reprehenderit odio nam quae.
-                Rerum, enim. Obcaecati fugiat impedit totam.
-            </Content> */}
             <Stepper activeStep={1} alternativeLabel style={{ marginTop: '4em' }}>
                 {steps.map((label, index) => (
                     <Step key={index}>
@@ -237,8 +162,8 @@ export const DetailsProyect = () => {
                     </Step>
                 ))}
             </Stepper>
-            <ShowDetailsDocument onClick={() => { setAreDocumentsVisible(!areDocumentsVisible) }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer'}}>
+            <ShowDetailsDocument>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
                     <PictureAsPdfIcon />
                     <p>Ver Detalles</p>
                 </div>
@@ -246,97 +171,81 @@ export const DetailsProyect = () => {
                     <p>Documentos</p>
                 </div>
             </ShowDetailsDocument>
-            { areDocumentsVisible &&
-                <DocumentList>
-                    {   project['project-physical-document']?.map((document: any, index: number) => {
-                            return (<DocumentItem key={document.id}>
-                                        <a target="_blank" href={document.uri}>
-                                            <PictureAsPdfIcon />
-                                            <p>{`Document ${index + 1}`}</p>
-                                        </a>
-                                    </DocumentItem>
-                            )
-                        })
-                    }
-                    <div style={{margin: '40px 0'}}>
-                        <TreeView defaultCollapseIcon={<ArrowRightIcon />} defaultExpandIcon={<ArrowDropDownIcon />} sx={{ flexGrow: 1, overflowY: 'auto' }}>
-                            <TestContainer fn={[]} edit={project['proposal-organizations'][0]['details-documentation']}></TestContainer>
-                        </TreeView>
-
-                    </div>
-                </DocumentList>
-            }
-
-
-
             <TabContext value={tab} >
                 <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
                     <TabList>
-                        {/* <Tab onClick={() => setTab('1')} label="Aplicaciones" value="1" style={{ marginRight: 20 }} /> */}
-                        {/* <Tab onClick={() => setTab('2')} label="Preguntas y Respuestas" value="2" style={{ marginRight: 20 }} /> */}
-                        <Tab onClick={() => setTab('1')} label="Preguntas y respuesta" value="1" />
+                        <Tab onClick={() => setTab('1')} label="Requisitos de licitación" value="1" style={{ marginRight: 20 }} />
+                        <Tab onClick={() => setTeamOpen(true)} label="Preguntas y respuesta" value="2" />
                     </TabList>
                 </Box>
-                {/* <TabPanel value="1">
-                    <Table style={{ width: '100%' }}>
-                        <tr>
-                            <th>Proponente</th>
-                            <th>Fecha de aplicación</th>
-                            <th>Valor Total</th>
-                        </tr>
-                        {
-                            bidders?.map((bidder: any, index:number) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{bidder.name}</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-                                )
-                            })
-                        }
-                    </Table>
-                </TabPanel> */}
-                {/* <TabPanel value="2">
-                    In Progress
-                </TabPanel> */}
                 <TabPanel value="1">
-                        {
-                            foro?.map((item: any) => {
-                                return (
-                                    <ContainerMessages key={item.id}>
-                                        <QuestionMessages>
-                                            {/* <HoursMessage>30 Dic 2021 / 15:00</HoursMessage> */}
-                                            <TextMessage>{item.question}</TextMessage>
-                                        </QuestionMessages>
-                                        { item.answer &&
-                                            <AnswerMessages>
-                                                {/* <HoursMessage>30 Dic 2021 / 15:00</HoursMessage> */}
-                                                <TextMessage>{item.answer}</TextMessage>
-                                            </AnswerMessages>
-                                        }
-                                    
-                                    </ContainerMessages>
-                                )
-                            })
-                        }
+                    {project['project-physical-document']?.map((document: any, index: number) => {
+                        return (<DocumentItem key={document.id}>
+                            <a target="_blank" href={document.uri}>
+                                <PictureAsPdfIcon />
+                                <p>{`Document ${index + 1}`}</p>
+                            </a>
+                        </DocumentItem>
+                        )
+                    })
+                    }
                     {
-                        
+                        project['proposal-organizations'] ? <>
+                            <div style={{ margin: '40px 0' }}>
+                                <TreeView defaultCollapseIcon={<ArrowRightIcon />} defaultExpandIcon={<ArrowDropDownIcon />} sx={{ flexGrow: 1, overflowY: 'auto' }}>
+                                    <TestContainer proposal={true} fn={getTecnicalSheet} edit={project && project['proposal-organizations'][0]['details-documentation']}></TestContainer>
+                                </TreeView>
+                            </div>
+                        </>
+                            :
+                            "No hay items"
+                    }
+                </TabPanel>
+                <TabPanel value="2">
+                    {
+                        foro?.map((item: any) => {
+                            return (
+                                <ContainerMessages key={item.id}>
+                                    <QuestionMessages>
+                                        {/* <HoursMessage>30 Dic 2021 / 15:00</HoursMessage> */}
+                                        <TextMessage>{item.question}</TextMessage>
+                                    </QuestionMessages>
+                                    {item.answer &&
+                                        <AnswerMessages>
+                                            {/* <HoursMessage>30 Dic 2021 / 15:00</HoursMessage> */}
+                                            <TextMessage>{item.answer}</TextMessage>
+                                        </AnswerMessages>
+                                    }
+
+                                </ContainerMessages>
+                            )
+                        })
+                    }
+                    {
+
                         <>
                             {!foro?.length && 'Este proyecto aun no tiene preguntas'}
                             <TextField value={question} fullWidth onChange={({ target }) => setQuestion(target.value)} InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
-                                        <SendIcon sx={{ color : ColorLiciPrimaryActive, cursor: 'pointer'}} onClick={createQuestion} />
+                                        <SendIcon sx={{ color: ColorLiciPrimaryActive, cursor: 'pointer' }} onClick={createQuestion} />
                                     </InputAdornment>
                                 ),
                             }}></TextField>
                         </>
 
-                    }    
+                    }
                 </TabPanel>
             </TabContext>
+            <Modal open={teamOpen} onClose={() => { setTeamOpen(false) }}>
+                <TeamCVs id={project["project-id"]} close={saveProposal}></TeamCVs>
+            </Modal>
+            <Modal open={documentOpen} onClose={() => { setDocumentOpen(false) }}>
+                <Documents id={project["project-id"]} close={closeModal}></Documents>
+            </Modal>
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+                <PurpleButton onClick={() => setDocumentOpen(true)}>Siguiente</PurpleButton>
+            </div>
         </ContainerComponent >
     )
 }

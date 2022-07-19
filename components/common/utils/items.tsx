@@ -11,18 +11,19 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 interface testContainerProps {
     fn: any;
     edit?: any;
+    proposal: boolean
 }
 
-export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
+export const TestContainer: FC<testContainerProps> = ({ fn, edit, proposal }) => {
     const [itemIndex, setIndex] = useState('0');
 
-    console.log({fn, edit})
+    console.log({ fn, edit })
 
     const [name, setName] = useState([]);
 
 
-    useEffect(()=> {
-        setName(edit ? edit : 
+    useEffect(() => {
+        setName(edit ? edit :
             [
                 {
                     name: 'list',
@@ -35,7 +36,7 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
                 },
             ]
         )
-    },[edit])
+    }, [edit])
 
     const showIndex = (item?) => {
         let index = item ?? itemIndex;
@@ -126,10 +127,16 @@ export const TestContainer: FC<testContainerProps> = ({ fn, edit }) => {
             <TreeView defaultCollapseIcon={<ArrowRightIcon />} defaultExpandIcon={<ArrowDropDownIcon />} sx={{ flexGrow: 1, overflowY: 'auto' }}>
                 <TestItem items={name} fn={setIndex} setValue={changeInput}></TestItem>
             </TreeView>
+            {
+                !proposal ? (
+                    <>
+                        <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
+                        <NewActionButton startIcon={<AddIcon />} onClick={() => addRow()}>Nueva Fila</NewActionButton>
+                        <NewActionButton startIcon={<RemoveIcon />} onClick={() => deleteItem()}>Eliminar Item</NewActionButton>
+                    </>
+                ) : null
+            }
 
-            <NewActionButton startIcon={<AddIcon />} onClick={() => showIndex()}>Nuevo Item</NewActionButton>
-            <NewActionButton startIcon={<AddIcon />} onClick={() => addRow()}>Nueva Fila</NewActionButton>
-            <NewActionButton startIcon={<RemoveIcon />} onClick={() => deleteItem()}>Eliminar Item</NewActionButton>
         </div>
     );
 };
@@ -158,7 +165,7 @@ export const Item = ({ item, fn, id, setValue }) => {
     return (
         <TreeItem onClick={() => fn(id)} nodeId={id} style={{ marginTop: '0.7em' }} label={
             <Container>
-                <p> {id.split('.').map((i, index) => Number(i) + 1 + (id.split('.').length - 1 === index ? '' : '.'))  } </p>
+                <p> {id.split('.').map((i, index) => Number(i) + 1 + (id.split('.').length - 1 === index ? '' : '.'))} </p>
                 <InputContainer>
                     <Label>Descriptor</Label>
                     <CustomAutoComplete
@@ -207,7 +214,6 @@ export const Item = ({ item, fn, id, setValue }) => {
 };
 
 export const TestItem = ({ items, fn, setValue }) => {
-    console.log({items, fn, setValue})
     useEffect(() => {
         console.log(items);
     }, []);
